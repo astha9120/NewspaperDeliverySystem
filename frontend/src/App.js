@@ -1,10 +1,19 @@
-import SignUp from "./SignUp";
+import {BrowserRouter , Route , Link , NavLink , Routes} from 'react-router-dom';
+
+
+import AboutUs from "./Components/AboutUs";
+import HowItWorks from "./Components/HowItWorks";
 
 
 function App() {
   return (
     <div>
-        <SignUp/>
+      <BrowserRouter>
+        <Routes>
+          <Route path='/aboutus' element={<AboutUs/>}/>
+          <Route path='/howitworks' element={<HowItWorks/>}/>
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }
