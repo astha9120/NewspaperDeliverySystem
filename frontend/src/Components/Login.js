@@ -34,7 +34,7 @@ const useStyles = makeStyles({
 
 
 
-const SignUp = () =>{
+const Login = () =>{
 
     const users = [
         {
@@ -50,12 +50,9 @@ const SignUp = () =>{
           label: 'Vendor',
         }]
 
-    const cities = ['Ahmeadabad Gujarat','Vadodara Gujarat','Mumbai Maharastra']
     const classes = useStyles();
     const [email,setEmail] = useState("")
     const [password,setPassword] = useState("")
-    const [state,setState] = useState("")
-    const [city,setCity] = useState("")
     const [user,setUser] = useState("")
     const [showPassword,setShowPassword] = useState(false)
 
@@ -63,14 +60,13 @@ const SignUp = () =>{
         e.preventDefault()
         console.log(email)
         console.log(password)
-        console.log(city)
         console.log(user)
     }
     return(
 
         <Grid container component="main"   className={classes.root}>
             <Grid item  lg={6} md={4} xs={2}>
-                    <img src="../images/signup_photo.png" alt="signup" className={classes.image}></img>
+                    <img src="../images/signup_photo.png" alt="Login" className={classes.image}></img>
             </Grid>
             <Grid item lg={6} md={4} xs={2}>
                 <Grid container direction="column"  
@@ -81,7 +77,7 @@ const SignUp = () =>{
                          <img src = "../images/newsDaily.png" alt="logo" className={classes.logo}></img>
                     </Grid>
                     <Grid item lg={2}>
-                        <Typography component="h4" variant="h4" className={classes.SignUp}>SIGN UP</Typography>
+                        <Typography component="h4" variant="h4" className={classes.SignUp}>SIGN IN</Typography>
                     </Grid>
                     <Grid item lg={7} className={classes.form}>
                             <TextField
@@ -122,23 +118,7 @@ const SignUp = () =>{
                                     label="Password"
                                 />
                             </FormControl>
-                            
-                            <TextField
-                                id="outlined-select-city"
-                                select
-                                margin="normal"
-                                sx={{ width: '40ch',marginLeft:"27%",marginBottom:"10px"}}
-                                label="Select the city"
-                                value={city}
-                                onChange={(e)=>setCity(e.target.value)}
-                                >
-                                {cities.map((city) => (
-                                    <MenuItem key={city} value={city}>
-                                    {city}
-                                    </MenuItem>
-                                ))}
-                            </TextField>
-                        
+                    
                             <TextField
                                 id="outlined-select-currency"
                                 select
@@ -154,19 +134,20 @@ const SignUp = () =>{
                                     </MenuItem>
                                 ))}
                             </TextField>
+
                             <Button
                                 type="submit"
                                 margin="normal"
                                 sx={{ width: '44ch',marginLeft:"27%",marginTop:"20px"}}
                                 variant="contained"
                                 onClick={submit}>
-                                Sign Up
+                                Sign IN
                             </Button>
                     </Grid>
     
                     <Grid item lg={1}>
                         <Link href="#" variant="body2">
-                            {"Already have an account? Sign in"}
+                            {"Don't have an account? Sign UP"}
                         </Link>
                     </Grid>
                     
@@ -177,4 +158,4 @@ const SignUp = () =>{
 
 }
 
-export default SignUp;
+export default Login;
