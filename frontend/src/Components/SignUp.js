@@ -9,11 +9,15 @@ import MenuItem from '@mui/material/MenuItem';
 import Link from '@mui/material/Link';
 import { useState } from 'react';
 import { makeStyles } from '@mui/styles';
+import { useNavigate } from 'react-router-dom';
 import FormControl from '@mui/material/FormControl';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 import InputAdornment from '@mui/material/InputAdornment';
+import Swal from 'sweetalert2';
+const axios = require("axios");
+
 
 const useStyles = makeStyles({
     root: {
@@ -36,17 +40,18 @@ const useStyles = makeStyles({
 
 const SignUp = () =>{
 
+    const navigate = useNavigate();
     const users = [
         {
-          value: 'User',
-          label: 'User',
+          value: 'customer',
+          label: 'Customer',
         },
         {
-          value: 'NDB',
+          value: 'ndb',
           label: 'Newspaper Delivery Boy',
         },
         {
-          value: 'Venodr',
+          value: 'vendor',
           label: 'Vendor',
         }]
 
@@ -59,12 +64,36 @@ const SignUp = () =>{
     const [user,setUser] = useState("")
     const [showPassword,setShowPassword] = useState(false)
 
-    const submit = (e)=>{
-        e.preventDefault()
-        console.log(email)
-        console.log(password)
-        console.log(city)
-        console.log(user)
+    const submit = async(e)=>{
+        e.preventDefault();
+        const result = await axios.post(`http://localhost:3000/signup`,{
+            email:email,
+            password:password,
+            state:state,
+            city:city,
+            user:user
+        })
+        if(result.data==="created"){
+            Swal.fire({
+                icon: 'success',
+                title:'done',
+                text: 'Successfully Signup',
+                showConfirmButton: false,
+                timer: 1500
+          })
+          navigate('/');
+        }
+        else{
+            Swal.fire({
+                position: 'top-center',
+                icon: 'error',
+                title:'done',
+                text: 'Something went wrong',
+                showConfirmButton: false,
+                timer: 1500
+          })
+          navigate('/signup');
+        }
     }
     return(
 
@@ -123,7 +152,7 @@ const SignUp = () =>{
                                 />
                             </FormControl>
                             
-                            <TextField
+                            {/* <TextField
                                 id="outlined-select-city"
                                 select
                                 margin="normal"
@@ -137,7 +166,36 @@ const SignUp = () =>{
                                     {city}
                                     </MenuItem>
                                 ))}
-                            </TextField>
+                            </TextField> */}
+
+                            <TextField
+                                required
+                                sx={{ width: '40ch',
+                                marginLeft:"27%",
+                                marginBottom:"20px"}}
+                                id="state"
+                                label="State"
+                                name="state"
+                                value={state}
+                                onChange={(e)=>setState(e.target.value)}
+                                autoComplete=""
+                                autoFocus
+                            />
+
+                            <TextField
+                                required
+                                sx={{ width: '40ch',
+                                marginLeft:"27%",
+                                marginBottom:"20px"}}
+                                id="city"
+                                label="city"
+                                name="city"
+                                value={city}
+                                onChange={(e)=>setCity(e.target.value)}
+                                autoComplete=""
+                                autoFocus
+                            />
+                        
                         
                             <TextField
                                 id="outlined-select-currency"
@@ -165,7 +223,7 @@ const SignUp = () =>{
                     </Grid>
     
                     <Grid item lg={1}>
-                        <Link href="#" variant="body2">
+                        <Link href="/" variant="body2">
                             {"Already have an account? Sign in"}
                         </Link>
                     </Grid>
