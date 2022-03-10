@@ -7,6 +7,7 @@ import HowItWorks from "./Components/HowItWorks";
 import SignUp from "./Components/SignUp";
 import Login from "./Components/Login";
 import Support from "./Components/Support"
+import Profile from "./Components/Profile"
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
             <Route path='/' element={<Login/>}/>
             <Route path='/signup' element={<SignUp/>}/>
             <Route path='/support' element={<Support/>}/>
+            <Route path='/profile' element={<Profile/>}/>
         </Routes>
       </BrowserRouter>
       
