@@ -8,12 +8,15 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import MenuItem from '@mui/material/MenuItem';
 import Link from '@mui/material/Link';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { makeStyles } from '@mui/styles';
 import FormControl from '@mui/material/FormControl';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 import InputAdornment from '@mui/material/InputAdornment';
+import Swal from 'sweetalert2';
+const axios = require("axios");
 
 const useStyles = makeStyles({
     root: {
@@ -38,29 +41,57 @@ const Login = () =>{
 
     const users = [
         {
-          value: 'User',
-          label: 'User',
+          value: 'customer',
+          label: 'Customer',
         },
         {
-          value: 'NDB',
+          value: 'ndb',
           label: 'Newspaper Delivery Boy',
         },
         {
-          value: 'Venodr',
+          value: 'vendor',
           label: 'Vendor',
         }]
 
     const classes = useStyles();
+    const navigate = useNavigate();
     const [email,setEmail] = useState("")
     const [password,setPassword] = useState("")
     const [user,setUser] = useState("")
     const [showPassword,setShowPassword] = useState(false)
 
-    const submit = (e)=>{
-        e.preventDefault()
-        console.log(email)
-        console.log(password)
-        console.log(user)
+    const submit = async(e)=>{
+        e.preventDefault();
+        const result = await axios.post(`http://localhost:4000/signin`,{
+            email:email,
+            password:password,
+            user:user
+        })
+        console.log(result.data)
+        if(result.data==="error"){
+            Swal.fire({
+                icon: 'error',
+                title:'done',
+                text: 'Something went wrong',
+                showConfirmButton: false,
+                timer: 1500
+            })
+            navigate('/');
+        }
+        else{
+            Swal.fire({
+                icon: 'success',
+                title:'done',
+                text: 'Successfully Login',
+                showConfirmButton: false,
+                timer: 1500
+          })
+            localStorage.setItem('id',parseInt(result.data));
+            if(user==="vendor")
+                navigate('/addnews')
+            else if(user==="customer")
+                navigate('/aboutus');
+        }
     }
     return(
 
@@ -146,7 +177,7 @@ const Login = () =>{
                     </Grid>
     
                     <Grid item lg={1}>
-                        <Link href="#" variant="body2">
+                        <Link href="/signup" variant="body2">
                             {"Don't have an account? Sign UP"}
                         </Link>
                     </Grid>
