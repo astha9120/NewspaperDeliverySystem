@@ -42,17 +42,20 @@ const Profile = () =>{
     const [area,setArea] = useState("")
     const [address,setAddress] = useState("")
     const [phoneno,setPhoneno] = useState("")
+    const [name,setName] = useState("")
 
 
-   
+    const id = localStorage.getItem('id');
+
     const getData = async () => {
-        const response = await axios.get(`http://localhost:4000`)
+        const response = await axios.get(`http://localhost:4000/${id}`)
         setState(response.data[0].state)
         setCity(response.data[0].city)
         setCharge(response.data[0].charge)
         setArea(response.data[0].area)
         setAddress(response.data[0].address)
         setPhoneno(response.data[0].phoneno)
+        setName(response.data[0].name)
         
     }
     
@@ -62,11 +65,12 @@ const Profile = () =>{
 
     const submit = async(e)=>{
         e.preventDefault();
-        const result = await axios.put(`http://localhost:4000/vendorprofile`,{
+        const result = await axios.put(`http://localhost:4000/vendorprofile/${id}`,{
             phoneno:phoneno,
             address:address,
             area:area,
-            charge:charge
+            charge:charge,
+            name:name
         })
         console.log(result.data)
         if(result.data==="yes"){
@@ -77,7 +81,7 @@ const Profile = () =>{
                 showConfirmButton: false,
                 timer: 1500
           })
-            navigate('/aboutus');
+            navigate(`/profile`);
         }
         else{
             Swal.fire({
@@ -87,7 +91,7 @@ const Profile = () =>{
                 showConfirmButton: false,
                 timer:   1500
           })
-          navigate('/');
+          navigate(`/profile`);
         }
     }
 
@@ -108,6 +112,19 @@ const Profile = () =>{
                         <Typography component="h4" variant="h4" className={classes.Profile}>Profile</Typography>
                     </Grid>
                     <Grid item lg={7} className={classes.form}>
+                    <TextField
+                                required
+                                sx={{ width: '40ch',
+                                marginLeft:"68%",
+                                marginBottom:"20px"}}
+                                id="name"
+                                label="Name"
+                                name="name"
+                                value={name!=null ? name : ""}
+                                onChange={(e)=>setName(e.target.value)}
+                                autoComplete="name"
+                                autoFocus
+                            />
                             <TextField
                                 required
                                 sx={{ width: '40ch',
@@ -116,7 +133,7 @@ const Profile = () =>{
                                 id="phoneno"
                                 label="Phone Number"
                                 name="phoneno"
-                                value={phoneno}
+                                value={phoneno!=null ? phoneno : ""}
                                 onChange={(e)=>setPhoneno(e.target.value)}
                                 autoComplete="phoneno"
                                 autoFocus
@@ -130,7 +147,7 @@ const Profile = () =>{
                                 id="address"
                                 label="Address"
                                 name="address"
-                                value={address}
+                                value={address!=null ? address : ""}
                                 onChange={(e)=>setAddress(e.target.value)}
                                 autoComplete="address"
                                 autoFocus
@@ -144,7 +161,7 @@ const Profile = () =>{
                                 id="area"
                                 label="Area"
                                 name="area"
-                                value={area}
+                                value={area!=null ? area : ""}
                                 onChange={(e)=>setArea(e.target.value)}
                                 autoComplete="area"
                                 autoFocus
@@ -192,7 +209,7 @@ const Profile = () =>{
                                 id="charge"
                                 label="Charge"
                                 name="charge"
-                                value={charge}
+                                value={charge!=null ? charge : ""}
                                 onChange={(e)=>setCharge(e.target.value)}
                                 autoComplete="charge"
                                 autoFocus

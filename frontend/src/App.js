@@ -1,19 +1,19 @@
 import {BrowserRouter , Route , Link , NavLink , Routes} from 'react-router-dom';
 
 
-import AboutUs from "./Components/AboutUs";
-import HowItWorks from "./Components/HowItWorks";
-
+import AboutUs from "./Components/Customer/AboutUs";
+import HowItWorks from "./Components/Customer/HowItWorks";
 import SignUp from "./Components/SignUp";
 import Login from "./Components/Login";
-import Support from "./Components/Support"
-import Profile from "./Components/Profile"
-import Support from "./Components/Support";
+import Support from "./Components/Customer/Support"
+import Profile from "./Components/Vendor/Profile"
 import Addnews from "./Components/Vendor/Addnews";
+import Header from "./Components/Header"
 
 function App() {
   return (
     <div>
+      <Header />
       <BrowserRouter>
         <Routes>
           <Route path='/aboutus' element={<AboutUs/>}/>

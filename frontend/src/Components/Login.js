@@ -88,7 +88,7 @@ const Login = () =>{
           })
             localStorage.setItem('id',parseInt(result.data));
             if(user==="vendor")
-                navigate('/addnews')
+                navigate('/profile')
             else if(user==="customer")
                 navigate('/aboutus');
         }
