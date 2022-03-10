@@ -66,7 +66,7 @@ const SignUp = () =>{
 
     const submit = async(e)=>{
         e.preventDefault();
-        const result = await axios.post(`http://localhost:3000/signup`,{
+        const result = await axios.post(`http://localhost:4000/signup`,{
             email:email,
             password:password,
             state:state,

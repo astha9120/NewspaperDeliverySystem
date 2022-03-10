@@ -62,13 +62,23 @@ const Login = () =>{
 
     const submit = async(e)=>{
         e.preventDefault();
-        const result = await axios.post(`http://localhost:3000/signin`,{
+        const result = await axios.post(`http://localhost:4000/signin`,{
             email:email,
             password:password,
             user:user
         })
         console.log(result.data)
-        if(result.data==="yes"){
+        if(result.data==="error"){
+            Swal.fire({
+                icon: 'error',
+                title:'done',
+                text: 'Something went wrong',
+                showConfirmButton: false,
+                timer: 1500
+            })
+            navigate('/');
+        }
+        else{
             Swal.fire({
                 icon: 'success',
                 title:'done',
@@ -76,17 +86,11 @@ const Login = () =>{
                 showConfirmButton: false,
                 timer: 1500
           })
-            navigate('/aboutus');
-        }
-        else{
-            Swal.fire({
-                icon: 'error',
-                title:'done',
-                text: 'Something went wrong',
-                showConfirmButton: false,
-                timer: 1500
-          })
-          navigate('/');
+            localStorage.setItem('id',parseInt(result.data));
+            if(user==="vendor")
+                navigate('/addnews')
+            else if(user==="customer")
+                navigate('/aboutus');
         }
     }
     return(
