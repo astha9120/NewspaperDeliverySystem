@@ -48,7 +48,7 @@ const Profile = () =>{
     const id = localStorage.getItem('id');
 
     const getData = async () => {
-        const response = await axios.get(`http://localhost:4000/${id}`)
+        const response = await axios.get(`http://localhost:4000/vendor/vendorprofile/${id}`)
         setState(response.data[0].state)
         setCity(response.data[0].city)
         setCharge(response.data[0].charge)
@@ -65,7 +65,7 @@ const Profile = () =>{
 
     const submit = async(e)=>{
         e.preventDefault();
-        const result = await axios.put(`http://localhost:4000/vendorprofile/${id}`,{
+        const result = await axios.put(`http://localhost:4000/vendor/vendorprofile/${id}`,{
             phoneno:phoneno,
             address:address,
             area:area,
@@ -81,7 +81,7 @@ const Profile = () =>{
                 showConfirmButton: false,
                 timer: 1500
           })
-            navigate(`/profile`);
+            navigate(`/vendor/vendorprofile`);
         }
         else{
             Swal.fire({
@@ -91,7 +91,7 @@ const Profile = () =>{
                 showConfirmButton: false,
                 timer:   1500
           })
-          navigate(`/profile`);
+          navigate(`/vendor/vendorprofile`);
         }
     }
 
