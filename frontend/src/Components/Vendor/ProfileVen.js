@@ -14,7 +14,7 @@ const axios = require("axios");
 
 const useStyles = makeStyles({
     root: {
-        height: '100vh',
+        minHeight: '100vh',
         
         fontFamily : "Space Mono, monospace",
         // backgroundColor:'#ddd'
@@ -223,7 +223,7 @@ const ProfileVen = () =>{
                             <Button
                                 type="submit"
                                 margin="normal"
-                                sx={{ width: '44ch',marginLeft:"75%",marginTop:"20px"}}
+                                sx={{ width: '44ch',marginLeft:"75%",marginTop:"20px",marginBottom:"10px"}}
                                 variant="contained"
                                 onClick={submit}>
                                 {charge===null ? "Submit" : "Update"}
