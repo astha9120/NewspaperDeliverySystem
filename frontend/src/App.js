@@ -1,6 +1,6 @@
 import {BrowserRouter , Route , Link , NavLink , Routes} from 'react-router-dom';
 
-
+import VendorList from './Components/ndb/VendorList';
 import AboutUs from "./Components/Customer/AboutUs";
 import HowItWorks from "./Components/Customer/HowItWorks";
 import SignUp from "./Components/SignUp";
@@ -10,7 +10,7 @@ import ProfileVen from "./Components/Vendor/ProfileVen"
 import Addnews from "./Components/Vendor/Addnews";
 
 import ProfileNdb from './Components/ndb/ProfileNdb';
-import Header from "./Components/Header";
+
 
 import Footer from './Components/Footer';
 
@@ -29,6 +29,7 @@ function App() {
           <Route path='/signup' element={<SignUp/>}/>
           <Route path='/vendor/addnews' element={<Addnews/>}/>
           <Route path='/ndb/profile' element={<ProfileNdb/>}/>
+          <Route path='/ndb/vendorlist' element={<VendorList/>}/>
         </Routes>
       </BrowserRouter>
       <Footer/>

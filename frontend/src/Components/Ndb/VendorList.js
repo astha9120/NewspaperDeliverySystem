@@ -1,3 +1,4 @@
+import Header from './Header';
 import * as React from 'react';
 import { styled } from '@mui/material/styles';
 import Table from '@mui/material/Table';
@@ -62,6 +63,8 @@ const VendorList = () => {
 
 
   return (
+    <div>
+      <Header/>
     <Grid container component="main"  
           direction="column" 
           justifyContent="space-evenly"
@@ -130,6 +133,7 @@ const VendorList = () => {
             </TableContainer>
       </Grid>
     </Grid>
+    </div>
     
   );
 }

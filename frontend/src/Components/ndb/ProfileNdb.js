@@ -48,11 +48,7 @@ const ProfileNdb = () =>{
     const id = localStorage.getItem('id');
 
     const getData = async () => {
-<<<<<<< HEAD:frontend/src/Components/ndb/ProfileNdb.js
         const response = await axios.get(`http://localhost:4000/ndb/${id}`)
-=======
-        const response = await axios.get(`http://localhost:4000/vendor/vendorprofile/${id}`)
->>>>>>> 97909c433e7a3022c8beaf37ea02491ebfd8e47b:frontend/src/Components/Vendor/Profile.js
         setState(response.data[0].state)
         setCity(response.data[0].city)
         setCharge(response.data[0].charge)
@@ -69,11 +65,7 @@ const ProfileNdb = () =>{
 
     const submit = async(e)=>{
         e.preventDefault();
-<<<<<<< HEAD:frontend/src/Components/ndb/ProfileNdb.js
         const result = await axios.put(`http://localhost:4000/ndb/profile/${id}`,{
-=======
-        const result = await axios.put(`http://localhost:4000/vendor/vendorprofile/${id}`,{
->>>>>>> 97909c433e7a3022c8beaf37ea02491ebfd8e47b:frontend/src/Components/Vendor/Profile.js
             phoneno:phoneno,
             address:address,
             area:area,
@@ -89,11 +81,7 @@ const ProfileNdb = () =>{
                 showConfirmButton: false,
                 timer: 1500
           })
-<<<<<<< HEAD:frontend/src/Components/ndb/ProfileNdb.js
             navigate(`/ndb/profile`);
-=======
-            navigate(`/vendor/vendorprofile`);
->>>>>>> 97909c433e7a3022c8beaf37ea02491ebfd8e47b:frontend/src/Components/Vendor/Profile.js
         }
         else{
             Swal.fire({
@@ -103,11 +91,7 @@ const ProfileNdb = () =>{
                 showConfirmButton: false,
                 timer:   1500
           })
-<<<<<<< HEAD:frontend/src/Components/ndb/ProfileNdb.js
           navigate(`/ndb/profile`);
-=======
-          navigate(`/vendor/vendorprofile`);
->>>>>>> 97909c433e7a3022c8beaf37ea02491ebfd8e47b:frontend/src/Components/Vendor/Profile.js
         }
     }
 
@@ -237,11 +221,7 @@ const ProfileNdb = () =>{
                             <Button
                                 type="submit"
                                 margin="normal"
-<<<<<<< HEAD:frontend/src/Components/ndb/ProfileNdb.js
                                 sx={{ width: '44ch',marginLeft:"75%",marginTop:"20px"}}
-=======
-                                sx={{ width: '44ch',marginLeft:"68%",marginTop:"20px",marginBottom:"20px"}}
->>>>>>> 97909c433e7a3022c8beaf37ea02491ebfd8e47b:frontend/src/Components/Vendor/Profile.js
                                 variant="contained"
                                 onClick={submit}>
                                 {name===null ? "Submit" : "Update"}
