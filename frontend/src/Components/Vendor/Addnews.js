@@ -1,4 +1,4 @@
-
+import Header from './Header'
 import { makeStyles } from '@mui/styles';
 import { useState , useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -70,7 +70,8 @@ const Addnews = ()=>{
         }
 
     return(
-        <div className={classes.main}>       
+        <div className={classes.main}>    
+                <Header />   
                 <Table aria-label="simple table" className={classes.list} style={{ width: "50%"  }} sx={{margin:"auto" , marginTop:"30px"}}>
                      <TableHead>
                             <TableRow>

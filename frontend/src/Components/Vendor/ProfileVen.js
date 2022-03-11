@@ -1,4 +1,4 @@
-
+import Header from './Header';
 import TextField from '@mui/material/TextField';
 import { useNavigate } from 'react-router-dom';
 import { useState  , useEffect} from 'react';
@@ -11,16 +11,19 @@ import InputAdornment from '@mui/material/InputAdornment';
 import Swal from 'sweetalert2';
 const axios = require("axios");
 
+
 const useStyles = makeStyles({
     root: {
         height: '100vh',
+        
+        fontFamily : "Space Mono, monospace",
         // backgroundColor:'#ddd'
       }, 
     logo: {
         paddingTop:"8px"
     },
     Profile:{
-        fontFamily : "Roboto",
+        fontFamily : 'Space Mono',
         color:"#88888"
     },
    
@@ -30,7 +33,7 @@ const useStyles = makeStyles({
 
 
 
-const Profile = () =>{
+const ProfileVen = () =>{
 
     
 
@@ -48,7 +51,7 @@ const Profile = () =>{
     const id = localStorage.getItem('id');
 
     const getData = async () => {
-        const response = await axios.get(`http://localhost:4000/${id}`)
+        const response = await axios.get(`http://localhost:4000/vendor/${id}`)
         setState(response.data[0].state)
         setCity(response.data[0].city)
         setCharge(response.data[0].charge)
@@ -65,7 +68,7 @@ const Profile = () =>{
 
     const submit = async(e)=>{
         e.preventDefault();
-        const result = await axios.put(`http://localhost:4000/vendorprofile/${id}`,{
+        const result = await axios.put(`http://localhost:4000/vendor/profile/${id}`,{
             phoneno:phoneno,
             address:address,
             area:area,
@@ -81,7 +84,7 @@ const Profile = () =>{
                 showConfirmButton: false,
                 timer: 1500
           })
-            navigate(`/profile`);
+            navigate(`/vendor/profile`);
         }
         else{
             Swal.fire({
@@ -91,31 +94,31 @@ const Profile = () =>{
                 showConfirmButton: false,
                 timer:   1500
           })
-          navigate(`/profile`);
+          navigate(`/vendor/profile`);
         }
     }
 
 
     return(
-
+       <div><Header />
         <Grid container component="main"   className={classes.root}>
-            
+             
             <Grid item lg={6} md={4} xs={2}>
                 <Grid container direction="column"  
                     justifyContent="space-evenly"
                     alignItems="center" 
                     spacing={5}>
-                    <Grid item lg={2} marginLeft="75%">
-                         <img src = "../images/newsDaily.png" alt="logo" className={classes.logo}></img>
+                    <Grid item lg={2} marginLeft="auto">
+                         
                     </Grid>
-                    <Grid item lg={2} marginLeft="79%">
+                    <Grid item lg={2} marginLeft="85%">
                         <Typography component="h4" variant="h4" className={classes.Profile}>Profile</Typography>
                     </Grid>
                     <Grid item lg={7} className={classes.form}>
                     <TextField
                                 required
                                 sx={{ width: '40ch',
-                                marginLeft:"68%",
+                                marginLeft:"75%",
                                 marginBottom:"20px"}}
                                 id="name"
                                 label="Name"
@@ -128,7 +131,7 @@ const Profile = () =>{
                             <TextField
                                 required
                                 sx={{ width: '40ch',
-                                marginLeft:"68%",
+                                marginLeft:"75%",
                                 marginBottom:"20px"}}
                                 id="phoneno"
                                 label="Phone Number"
@@ -142,7 +145,7 @@ const Profile = () =>{
                             <TextField
                                 required
                                 sx={{ width: '40ch',
-                                marginLeft:"68%",
+                                marginLeft:"75%",
                                 marginBottom:"20px"}}
                                 id="address"
                                 label="Address"
@@ -156,7 +159,7 @@ const Profile = () =>{
                             <TextField
                                 required
                                 sx={{ width: '40ch',
-                                marginLeft:"68%",
+                                marginLeft:"75%",
                                 marginBottom:"20px"}}
                                 id="area"
                                 label="Area"
@@ -170,7 +173,7 @@ const Profile = () =>{
                         <TextField
                                 required
                                 sx={{ width: '40ch',
-                                marginLeft:"68%",
+                                marginLeft:"75%",
                                 marginBottom:"20px"}}
                                 id="city"
                                 label="City"
@@ -185,7 +188,7 @@ const Profile = () =>{
                         <TextField
                                 required
                                 sx={{ width: '40ch',
-                                marginLeft:"68%",
+                                marginLeft:"75%",
                                 marginBottom:"20px"}}
                                 id="state"
                                 label="State"
@@ -204,7 +207,7 @@ const Profile = () =>{
                             <TextField
                                 required
                                 sx={{ width: '40ch',
-                                marginLeft:"68%",
+                                marginLeft:"75%",
                                 marginBottom:"20px"}}
                                 id="charge"
                                 label="Charge"
@@ -220,10 +223,10 @@ const Profile = () =>{
                             <Button
                                 type="submit"
                                 margin="normal"
-                                sx={{ width: '44ch',marginLeft:"68%",marginTop:"20px"}}
+                                sx={{ width: '44ch',marginLeft:"75%",marginTop:"20px"}}
                                 variant="contained"
                                 onClick={submit}>
-                                Submit
+                                {charge===null ? "Submit" : "Update"}
                             </Button>
                     </Grid>
     
@@ -232,8 +235,9 @@ const Profile = () =>{
                 </Grid>
             </Grid>
         </Grid>
+        </div>
     )
 
 }
 
-export default Profile;
+export default ProfileVen;
