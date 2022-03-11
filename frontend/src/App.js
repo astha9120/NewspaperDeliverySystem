@@ -8,7 +8,8 @@ import Login from "./Components/Login";
 import Support from "./Components/Customer/Support"
 import Profile from "./Components/Vendor/Profile"
 import Addnews from "./Components/Vendor/Addnews";
-import Header from "./Components/Header"
+import Header from "./Components/Header";
+import VendorList from "./Components/Ndb/VendorList"
 
 function App() {
   return (
@@ -19,10 +20,11 @@ function App() {
           <Route path='/aboutus' element={<AboutUs/>}/>
           <Route path='/howitworks' element={<HowItWorks/>}/>
             <Route path='/support' element={<Support/>}/>
-            <Route path='/profile' element={<Profile/>}/>
+            <Route path='/vendor/vendorprofile' element={<Profile/>}/>
           <Route path='/' element={<Login/>}/>
           <Route path='/signup' element={<SignUp/>}/>
-          <Route path='/addnews' element={<Addnews/>}/>
+          <Route path='/vendor/addnews' element={<Addnews/>}/>
+          <Route path='/ndb/vendorlist' element={<VendorList/>}/>
         </Routes>
       </BrowserRouter>
       

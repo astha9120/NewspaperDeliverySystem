@@ -39,10 +39,10 @@ const Addnews = ()=>{
 
 
     useEffect(() => {
-        axios.get('http://localhost:4000/addnews')
+        axios.get('http://localhost:4000/vendor/addnews')
             .then(res => setAllnews(res.data))
         
-        axios.get(`http://localhost:4000/addnews/${id}`)
+        axios.get(`http://localhost:4000/vendor/addnews/${id}`)
         .then(
                 res => 
                 {
@@ -56,7 +56,7 @@ const Addnews = ()=>{
     
     const submit = async(e)=>{
             e.preventDefault();
-            const result = await axios.post('http://localhost:4000/addnews',
+            const result = await axios.post('http://localhost:4000/vendor/addnews',
             {newspaper:newspaper,
              id:id}) 
              Swal.fire({

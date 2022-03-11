@@ -88,9 +88,11 @@ const Login = () =>{
           })
             localStorage.setItem('id',parseInt(result.data));
             if(user==="vendor")
-                navigate('/profile')
+                navigate('/vendor/vendorprofile')
             else if(user==="customer")
                 navigate('/aboutus');
+            else if(user=="ndb")
+                navigate('/ndb/vendorlist')
         }
     }
     return(
