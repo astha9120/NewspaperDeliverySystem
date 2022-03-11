@@ -13,13 +13,16 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';import MenuItem from '@mui/material/MenuItem';
 import { Button, ClickAwayListener } from '@mui/material';
 import Swal from 'sweetalert2';
+import Grid from '@mui/material/Grid';
 const axios = require("axios");
 
+const Footer = require("../Footer")
 
 
 const useStyles = makeStyles({
     main:{
-        textAlign:"center"
+        textAlign:"center",
+        height:"100%"
     },
     list:{
         backgroundColor:"#C6F3BF"
@@ -39,10 +42,10 @@ const Addnews = ()=>{
 
 
     useEffect(() => {
-        axios.get('http://localhost:4000/addnews')
+        axios.get('http://localhost:4000/vendor/addnews')
             .then(res => setAllnews(res.data))
         
-        axios.get(`http://localhost:4000/addnews/${id}`)
+        axios.get(`http://localhost:4000/vendor/addnews/${id}`)
         .then(
                 res => 
                 {
@@ -56,7 +59,7 @@ const Addnews = ()=>{
     
     const submit = async(e)=>{
             e.preventDefault();
-            const result = await axios.post('http://localhost:4000/addnews',
+            const result = await axios.post('http://localhost:4000/vendor/addnews',
             {newspaper:newspaper,
              id:id}) 
              Swal.fire({
@@ -126,8 +129,7 @@ const Addnews = ()=>{
                 </div>     
             </div>
             }
-    </div>
-
+            </div>
     )
 }
 

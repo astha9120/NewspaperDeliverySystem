@@ -8,8 +8,12 @@ import Login from "./Components/Login";
 import Support from "./Components/Customer/Support"
 import ProfileVen from "./Components/Vendor/ProfileVen"
 import Addnews from "./Components/Vendor/Addnews";
-import Header from "./Components/Vendor/Header"
+
 import ProfileNdb from './Components/ndb/ProfileNdb';
+import Header from "./Components/Header";
+
+import Footer from './Components/Footer';
+
 
 function App() {
   return (
@@ -27,7 +31,7 @@ function App() {
           <Route path='/ndb/profile' element={<ProfileNdb/>}/>
         </Routes>
       </BrowserRouter>
-      
+      <Footer/>
     </div>
   );
 }
