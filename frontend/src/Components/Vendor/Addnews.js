@@ -13,13 +13,16 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';import MenuItem from '@mui/material/MenuItem';
 import { Button, ClickAwayListener } from '@mui/material';
 import Swal from 'sweetalert2';
+import Grid from '@mui/material/Grid';
 const axios = require("axios");
 
+const Footer = require("../Footer")
 
 
 const useStyles = makeStyles({
     main:{
-        textAlign:"center"
+        textAlign:"center",
+        height:"100%"
     },
     list:{
         backgroundColor:"#C6F3BF"
@@ -70,7 +73,12 @@ const Addnews = ()=>{
         }
 
     return(
-        <div className={classes.main}>       
+        <Grid container component="main"  
+          direction="column" 
+          justifyContent="space-evenly"
+          alignItems="center"  
+          className={classes.root}
+          spacing={5} minHeight="100vh" >       
                 <Table aria-label="simple table" className={classes.list} style={{ width: "50%"  }} sx={{margin:"auto" , marginTop:"30px"}}>
                      <TableHead>
                             <TableRow>
@@ -125,7 +133,7 @@ const Addnews = ()=>{
                 </div>     
             </div>
             }
-    </div>
+    </Grid>
 
     )
 }

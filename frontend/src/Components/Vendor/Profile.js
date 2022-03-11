@@ -13,8 +13,8 @@ const axios = require("axios");
 
 const useStyles = makeStyles({
     root: {
-        height: '100vh',
         // backgroundColor:'#ddd'
+        minHeight:"100vh"
       }, 
     logo: {
         paddingTop:"8px"
@@ -220,7 +220,7 @@ const Profile = () =>{
                             <Button
                                 type="submit"
                                 margin="normal"
-                                sx={{ width: '44ch',marginLeft:"68%",marginTop:"20px"}}
+                                sx={{ width: '44ch',marginLeft:"68%",marginTop:"20px",marginBottom:"20px"}}
                                 variant="contained"
                                 onClick={submit}>
                                 Submit

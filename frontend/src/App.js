@@ -10,6 +10,8 @@ import Profile from "./Components/Vendor/Profile"
 import Addnews from "./Components/Vendor/Addnews";
 import Header from "./Components/Header";
 import VendorList from "./Components/Ndb/VendorList"
+import Footer from './Components/Footer';
+
 
 function App() {
   return (
@@ -27,7 +29,7 @@ function App() {
           <Route path='/ndb/vendorlist' element={<VendorList/>}/>
         </Routes>
       </BrowserRouter>
-      
+      <Footer/>
     </div>
   );
 }
