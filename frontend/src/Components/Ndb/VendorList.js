@@ -67,7 +67,7 @@ const VendorList = () => {
           justifyContent="space-evenly"
           alignItems="center"  
           className={classes.root}
-          spacing={5}> 
+          spacing={5} minHeight="100vh" > 
           <Grid item lg={6} md={2} xs={1}>
             <Grid container justifyContent="space-evenly">
                <Grid item lg={6} md={4} xs={2} backgroundColor="#CCCFFB">
@@ -130,6 +130,7 @@ const VendorList = () => {
             </TableContainer>
       </Grid>
     </Grid>
+    
   );
 }
 

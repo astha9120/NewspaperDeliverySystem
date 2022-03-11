@@ -20,7 +20,7 @@ const axios = require("axios");
 
 const useStyles = makeStyles({
     root: {
-        height: '100vh',
+        minHeight: '100vh',
       }, 
     logo: {
         paddingTop:"20px"
