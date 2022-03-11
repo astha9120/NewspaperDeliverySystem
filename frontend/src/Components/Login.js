@@ -88,11 +88,11 @@ const Login = () =>{
           })
             localStorage.setItem('id',parseInt(result.data));
             if(user==="vendor")
-                navigate('/vendor/vendorprofile')
+                navigate('/vendor/profile')
             else if(user==="customer")
-                navigate('/aboutus');
-            else if(user=="ndb")
-                navigate('/ndb/vendorlist')
+                navigate('/aboutus')
+            else if(user==="ndb")
+                navigate('/ndb/profile');
         }
     }
     return(

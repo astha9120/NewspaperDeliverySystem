@@ -1,4 +1,4 @@
-
+import Header from './Header'
 import { makeStyles } from '@mui/styles';
 import { useState , useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -73,12 +73,8 @@ const Addnews = ()=>{
         }
 
     return(
-        <Grid container component="main"  
-          direction="column" 
-          justifyContent="space-evenly"
-          alignItems="center"  
-          className={classes.root}
-          spacing={5} minHeight="100vh" >       
+        <div className={classes.main}>    
+                <Header />   
                 <Table aria-label="simple table" className={classes.list} style={{ width: "50%"  }} sx={{margin:"auto" , marginTop:"30px"}}>
                      <TableHead>
                             <TableRow>
@@ -133,8 +129,7 @@ const Addnews = ()=>{
                 </div>     
             </div>
             }
-    </Grid>
-
+            </div>
     )
 }
 
