@@ -22,7 +22,7 @@ const Footer = require("../Footer")
 const useStyles = makeStyles({
     main:{
         textAlign:"center",
-        height:"100%"
+        minHeight:"100vh"
     },
     list:{
         backgroundColor:"#C6F3BF"

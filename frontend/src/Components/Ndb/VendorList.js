@@ -54,7 +54,7 @@ const VendorList = () => {
     const [vendorlist,setVendorlist] = useState([]);
 
     useEffect(()=>{
-            axios.get(`http://localhost:4000/customer/vendorlist`)
+            axios.get(`http://localhost:4000/ndb/vendorlist`)
             .then(res=>{
               console.log(res.data)
               setVendorlist(res.data)

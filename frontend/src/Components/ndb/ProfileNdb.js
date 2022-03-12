@@ -46,9 +46,10 @@ const ProfileNdb = () =>{
 
 
     const id = localStorage.getItem('id');
+    console.log("id "+id)
 
     const getData = async () => {
-        const response = await axios.get(`http://localhost:4000/ndb/${id}`)
+        const response = await axios.get(`http://localhost:4000/ndb/profile/${id}`)
         setState(response.data[0].state)
         setCity(response.data[0].city)
         setCharge(response.data[0].charge)
@@ -221,7 +222,7 @@ const ProfileNdb = () =>{
                             <Button
                                 type="submit"
                                 margin="normal"
-                                sx={{ width: '44ch',marginLeft:"75%",marginTop:"20px"}}
+                                sx={{ width: '44ch',marginLeft:"75%",marginTop:"20px",marginBottom:"10px"}}
                                 variant="contained"
                                 onClick={submit}>
                                 {name===null ? "Submit" : "Update"}
