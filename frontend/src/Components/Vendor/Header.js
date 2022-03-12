@@ -38,8 +38,8 @@ const useStyles = makeStyles({
         textAlign: "center"
     },
   header: {
-    // backgroundColor: "transparent",
-    backgroundColor: "#add8e6",
+    backgroundColor: "transparent",
+    // backgroundColor: "#add8e6",
     color: "black",
     boxShadow: "1px",
     paddingRight: "42px",
