@@ -27,7 +27,7 @@ const headersData = [
   },
   {
     label: "LogOut",
-    href: "/vendor/logout",
+    href: "/",
   },
 ];
 

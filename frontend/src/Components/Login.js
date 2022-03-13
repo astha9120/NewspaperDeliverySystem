@@ -7,7 +7,7 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import MenuItem from '@mui/material/MenuItem';
 import Link from '@mui/material/Link';
-import { useState } from 'react';
+import { useState  , useEffect} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { makeStyles } from '@mui/styles';
 import FormControl from '@mui/material/FormControl';
@@ -59,6 +59,10 @@ const Login = () =>{
     const [password,setPassword] = useState("")
     const [user,setUser] = useState("")
     const [showPassword,setShowPassword] = useState(false)
+
+    useEffect(()=>{
+        localStorage.removeItem("id")
+    },[])
 
     const submit = async(e)=>{
         e.preventDefault();

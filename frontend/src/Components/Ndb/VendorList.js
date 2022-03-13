@@ -46,18 +46,25 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 const VendorList = () => {
 
     const classes = useStyles();
-    const [obj,setObj]=useState({name:"Astha Shah",phoneno:"9078456320",address:"1/10 Reward shop mini gali	",area:"panjrapol"})
+    const [obj,setObj]=useState({name:"",phoneno:"",address:"",area:""})
     const [newspaper,setNewspaper] = useState([{name:"divya Bhaskar",quantity:80,price:2000},
                                       {name:"Gujarat Samachar",quantity:20,price:1000},
                                       {name:"Times of India",quantity:80,price:1100},
                                       {name:"mint",quantity:80,price:900}])
     const [vendorlist,setVendorlist] = useState([]);
+    const id = localStorage.getItem('id')
 
     useEffect(()=>{
             axios.get(`http://localhost:4000/ndb/vendorlist`)
             .then(res=>{
               console.log(res.data)
               setVendorlist(res.data)
+            })
+
+            axios.get(`http://localhost:4000/ndb/vendorlist/${id}`)
+            .then(res=>{
+              console.log(res.data[0])
+              setObj(res.data[0])
             })
     },[])
 
@@ -71,7 +78,7 @@ const VendorList = () => {
           alignItems="center"  
           className={classes.root}
           spacing={5} minHeight="100vh" > 
-          <Grid item lg={6} md={2} xs={1}>
+          <Grid item lg={6} md={2} xs={1} sx={{marginTop:"50px"}}>
             <Grid container justifyContent="space-evenly">
                <Grid item lg={6} md={4} xs={2} backgroundColor="#CCCFFB">
                   <Typography variant="h5" align="center" sx={{color:"white",padding:"5px",backgroundColor:"#2148C0"}}>Vendor's Info:</Typography>
@@ -104,7 +111,7 @@ const VendorList = () => {
            
           </Grid>
         
-        <Grid item lg={6} md={4} xs={2}>
+        <Grid item lg={6} md={4} xs={2} sx={{marginTop:"20px",marginBottom:"40px"}}>
             <Typography variant="h5" align="center" sx={{color:"#B939A4",marginBottom:"10px"}}>List of other vendors:</Typography>
             <TableContainer component={Paper} sx={{width:1200 , margin:"auto"}}>
               <Table sx={{ minWidth: 700 }} aria-label="customized table">
