@@ -222,7 +222,7 @@ const ProfileNdb = () =>{
                             <Button
                                 type="submit"
                                 margin="normal"
-                                sx={{ width: '44ch',marginLeft:"75%",marginTop:"20px",marginBottom:"10px"}}
+                                sx={{ width: '44ch',marginLeft:"75%",marginTop:"20px",marginBottom:"30px"}}
                                 variant="contained"
                                 onClick={submit}>
                                 {name===null ? "Submit" : "Update"}
