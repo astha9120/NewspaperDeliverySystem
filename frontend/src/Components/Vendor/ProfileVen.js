@@ -51,7 +51,7 @@ const ProfileVen = () =>{
     const id = localStorage.getItem('id');
 
     const getData = async () => {
-        const response = await axios.get(`http://localhost:4000/vendor/${id}`)
+        const response = await axios.get(`http://localhost:4000/vendor/profile/${id}`)
         setState(response.data[0].state)
         setCity(response.data[0].city)
         setCharge(response.data[0].charge)
