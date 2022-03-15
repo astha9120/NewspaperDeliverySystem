@@ -30,7 +30,7 @@ const useStyles = makeStyles({
 
 
 
-const ProfileNdb = () =>{
+const ProfileCust = () =>{
 
     
 
@@ -38,21 +38,21 @@ const ProfileNdb = () =>{
     const navigate = useNavigate();
     const [state,setState] = useState("")
     const [city,setCity] = useState("")
-    const [charge,setCharge] = useState("")
     const [area,setArea] = useState("")
     const [address,setAddress] = useState("")
     const [phoneno,setPhoneno] = useState("")
     const [name,setName] = useState("")
+    const [latitude,setLatitude] = useState(23.034999847412)
+    const [longitude,setLongitude] = useState(72.616798400879)
 
 
     const id = localStorage.getItem('id');
     console.log("id "+id)
 
     const getData = async () => {
-        const response = await axios.get(`http://localhost:4000/ndb/profile/${id}`)
+        const response = await axios.get(`http://localhost:4000/customer/profile/${id}`)
         setState(response.data[0].state)
         setCity(response.data[0].city)
-        setCharge(response.data[0].charge)
         setArea(response.data[0].area)
         setAddress(response.data[0].address)
         setPhoneno(response.data[0].phoneno)
@@ -66,12 +66,13 @@ const ProfileNdb = () =>{
 
     const submit = async(e)=>{
         e.preventDefault();
-        const result = await axios.put(`http://localhost:4000/ndb/profile/${id}`,{
+        const result = await axios.put(`http://localhost:4000/customer/profile/${id}`,{
             phoneno:phoneno,
             address:address,
             area:area,
-            charge:charge,
-            name:name
+            name:name,
+            longitude:longitude,
+            latitude:latitude
         })
         console.log(result.data)
         if(result.data==="yes"){
@@ -82,7 +83,7 @@ const ProfileNdb = () =>{
                 showConfirmButton: false,
                 timer: 1500
           })
-            navigate(`/ndb/profile`);
+            navigate(`/customer/profile/next`);
         }
         else{
             Swal.fire({
@@ -92,7 +93,7 @@ const ProfileNdb = () =>{
                 showConfirmButton: false,
                 timer:   1500
           })
-          navigate(`/ndb/profile`);
+          navigate(`/customer/profile`);
         }
     }
 
@@ -199,33 +200,13 @@ const ProfileNdb = () =>{
                                 disabled={true}
                             />
 
-                            
-                          
-                            
-                    
-                            <TextField
-                                required
-                                sx={{ width: '40ch',
-                                marginLeft:"75%",
-                                marginBottom:"20px"}}
-                                id="charge"
-                                label="Charge"
-                                name="charge"
-                                value={charge!=null ? charge : ""}
-                                onChange={(e)=>setCharge(e.target.value)}
-                                autoComplete="charge"
-                                autoFocus
-                            />
-
-                            
-
                             <Button
                                 type="submit"
                                 margin="normal"
                                 sx={{ width: '44ch',marginLeft:"75%",marginTop:"20px",marginBottom:"30px"}}
                                 variant="contained"
                                 onClick={submit}>
-                                {charge===null ? "Submit" : "Update"}
+                                {state===null ? "Submit" : "Update"}
                             </Button>
                     </Grid>
     
@@ -239,4 +220,4 @@ const ProfileNdb = () =>{
 
 }
 
-export default ProfileNdb;
+export default ProfileCust;

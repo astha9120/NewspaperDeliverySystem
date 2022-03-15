@@ -12,19 +12,34 @@ import Box from "@material-ui/core/Box";
 import { Link as RouterLink } from "react-router-dom";
 
 
-
 const headersData = [
   {
-    label: "profile",
-    href: "/customer/profile",
+    label: "Home",
+    href: "/customer/home",
   },
   {
-    label: "Delivery List",
-    href: "/vendor/deliverylist",
+    label: "About",
+    href: "/customer/aboutus",
   },
   {
-    label: "Add newspaper",
-    href: "/vendor/addnews",
+    label: "Working",
+    href: "/customer/howitworks",
+  },
+  {
+    label: "Log",
+    href: "/customer/log",
+  },
+  {
+    label: "Bill",
+    href: "/customer/bill",
+  },
+  {
+    label: "Subscriptions",
+    href: "/customer/subscription",
+  },
+  {
+    label: "Support",
+    href: "/customer/support",
   },
   {
     label: "LogOut",
@@ -55,7 +70,7 @@ const useStyles = makeStyles({
     fontFamily: "Lato, sans-serif",
     fontWeight: 600,
     size: "18px",
-    marginLeft: "40px",
+    marginLeft: "20px",
  },
  toolbar: {
   display: "flex",
@@ -63,7 +78,7 @@ const useStyles = makeStyles({
   width:'100%'
 },
 test:{
-  marginLeft:"48%"
+  marginLeft:"30%"
 }
 
 

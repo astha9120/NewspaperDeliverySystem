@@ -1,6 +1,6 @@
 import {BrowserRouter , Route , Link , NavLink , Routes} from 'react-router-dom';
 
-import VendorList from './Components/Ndb/VendorList';
+import VendorList from './Components/ndb/VendorList';
 import AboutUs from "./Components/Customer/AboutUs";
 import HowItWorks from "./Components/Customer/HowItWorks";
 import SignUp from "./Components/SignUp";
@@ -8,8 +8,9 @@ import Login from "./Components/Login";
 import Support from "./Components/Customer/Support"
 import ProfileVen from "./Components/Vendor/ProfileVen"
 import Addnews from "./Components/Vendor/Addnews";
+import ProfileCust from "./Components/Customer/ProfileCust"
 
-import ProfileNdb from './Components/Ndb/ProfileNdb';
+import ProfileNdb from './Components/ndb/ProfileNdb';
 
 
 import Footer from './Components/Footer';
@@ -21,9 +22,10 @@ function App() {
       {/* <Header /> */}
       <BrowserRouter>
         <Routes>
-          <Route path='/aboutus' element={<AboutUs/>}/>
-          <Route path='/howitworks' element={<HowItWorks/>}/>
-            <Route path='/support' element={<Support/>}/>
+          <Route path='/customer/aboutus' element={<AboutUs/>}/>
+          <Route path='/customer/howitworks' element={<HowItWorks/>}/>
+          <Route path='/customer/profile' element={<ProfileCust/>}/>
+            <Route path='/customer/support' element={<Support/>}/>
             <Route path='/vendor/profile' element={<ProfileVen/>}/>
           <Route path='/' element={<Login/>}/>
           <Route path='/signup' element={<SignUp/>}/>
