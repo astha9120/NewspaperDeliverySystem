@@ -2,10 +2,14 @@
 import TextField from '@mui/material/TextField';
 import Link from '@mui/material/Link';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { makeStyles } from '@mui/styles';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
+import { Navigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
+const axios = require("axios")
 
 const useStyles = makeStyles({
     root: {
@@ -36,37 +40,50 @@ const useStyles = makeStyles({
 
 
 
-const SignUp = () =>{
-
-    const users = [
-        {
-          value: 'User',
-          label: 'User',
-        },
-        {
-          value: 'NDB',
-          label: 'Newspaper Delivery Boy',
-        },
-        {
-          value: 'Venodr',
-          label: 'Vendor',
-        }]
+const Support = () =>{
 
     const classes = useStyles();
-    const [name,setName]=useState("")
-    const [email,setEmail] = useState("")
-    const [phone,setPhone]=useState("")
+    const navigate = useNavigate();
+    const [name,setName] = useState("")
     const [city,setCity] = useState("")
     const [newspaper,setNewspaper] = useState("")
     const [issue,setIssue] = useState("")
+    const id = localStorage.getItem("id")
 
     const submit = (e)=>{
         e.preventDefault()
-        console.log(email+name+phone+city+issue)
-        
+        axios.post(`http://localhost:4000/customer/support/${id}`,{
+            name:name,
+            city:city,
+            newspaper:newspaper,
+            issue:issue            
+        })
+        .then((res)=>{
+            console.log(res.data);
+            if(res.data==="yes"){
+                Swal.fire({
+                    icon: 'success',
+                    title:'done',
+                    text: 'Successfully Submitted Your Suggestion',
+                    showConfirmButton: false,
+                    timer: 1500
+              })
+              navigate('/aboutus')
+            }
+            else{
+                Swal.fire({
+                    icon: 'error',
+                    title:'done',
+                    text: 'Something went wrong Try again',
+                    showConfirmButton: false,
+                    timer: 1500
+                })
+                navigate('/support');
+            }
+        })
     }
     return(
-        <div>
+        <div style={{minHeight:"100vh"}}>
             <div className={classes.logo} >
                 <img src = "../images/newsDaily.png" alt="logo" ></img>
             </div>
@@ -89,11 +106,12 @@ const SignUp = () =>{
             
             <Grid item lg={6} md={4} xs={2} >
                 <Typography component="h4" variant="h4" className={classes.need}  align="center" >NEED TO REACH OUT TO US</Typography>
+                        
                             <TextField
                                 required
                                 sx={{ width: '40ch',
                                 marginLeft:"27%",
-                                marginBottom:"20px"}}
+                                marginBottom:"20px",marginTop:"30px"}}
                                 id="name"
                                 label="Name"
                                 name="name"
@@ -101,33 +119,7 @@ const SignUp = () =>{
                                 onChange={(e)=>setName(e.target.value)}
                                 autoComplete="name"
                                 
-                            />
-                            <TextField
-                                required
-                                sx={{ width: '40ch',
-                                marginLeft:"27%",
-                                marginBottom:"20px"}}
-                                id="email"
-                                label="Email Address"
-                                name="email"
-                                value={email}
-                                onChange={(e)=>setEmail(e.target.value)}
-                                autoComplete="email"
-                                
-                            />
-
-                            <TextField
-                                required
-                                sx={{ width: '40ch',
-                                marginLeft:"27%",
-                                marginBottom:"20px"}}
-                                id="phone"
-                                label="Phone No"
-                                name="phone"
-                                value={phone}
-                                onChange={(e)=>setPhone(e.target.value)}
-                                autoFocus
-                            />  
+                            /> 
                             <TextField
                                 required
                                 sx={{ width: '40ch',
@@ -181,4 +173,4 @@ const SignUp = () =>{
 
 }
 
-export default SignUp;
+export default Support;
