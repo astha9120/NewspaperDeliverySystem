@@ -225,7 +225,7 @@ const ProfileNdb = () =>{
                                 sx={{ width: '44ch',marginLeft:"75%",marginTop:"20px",marginBottom:"30px"}}
                                 variant="contained"
                                 onClick={submit}>
-                                {name===null ? "Submit" : "Update"}
+                                {charge===null ? "Submit" : "Update"}
                             </Button>
                     </Grid>
     

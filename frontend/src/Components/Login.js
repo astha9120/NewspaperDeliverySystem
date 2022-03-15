@@ -94,7 +94,7 @@ const Login = () =>{
             if(user==="vendor")
                 navigate('/vendor/profile')
             else if(user==="customer")
-                navigate('/aboutus')
+                navigate('/customer/aboutus')
             else if(user==="ndb")
                 navigate('/ndb/profile');
         }

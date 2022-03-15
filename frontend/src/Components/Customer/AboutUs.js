@@ -1,7 +1,10 @@
 import "./AboutUs.css"
+import Header from './Header';
 export default function AboutUs(){
     
     return(
+        <div>
+            <Header/>
     <body className="about--us">
      <div className="aboutus--section">
           <div className="aboutus--container">
@@ -25,10 +28,11 @@ export default function AboutUs(){
                     </div>
                  </div>
                  <div className="aboutus--image-section">
-                     <img src="images/about-news.png" className="aboutus--image" />
+                     <img src="/images/about-news.png" className="aboutus--image" />
                  </div>
                 </div>
         </div>
     </body>
+    </div>
     )
 }
