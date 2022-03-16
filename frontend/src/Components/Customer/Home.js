@@ -9,6 +9,8 @@ import axios from 'axios';
 import Grid from '@mui/material/Grid'
 import { useState,useEffect } from 'react';
 import { makeStyles } from '@mui/styles';
+import Header from './Header';
+
 
 const useStyles = makeStyles({
     root:{
@@ -43,6 +45,7 @@ const Home = ()=>{
 
     return(
         <div style={{minHeight:"100vh"}}>
+            <Header />
             <Grid container spacing={5} className={classes.root}>
                
                 {newspapers.map(n=>{

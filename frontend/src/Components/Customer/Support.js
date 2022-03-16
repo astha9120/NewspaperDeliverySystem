@@ -9,12 +9,10 @@ import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 import { Navigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
+import Header from './Header';
 const axios = require("axios")
 
 const useStyles = makeStyles({
-    root: {
-        height: '100vh',
-      },
     need:{
         color:"#B939A4",
         padding:"20px",
@@ -84,10 +82,8 @@ const Support = () =>{
     }
     return(
         <div style={{minHeight:"100vh"}}>
-            <div className={classes.logo} >
-                <img src = "../images/newsDaily.png" alt="logo" ></img>
-            </div>
-        <Grid container component="main"   className={classes.root}>
+                <Header></Header>
+        <Grid container component="main">
             <Grid item  lg={6} md={4} xs={2}  sx={{backgroundColor:"#00C2FF"}}>
                 <img src="../images/support.png" alt="support" className={classes.image}></img>
                 <Typography
@@ -99,7 +95,7 @@ const Support = () =>{
                 </Typography>
                 <Typography  align="center"
                     component="h6" variant="h6"
-                    color="#FFFFFF">
+                    color="#FFFFFF" paddingBottom="120px">
                         Email us : btp_news@gmail.com
                 </Typography>         
             </Grid>
