@@ -8,11 +8,9 @@ import Login from "./Components/Login";
 import Support from "./Components/Customer/Support"
 import ProfileVen from "./Components/Vendor/ProfileVen"
 import Addnews from "./Components/Vendor/Addnews";
-
 import ProfileNdb from './Components/Ndb/ProfileNdb';
-
-
 import Footer from './Components/Footer';
+import Home from './Components/Customer/Home'
 
 
 function App() {
@@ -21,6 +19,7 @@ function App() {
       {/* <Header /> */}
       <BrowserRouter>
         <Routes>
+          <Route path='/home' element ={<Home/>}></Route>
           <Route path='/aboutus' element={<AboutUs/>}/>
           <Route path='/howitworks' element={<HowItWorks/>}/>
             <Route path='/support' element={<Support/>}/>
