@@ -10,6 +10,8 @@ import Grid from '@mui/material/Grid'
 import { useState,useEffect } from 'react';
 import { makeStyles } from '@mui/styles';
 import Header from './Header';
+import { useNavigate } from 'react-router-dom';
+
 
 
 const useStyles = makeStyles({
@@ -24,6 +26,7 @@ const useStyles = makeStyles({
 const Home = ()=>{
 
     const classes = useStyles();
+    const navigate = useNavigate();
     const [newspapers,setNewspapers] = useState([{name:"",n_id:"",description:"",scrap_price:0,isFlipped:false}])
     // const [isFlipped,setIsFlipped] = useState(false)
   
@@ -46,6 +49,12 @@ const Home = ()=>{
     return(
         <div style={{minHeight:"100vh"}}>
             <Header />
+            <Button   type="submit"
+                    sx={{ width: '44ch',marginLeft:"70%",color:"black",marginTop:"20px",fontWeight:"bolder"}}
+                    onClick={()=>navigate('/customer/profile')}>
+                    Click Here to Subscribe to newspapers
+            </Button>
+            <Typography align="center" variant="h5" style={{paddingTop:"20px",fontWeight:"bold",color:"#B939A4"}}>Newspapers List</Typography> 
             <Grid container spacing={5} className={classes.root}>
                
                 {newspapers.map(n=>{
@@ -94,8 +103,7 @@ const Home = ()=>{
                     )
                 })}   
                 </Grid>      
-            
-           
+               
         </div>
     )
 }

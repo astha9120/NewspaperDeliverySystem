@@ -11,6 +11,8 @@ import Addnews from "./Components/Vendor/Addnews";
 import ProfileCust from "./Components/Customer/ProfileCust";
 import ProfileNext from './Components/Customer/ProfileNext';
 import ProfileNdb from './Components/Ndb/ProfileNdb';
+import ProfileCust from "./Components/Customer/ProfileCust"
+import Bill from "./Components/Customer/Bill"
 
 
 
@@ -24,16 +26,20 @@ function App() {
       {/* <Header /> */}
       <BrowserRouter>
         <Routes>
+          <Route path='/' element={<Login/>}/>
+          <Route path='/signup' element={<SignUp/>}/>
+
         <Route path='/customer/profile/proNext' element={<ProfileNext/>}/>
           <Route path='/customer/home' element ={<Home/>}></Route>
           <Route path='/customer/aboutus' element={<AboutUs/>}/>
           <Route path='/customer/howitworks' element={<HowItWorks/>}/>
           <Route path='/customer/profile' element={<ProfileCust/>}/>
-            <Route path='/customer/support' element={<Support/>}/>
-            <Route path='/vendor/profile' element={<ProfileVen/>}/>
-          <Route path='/' element={<Login/>}/>
-          <Route path='/signup' element={<SignUp/>}/>
+          <Route path='/customer/support' element={<Support/>}/>
+          <Route path='/customer/bill' element={<Bill/>}/>
+
+          <Route path='/vendor/profile' element={<ProfileVen/>}/>    
           <Route path='/vendor/addnews' element={<Addnews/>}/>
+         
           <Route path='/ndb/profile' element={<ProfileNdb/>}/>
           <Route path='/ndb/vendorlist' element={<VendorList/>}/>
         </Routes>
