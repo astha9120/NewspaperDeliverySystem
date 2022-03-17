@@ -30,7 +30,7 @@ const useStyles = makeStyles({
 
 
 
-const ProfileCust = () =>{
+const ProfileNext = () =>{
 
     
 
@@ -42,8 +42,8 @@ const ProfileCust = () =>{
     const [address,setAddress] = useState("")
     const [phoneno,setPhoneno] = useState("")
     const [name,setName] = useState("")
-    const [latitude,setLatitude] = useState(23.038396835327)
-    const [longitude,setLongitude] = useState(72.571067810059)
+    const [latitude,setLatitude] = useState(23.034999847412)
+    const [longitude,setLongitude] = useState(72.616798400879)
 
 
     const id = localStorage.getItem('id');
@@ -220,4 +220,4 @@ const ProfileCust = () =>{
 
 }
 
-export default ProfileCust;
+export default ProfileNext;

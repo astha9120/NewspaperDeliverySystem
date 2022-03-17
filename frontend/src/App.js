@@ -8,9 +8,12 @@ import Login from "./Components/Login";
 import Support from "./Components/Customer/Support"
 import ProfileVen from "./Components/Vendor/ProfileVen"
 import Addnews from "./Components/Vendor/Addnews";
+import ProfileCust from "./Components/Customer/ProfileCust";
+import ProfileNext from './Components/Customer/ProfileNext';
 import ProfileNdb from './Components/Ndb/ProfileNdb';
 import ProfileCust from "./Components/Customer/ProfileCust"
 import Bill from "./Components/Customer/Bill"
+
 
 
 import Footer from './Components/Footer';
@@ -26,6 +29,7 @@ function App() {
           <Route path='/' element={<Login/>}/>
           <Route path='/signup' element={<SignUp/>}/>
 
+        <Route path='/customer/profile/proNext' element={<ProfileNext/>}/>
           <Route path='/customer/home' element ={<Home/>}></Route>
           <Route path='/customer/aboutus' element={<AboutUs/>}/>
           <Route path='/customer/howitworks' element={<HowItWorks/>}/>
