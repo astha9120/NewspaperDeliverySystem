@@ -30,7 +30,7 @@ const useStyles = makeStyles({
 
 
 
-const ProfileCust = () =>{
+const ProfileNext = () =>{
 
     
 
@@ -220,4 +220,4 @@ const ProfileCust = () =>{
 
 }
 
-export default ProfileCust;
+export default ProfileNext;

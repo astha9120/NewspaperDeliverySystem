@@ -8,8 +8,10 @@ import Login from "./Components/Login";
 import Support from "./Components/Customer/Support"
 import ProfileVen from "./Components/Vendor/ProfileVen"
 import Addnews from "./Components/Vendor/Addnews";
+import ProfileCust from "./Components/Customer/ProfileCust";
+import ProfileNext from './Components/Customer/ProfileNext';
 import ProfileNdb from './Components/Ndb/ProfileNdb';
-import ProfileCust from "./Components/Customer/ProfileCust"
+
 
 
 import Footer from './Components/Footer';
@@ -22,6 +24,7 @@ function App() {
       {/* <Header /> */}
       <BrowserRouter>
         <Routes>
+        <Route path='/customer/profile/proNext' element={<ProfileNext/>}/>
           <Route path='/customer/home' element ={<Home/>}></Route>
           <Route path='/customer/aboutus' element={<AboutUs/>}/>
           <Route path='/customer/howitworks' element={<HowItWorks/>}/>
