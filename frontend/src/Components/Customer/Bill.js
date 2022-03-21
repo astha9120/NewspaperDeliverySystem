@@ -46,6 +46,8 @@ const Bill = ()=>{
         console.log(result.data[0])
         if(result.data[0].bill_status===1)
             setBill_stat("Your bill has been collected")
+        if(result.data[0].scrap_service==1)
+            setBool("Yes")
         
         const result2 = await axios.get(`http://localhost:4000/customer/bill/${id}/${result.data[0].o_id}`)
         //console.log(result2.data)
@@ -57,7 +59,8 @@ const Bill = ()=>{
             q+=result2.data[i].scrap_price
         }
         setTotal(p)
-        setScrap(q)
+        if(result.data[0].scrap_service==1)
+            setScrap(q)
     }
 
     useEffect(()=>{
