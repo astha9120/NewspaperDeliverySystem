@@ -10,6 +10,8 @@ import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import { useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
+
 
 
 const axios = require("axios")
@@ -28,28 +30,27 @@ const useStyles = makeStyles({
     }
 })
 
-const Bill = ()=>{
-
+const GetOrder = (e)=>{
+    console.log("order")
+    const { id } = useParams();
+    console.log(id)
     const classes = useStyles();
     const navigate = useNavigate();
     const [obj,setObj] = useState({name:"",address:"",area:"",date:"",scrap_service:-1,o_id:-1})
     const [papers,setPapers]= useState([{name:"",price:0,scrap_price:0}])
-    const id = localStorage.getItem("id")
+    const c_id = localStorage.getItem("id")
     const [bool,setBool] = useState("No")
     const [total,setTotal] = useState(0)
     const [scrap,setScrap] = useState(0)
-    const [bill_stat,setBill_stat] = useState("Your bill has not been collected yet")
     
     const getCustomer = async()=>{
-        const result = await axios.get(`http://localhost:4000/customer/bill/${id}`)
+        const result = await axios.get(`http://localhost:4000/customer/getorder/p/${c_id}/${id}`)
         setObj(result.data[0]);
         console.log(result.data[0])
-        if(result.data[0].bill_status===1)
-            setBill_stat("Your bill has been collected")
         if(result.data[0].scrap_service==1)
             setBool("Yes")
         
-        const result2 = await axios.get(`http://localhost:4000/customer/bill/${id}/${result.data[0].o_id}`)
+        const result2 = await axios.get(`http://localhost:4000/customer/getorder/${c_id}/${id}`)
         //console.log(result2.data)
         setPapers(result2.data)
 
@@ -110,17 +111,11 @@ const Bill = ()=>{
                     <Typography paddingLeft="30%" paddingTop="5px" paddingBottom="30px">Payment Method : COD</Typography>
                 </Grid>
             </Grid>
-            <Button   type="submit" variant="contained"
-                    sx={{ width: '30%',marginLeft:"35%",color:"black",marginTop:"10px",backgroundColor:"#5CCE26"}}
-                    onClick={()=>navigate('/customer/pastorders')}>
-                    Past Orders
-            </Button>
-            <Typography align="center" marginTop="15px" paddingTop="5px"
-                paddingBottom="5px" backgroundColor="#FF6D7F" color="white">
-                {bill_stat}
-            </Typography>
+            <Button variant="contained" style={{marginLeft:"48%",marginTop:"10px"}}
+            onClick = {()=>navigate('/customer/pastorder')}
+            >Back</Button>
         </div>
     )
 }
 
-export default Bill;
+export default GetOrder;

@@ -34,8 +34,8 @@ const headersData = [
     href: "/customer/bill",
   },
   {
-    label: "Subscriptions",
-    href: "/customer/subscription",
+    label: "Orders",
+    href: "/customer/pastorder",
   },
   {
     label: "Support",
