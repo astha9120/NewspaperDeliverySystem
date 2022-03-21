@@ -17,6 +17,8 @@ import BillCollection from "./Components/Ndb/BillCollection"
 
 import Footer from './Components/Footer';
 import Home from './Components/Customer/Home'
+import PastOrders from './Components/Customer/PastOrders';
+import GetOrder from './Components/Customer/GetOrder';
 
 
 function App() {
@@ -35,7 +37,9 @@ function App() {
           <Route path='/customer/profile' element={<ProfileCust/>}/>
           <Route path='/customer/support' element={<Support/>}/>
           <Route path='/customer/bill' element={<Bill/>}/>
-
+          <Route path="/customer/pastorder" element={<PastOrders/>}/>
+          <Route path="/customer/order/:id" element={<GetOrder/>}/>
+          
           <Route path='/vendor/profile' element={<ProfileVen/>}/>    
           <Route path='/vendor/addnews' element={<Addnews/>}/>
          
