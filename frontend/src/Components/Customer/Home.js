@@ -27,12 +27,13 @@ const Home = ()=>{
 
     const classes = useStyles();
     const navigate = useNavigate();
+    const id = localStorage.getItem("id")
     const [newspapers,setNewspapers] = useState([{name:"",n_id:"",description:"",scrap_price:0,isFlipped:false}])
     // const [isFlipped,setIsFlipped] = useState(false)
   
 
     const getData = async()=>{
-        const result = await  axios.get(`http://localhost:4000/customer/home`)
+        const result = await  axios.get(`http://localhost:4000/customer/home/${id}`)
         setNewspapers(result.data)
         console.log(newspapers)
     }

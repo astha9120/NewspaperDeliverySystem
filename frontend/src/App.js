@@ -11,9 +11,8 @@ import Addnews from "./Components/Vendor/Addnews";
 import ProfileCust from "./Components/Customer/ProfileCust";
 import ProfileNext from './Components/Customer/ProfileNext';
 import ProfileNdb from './Components/Ndb/ProfileNdb';
-import ProfileCust from "./Components/Customer/ProfileCust"
 import Bill from "./Components/Customer/Bill"
-
+import BillCollection from "./Components/Ndb/BillCollection"
 
 
 import Footer from './Components/Footer';
@@ -42,6 +41,7 @@ function App() {
          
           <Route path='/ndb/profile' element={<ProfileNdb/>}/>
           <Route path='/ndb/vendorlist' element={<VendorList/>}/>
+          <Route path='ndb/billcollection' element={<BillCollection/>}/>
         </Routes>
       </BrowserRouter>
       <Footer/>
