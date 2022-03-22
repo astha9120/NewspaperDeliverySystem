@@ -13,7 +13,6 @@ import Header from './Header';
 import { useNavigate } from 'react-router-dom';
 
 
-
 const useStyles = makeStyles({
     root:{
         paddingLeft:"220px",
@@ -22,6 +21,8 @@ const useStyles = makeStyles({
         paddingBottom:"30px"
     }
 })
+
+
 
 const Home = ()=>{
 
@@ -46,6 +47,11 @@ const Home = ()=>{
     useEffect(()=>{
         getData();
     },[])
+
+    
+    const submit = async(e)=>{
+        navigate('/customer/profile')
+    }
 
     return(
         <div style={{minHeight:"100vh"}}>
@@ -102,7 +108,15 @@ const Home = ()=>{
                                 </Card>
                             </Grid>
                     )
-                })}   
+                })} 
+                  <Button
+                                type="submit"
+                                margin="normal"
+                                sx={{ width: '44ch',marginLeft:"27%",marginTop:"20px"}}
+                                variant="contained"
+                                onClick={submit}>
+                                Subscribe
+                </Button>  
                 </Grid>      
                
         </div>

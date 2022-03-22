@@ -10,19 +10,55 @@ import Typography from '@mui/material/Typography'
 import InputAdornment from '@mui/material/InputAdornment';
 import Swal from 'sweetalert2';
 const axios = require("axios");
+var news_len;
+const getFormattedPrice = (price) => `₹${price.toFixed(2)}`;
+    const arr=[];
 
 const useStyles = makeStyles({
-    root: {
-        // backgroundColor:'#ddd'
-        minHeight:"100vh"
-      }, 
-    logo: {
-        paddingTop:"8px"
-    },
-    Profile:{
-        fontFamily : "Roboto",
-        color:"#88888"
-    },
+    h3: {
+      paddingTop:"15px",
+        textAlign: "center"
+      },
+
+      newspaperlist: {
+        width: "30%",
+        margin: "0 auto",
+        listStyle: "none",
+        padding: "0"
+      },
+
+     temp:{
+        marginBottom: "0.5rem"
+      },
+
+      newspaperlistitem : {
+        display: "flex",
+        justifyContent: "space-between"
+      },
+
+      lastchild:{
+        borderTop: "1px solid #ccc",
+        marginTop: "1rem",
+        paddingTop: "1rem"
+        
+      },
+
+      label:{
+        verticalAlign: "text-bottom",
+        marginLeft: "0.2rem"
+      },
+
+      rightsection:{
+        marginBottom:"100px"
+      },
+      radiobuttons:{
+        width: "16%",
+        margin: "0 auto",
+        listStyle: "none",
+        padding: "0",
+        marginBottom:"127px"
+      }
+     
    
 
   });
@@ -36,186 +72,199 @@ const ProfileNext = () =>{
 
     const classes = useStyles();
     const navigate = useNavigate();
-    const [state,setState] = useState("")
-    const [city,setCity] = useState("")
-    const [area,setArea] = useState("")
-    const [address,setAddress] = useState("")
-    const [phoneno,setPhoneno] = useState("")
-    const [name,setName] = useState("")
-    const [latitude,setLatitude] = useState(23.034999847412)
-    const [longitude,setLongitude] = useState(72.616798400879)
-
+    const [allnewspaper,setAllnewspaper] = useState([])
+    const [len,setLen] = useState(0)
+   
+  
 
     const id = localStorage.getItem('id');
-    console.log("id "+id)
+    // console.log("id "+id)
+    
+    
+    const [checkedState, setCheckedState] = useState([]);
 
     const getData = async () => {
-        const response = await axios.get(`http://localhost:4000/customer/profile/${id}`)
-        setState(response.data[0].state)
-        setCity(response.data[0].city)
-        setArea(response.data[0].area)
-        setAddress(response.data[0].address)
-        setPhoneno(response.data[0].phoneno)
-        setName(response.data[0].name)
-        
+     const response = await axios.get(`http://localhost:4000/customer/profilenext/${id}`)
+     console.log(response.data);
+     if(response.data==="fail")
+     {
+       
+         Swal.fire({
+             icon: 'error',
+             title:'done',
+             text: 'Service Not Available',
+             showConfirmButton: false,
+             timer:   1500
+       })
+       navigate(`/customer/home`);
+     }
+     else{
+      const arr = response.data;
+      setAllnewspaper(arr)
+      console.log(arr);
+      let temp = []
+      for(let i=0;i<arr.length;i++)
+      {
+        temp.push(false)
+      }
+      setCheckedState(temp)
+     }
+       
+      
+          
     }
-    
     useEffect(() => {
         getData();
     }, []);
+     
+        console.log(checkedState);
+      const [total, setTotal] = useState(0);
 
-    const submit = async(e)=>{
-        e.preventDefault();
-        const result = await axios.put(`http://localhost:4000/customer/profile/${id}`,{
-            phoneno:phoneno,
-            address:address,
-            area:area,
-            name:name,
-            longitude:longitude,
-            latitude:latitude
-        })
-        console.log(result.data)
-        if(result.data==="yes"){
-            Swal.fire({
-                icon: 'success',
-                title:'done',
-                text: 'Successfully Posted',
-                showConfirmButton: false,
-                timer: 1500
-          })
-            navigate(`/customer/profile/proNext`);
-        }
-        else{
-            Swal.fire({
-                icon: 'error',
-                title:'done',
-                text: 'Something went wrong',
-                showConfirmButton: false,
-                timer:   1500
-          })
-          navigate(`/customer/profile`);
-        }
-    }
+      const handleOnChange = (position) => {
+        const updatedCheckedState = checkedState.map((item, index) =>
+          index === position ? !item : item
+        );
+        console.log("inside");
+        setCheckedState(updatedCheckedState);
+        
+        const totalPrice = updatedCheckedState.reduce(
+            (sum, currentState, index) => {
+                
+              if (currentState === true) {
+                console.log(`inside${sum}`);
+                return sum + allnewspaper[index].cum_price;
+                
+              }
+              console.log(`outside${sum}`);
+              return sum;
+            
+            },
+            0
+          );
+            console.log("totalPrice");
+          setTotal(totalPrice);
 
+        }
+
+        const [scrap,setScrap] = useState()
+       
+        const onChangeValue=(event)=>{
+          console.log(event.target.value);
+          if(event.target.value==="yes")
+          setScrap(1)
+          else
+          setScrap(0)
+         
+        }
+
+       
+        console.log(`Final ${scrap} ${checkedState}`);
+
+        const submit = async(e)=>{
+          let temp2 = [];
+          e.preventDefault();
+          for(let i=0;i<allnewspaper.length;i++)
+          {
+            if(checkedState[i]===true)
+            temp2.push(allnewspaper[i])
+          }
+          
+          const result = await axios.post(`http://localhost:4000/customer/profilenext/${id}`,{
+              newspaper:temp2,
+              id:id,
+              scrap:scrap,
+              bill:total,
+              billstatus:0,
+              subscription:0,
+              date:new Date().toJSON().slice(0,10).replace(/-/g,'-')
+
+          })
+          console.log(result.data)
+          if(result.data==="success"){
+              Swal.fire({
+                  icon: 'success',
+                  title:'done',
+                  text: 'Successfully Posted',
+                  showConfirmButton: false,
+                  timer: 1500
+            })
+              navigate(`/customer/profile/proNext/bill`);
+          }
+          else{
+              Swal.fire({
+                  icon: 'error',
+                  title:'done',
+                  text: 'Something went wrong',
+                  showConfirmButton: false,
+                  timer:   1500
+            })
+            navigate(`/customer/profile/pronext`);
+          }
+      }
+  
+  
 
     return(
-        <div>
+        <div className='App'>
             <Header />
-        <Grid container component="main"   className={classes.root}>
-            
-            <Grid item lg={6} md={4} xs={2}>
-                <Grid container direction="column"  
-                    justifyContent="space-evenly"
-                    alignItems="center" 
-                    spacing={5}>
-                    <Grid item lg={2} marginLeft="75%">
-                         {/* <img src = "../images/newsDaily.png" alt="logo" className={classes.logo}></img> */}
-                    </Grid>
-                    <Grid item lg={2} marginLeft="84%">
-                        <Typography component="h4" variant="h4" className={classes.Profile}>Profile</Typography>
-                    </Grid>
-                    <Grid item lg={7} className={classes.form}>
-                    <TextField
-                                required
-                                sx={{ width: '40ch',
-                                marginLeft:"75%",
-                                marginBottom:"20px"}}
-                                id="name"
-                                label="Name"
-                                name="name"
-                                value={name!=null ? name : ""}
-                                onChange={(e)=>setName(e.target.value)}
-                                autoComplete="name"
-                                autoFocus
-                            />
-                            <TextField
-                                required
-                                sx={{ width: '40ch',
-                                marginLeft:"75%",
-                                marginBottom:"20px"}}
-                                id="phoneno"
-                                label="Phone Number"
-                                name="phoneno"
-                                value={phoneno!=null ? phoneno : ""}
-                                onChange={(e)=>setPhoneno(e.target.value)}
-                                autoComplete="phoneno"
-                                autoFocus
-                            />
-
-                            <TextField
-                                required
-                                sx={{ width: '40ch',
-                                marginLeft:"75%",
-                                marginBottom:"20px"}}
-                                id="address"
-                                label="Address"
-                                name="address"
-                                value={address!=null ? address : ""}
-                                onChange={(e)=>setAddress(e.target.value)}
-                                autoComplete="address"
-                                autoFocus
-                            />
-
-                            <TextField
-                                required
-                                sx={{ width: '40ch',
-                                marginLeft:"75%",
-                                marginBottom:"20px"}}
-                                id="area"
-                                label="Area"
-                                name="area"
-                                value={area!=null ? area : ""}
-                                onChange={(e)=>setArea(e.target.value)}
-                                autoComplete="area"
-                                autoFocus
-                            />  
-
-                        <TextField
-                                required
-                                sx={{ width: '40ch',
-                                marginLeft:"75%",
-                                marginBottom:"20px"}}
-                                id="city"
-                                label="City"
-                                name="city"
-                                value={city}
-                                onChange={(e)=>setCity(e.target.value)}
-                                autoComplete="city"
-                                autoFocus
-                                disabled={true}
-                            />
-                            
-                        <TextField
-                                required
-                                sx={{ width: '40ch',
-                                marginLeft:"75%",
-                                marginBottom:"20px"}}
-                                id="state"
-                                label="State"
-                                name="state"
-                                value={state}
-                                onChange={(e)=>setState(e.target.value)}
-                                autoComplete="state"
-                                autoFocus
-                                disabled={true}
-                            />
-
-                            <Button
+            <h1 className={classes.h3}>Select Newspaper</h1>
+          
+      <ul className={classes.newspaperlist}>
+        {allnewspaper.map(({ name,cum_price}, index) => {
+          return (
+            <li key={index} className={classes.temp}>
+              <div className={classes.newspaperlistitem}>
+                <div className="left-section">
+                  <input
+                    type="checkbox"
+                    id={`custom-checkbox-${index}`}
+                    name={name}
+                    value={name}
+                    checked={checkedState[index]}
+                    onChange={() => handleOnChange(index)}
+                  />
+                  <label htmlFor={`custom-checkbox-${index}`} className={classes.label}>{name}</label>
+                </div>
+                
+                <div className="right-section">{getFormattedPrice(cum_price)}</div>
+              </div>
+            </li>
+          );
+        })}
+        <div className={classes.lastchild}></div>
+        <li>
+          <div className={classes.newspaperlistitem}>
+            <div className={classes.leftsection}>Total:</div>
+            <div className={classes.rightsection}>       
+            {getFormattedPrice(total)}</div>
+          </div>
+        </li>
+      </ul>
+      <div className={classes.radiobuttons} onChange={onChangeValue}>
+        <strong>Scrapping Service:</strong>
+      
+      <label >
+        <input type="radio" value="yes" name="scrap" checked={null}  />
+        Yes
+      </label>
+      <label >
+        <input type="radio" value="no" name="scrap" checked={null}  />
+       No
+      </label>
+     </div>
+     <br/>
+     <Button
                                 type="submit"
                                 margin="normal"
-                                sx={{ width: '44ch',marginLeft:"75%",marginTop:"20px",marginBottom:"30px"}}
+                                sx={{ width: '44ch',marginLeft:"39%",marginTop:"2px",marginBottom:"30px"}}
                                 variant="contained"
-                                onClick={submit}>
-                                {state===null ? "Submit" : "Update"}
+                                onClick={submit}
+                                >
+                                Subscribe
                             </Button>
-                    </Grid>
+
+     </div>
     
-                
-                    
-                </Grid>
-            </Grid>
-        </Grid>
-        </div>
     )
 
 }
