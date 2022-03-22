@@ -112,7 +112,7 @@ const Bill = ()=>{
             </Grid>
             <Button   type="submit" variant="contained"
                     sx={{ width: '30%',marginLeft:"35%",color:"black",marginTop:"10px",backgroundColor:"#5CCE26"}}
-                    onClick={()=>navigate('/customer/pastorders')}>
+                    onClick={()=>navigate('/customer/pastorder')}>
                     Past Orders
             </Button>
             <Typography align="center" marginTop="15px" paddingTop="5px"

@@ -86,19 +86,19 @@ const ProfileNext = () =>{
     const getData = async () => {
      const response = await axios.get(`http://localhost:4000/customer/profilenext/${id}`)
      console.log(response.data);
-     if(response.data==="fail")
-     {
+    //  if(response.data==="fail")
+    //  {
        
-         Swal.fire({
-             icon: 'error',
-             title:'done',
-             text: 'Service Not Available',
-             showConfirmButton: false,
-             timer:   1500
-       })
-       navigate(`/customer/home`);
-     }
-     else{
+    //      Swal.fire({
+    //          icon: 'error',
+    //          title:'done',
+    //          text: 'Service Not Available',
+    //          showConfirmButton: false,
+    //          timer:   1500
+    //    })
+    //    navigate(`/customer/home`);
+    //  }
+     {
       const arr = response.data;
       setAllnewspaper(arr)
       console.log(arr);
@@ -188,7 +188,7 @@ const ProfileNext = () =>{
                   showConfirmButton: false,
                   timer: 1500
             })
-              navigate(`/customer/profile/proNext/bill`);
+              navigate(`/customer/bill`);
           }
           else{
               Swal.fire({
