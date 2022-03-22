@@ -109,14 +109,7 @@ const Home = ()=>{
                             </Grid>
                     )
                 })} 
-                  <Button
-                                type="submit"
-                                margin="normal"
-                                sx={{ width: '44ch',marginLeft:"27%",marginTop:"20px"}}
-                                variant="contained"
-                                onClick={submit}>
-                                Subscribe
-                </Button>  
+                 
                 </Grid>      
                
         </div>
