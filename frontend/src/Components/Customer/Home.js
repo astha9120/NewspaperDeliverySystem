@@ -27,12 +27,14 @@ const useStyles = makeStyles({
 const Home = ()=>{
 
     const classes = useStyles();
+    const navigate = useNavigate();
+    const id = localStorage.getItem("id")
     const [newspapers,setNewspapers] = useState([{name:"",n_id:"",description:"",scrap_price:0,isFlipped:false}])
     // const [isFlipped,setIsFlipped] = useState(false)
   
 
     const getData = async()=>{
-        const result = await  axios.get(`http://localhost:4000/customer/home`)
+        const result = await  axios.get(`http://localhost:4000/customer/home/${id}`)
         setNewspapers(result.data)
         console.log(newspapers)
     }
@@ -46,7 +48,7 @@ const Home = ()=>{
         getData();
     },[])
 
-    const navigate = useNavigate();
+    
     const submit = async(e)=>{
         navigate('/customer/profile')
     }
@@ -54,6 +56,12 @@ const Home = ()=>{
     return(
         <div style={{minHeight:"100vh"}}>
             <Header />
+            <Button   type="submit"
+                    sx={{ width: '44ch',marginLeft:"70%",color:"black",marginTop:"20px",fontWeight:"bolder"}}
+                    onClick={()=>navigate('/customer/profile')}>
+                    Click Here to Subscribe to newspapers
+            </Button>
+            <Typography align="center" variant="h5" style={{paddingTop:"20px",fontWeight:"bold",color:"#B939A4"}}>Newspapers List</Typography> 
             <Grid container spacing={5} className={classes.root}>
                
                 {newspapers.map(n=>{
@@ -108,10 +116,9 @@ const Home = ()=>{
                                 variant="contained"
                                 onClick={submit}>
                                 Subscribe
-                            </Button>  
+                </Button>  
                 </Grid>      
-           
-           
+               
         </div>
     )
 }

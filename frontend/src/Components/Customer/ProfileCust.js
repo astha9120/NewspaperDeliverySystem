@@ -42,8 +42,8 @@ const ProfileCust = () =>{
     const [address,setAddress] = useState("")
     const [phoneno,setPhoneno] = useState("")
     const [name,setName] = useState("")
-    const [latitude,setLatitude] = useState(23.034999847412)
-    const [longitude,setLongitude] = useState(72.616798400879)
+    const [latitude,setLatitude] = useState(23.038396835327)
+    const [longitude,setLongitude] = useState(72.571067810259)
 
 
     const id = localStorage.getItem('id');

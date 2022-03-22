@@ -26,9 +26,14 @@ const headersData = [
     href: "/ndb/customerlist",
   },
   {
+    label:"Bill",
+    href:"/ndb/billcollection"
+  },
+  {
     label: "LogOut",
     href: "/",
   },
+  
 ];
 
 const useStyles = makeStyles({
@@ -53,7 +58,7 @@ const useStyles = makeStyles({
   menuButton: {
     fontFamily: "Lato, sans-serif",
     fontWeight: 600,
-    size: "18px",
+    size: "16px",
     marginLeft: "40px",
  },
  toolbar: {
@@ -62,7 +67,7 @@ const useStyles = makeStyles({
   width:'100%'
 },
 test:{
-  marginLeft:"48%"
+  marginLeft:"40%"
 }
 
 
