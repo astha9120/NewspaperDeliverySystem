@@ -42,8 +42,8 @@ const ProfileCust = () =>{
     const [address,setAddress] = useState("")
     const [phoneno,setPhoneno] = useState("")
     const [name,setName] = useState("")
-    const [latitude,setLatitude] = useState(23.038396835327)
-    const [longitude,setLongitude] = useState(72.571067810259)
+    const [latitude,setLatitude] = useState(22)
+    const [longitude,setLongitude] = useState(73)
 
 
     const id = localStorage.getItem('id');
@@ -75,25 +75,26 @@ const ProfileCust = () =>{
             latitude:latitude
         })
         console.log(result.data)
-        if(result.data==="yes"){
-            Swal.fire({
-                icon: 'success',
-                title:'done',
-                text: 'Successfully Posted',
-                showConfirmButton: false,
-                timer: 1500
-          })
-            navigate(`/customer/profile/proNext`);
-        }
-        else{
+        if(result.data==="not available"){
             Swal.fire({
                 icon: 'error',
-                title:'done',
-                text: 'Something went wrong',
+                title:'Sorry',
+                text: 'Service not available',
                 showConfirmButton: false,
                 timer:   1500
           })
           navigate(`/customer/profile`);
+        }
+        else{
+         
+          Swal.fire({
+            icon: 'success',
+            title:'done',
+            text: 'Successfully Posted',
+            showConfirmButton: false,
+            timer: 1500
+      })
+        navigate(`/customer/profile/proNext`);
         }
     }
 
