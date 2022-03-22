@@ -10,6 +10,7 @@ import Grid from '@mui/material/Grid'
 import { useState,useEffect } from 'react';
 import { makeStyles } from '@mui/styles';
 import Header from './Header';
+import { useNavigate } from 'react-router-dom';
 
 
 const useStyles = makeStyles({
@@ -20,6 +21,8 @@ const useStyles = makeStyles({
         paddingBottom:"30px"
     }
 })
+
+
 
 const Home = ()=>{
 
@@ -42,6 +45,11 @@ const Home = ()=>{
     useEffect(()=>{
         getData();
     },[])
+
+    const navigate = useNavigate();
+    const submit = async(e)=>{
+        navigate('/customer/profile')
+    }
 
     return(
         <div style={{minHeight:"100vh"}}>
@@ -92,9 +100,17 @@ const Home = ()=>{
                                 </Card>
                             </Grid>
                     )
-                })}   
+                })} 
+                  <Button
+                                type="submit"
+                                margin="normal"
+                                sx={{ width: '44ch',marginLeft:"27%",marginTop:"20px"}}
+                                variant="contained"
+                                onClick={submit}>
+                                Subscribe
+                            </Button>  
                 </Grid>      
-            
+           
            
         </div>
     )

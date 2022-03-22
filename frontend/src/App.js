@@ -1,6 +1,6 @@
 import {BrowserRouter , Route , Link , NavLink , Routes} from 'react-router-dom';
 
-import VendorList from './Components/Ndb/VendorList';
+import VendorList from './Components/ndb/VendorList';
 import AboutUs from "./Components/Customer/AboutUs";
 import HowItWorks from "./Components/Customer/HowItWorks";
 import SignUp from "./Components/SignUp";
@@ -10,7 +10,7 @@ import ProfileVen from "./Components/Vendor/ProfileVen"
 import Addnews from "./Components/Vendor/Addnews";
 import ProfileCust from "./Components/Customer/ProfileCust";
 import ProfileNext from './Components/Customer/ProfileNext';
-import ProfileNdb from './Components/Ndb/ProfileNdb';
+import ProfileNdb from './Components/ndb/ProfileNdb';
 
 
 

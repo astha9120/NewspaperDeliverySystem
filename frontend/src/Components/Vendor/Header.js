@@ -16,7 +16,7 @@ import { Link as RouterLink } from "react-router-dom";
 const headersData = [
   {
     label: "profile",
-    href: "/customer/profile",
+    href: "/vendor/profile",
   },
   {
     label: "Delivery List",
