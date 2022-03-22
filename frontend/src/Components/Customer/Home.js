@@ -29,7 +29,7 @@ const Home = ()=>{
     const classes = useStyles();
     const navigate = useNavigate();
     const id = localStorage.getItem("id")
-    const [newspapers,setNewspapers] = useState([{name:"",n_id:"",description:"",scrap_price:0,isFlipped:false}])
+    const [newspapers,setNewspapers] = useState([{name:"",n_id:-1,description:"",scrap_price:0,isFlipped:false}])
     // const [isFlipped,setIsFlipped] = useState(false)
   
 
@@ -39,11 +39,30 @@ const Home = ()=>{
         console.log(newspapers)
     }
 
-    const handleChange = id => e=>{
+    const handleEnter = id => e=>{
         let newArr = [...newspapers]
-        newArr[id-1].isFlipped= !newspapers[id-1].isFlipped
+        for(let i=0;i<newspapers.length;i++){
+            if(newspapers[i].n_id==id){
+                newArr[i].isFlipped=true
+                break;
+            }
+        }
         setNewspapers(newArr)
     }
+
+    const handleLeave = id => e=>{
+
+        let newArr = [...newspapers]
+        for(let i=0;i<newspapers.length;i++){
+            if(newspapers[i].n_id==id){
+                newArr[i].isFlipped=false
+                break;
+            }
+        }
+        setNewspapers(newArr)
+        
+    }
+
     useEffect(()=>{
         getData();
     },[])
@@ -69,8 +88,8 @@ const Home = ()=>{
                         <Grid item xs={12} sm={6} md={2.5} key={n.n_id}>
                                 <Card key ={n.n_id}
                                 style={{height:"350px" , backgroundColor:"#CCCFFB"}}
-                                onMouseEnter={handleChange(n.n_id)}
-                                onMouseLeave={handleChange(n.n_id)}>                                    
+                                onMouseEnter={handleEnter(n.n_id)}
+                                onMouseLeave={handleLeave(n.n_id)}>                                    
                                     <ReactCardFlip isFlipped={n.isFlipped} flipDirection="horizontal">
                                         <div >
                                             <CardActionArea>
