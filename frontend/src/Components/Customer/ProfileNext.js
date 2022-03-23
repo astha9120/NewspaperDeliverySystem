@@ -117,22 +117,41 @@ const ProfileNext = () =>{
         getData();
     }, []);
      
-        console.log(checkedState);
+      console.log(checkedState);
       const [total, setTotal] = useState(0);
+      const [scrap_p,setScrap_p] = useState(0)
 
       const handleOnChange = (position) => {
-        const updatedCheckedState = checkedState.map((item, index) =>
-          index === position ? !item : item
-        );
-        console.log("inside");
-        setCheckedState(updatedCheckedState);
+          const updatedCheckedState = checkedState.map((item, index) =>
+            index === position ? !item : item
+          );
+          
+          console.log("inside");
+          setCheckedState(updatedCheckedState);
         
-        const totalPrice = updatedCheckedState.reduce(
+          const totalPrice = updatedCheckedState.reduce(
+              (sum, currentState, index) => {
+                  
+                if (currentState === true) {
+                  console.log(`inside${sum}`);
+                  return sum + allnewspaper[index].cum_price;
+                  
+                }
+                console.log(`outside${sum}`);
+                return sum;
+              
+              },
+              0
+            );
+              console.log("totalPrice");
+            setTotal(totalPrice);
+
+          const ScrapPrice = updatedCheckedState.reduce(
             (sum, currentState, index) => {
                 
               if (currentState === true) {
                 console.log(`inside${sum}`);
-                return sum + allnewspaper[index].cum_price;
+                return sum + allnewspaper[index].scrap_price;
                 
               }
               console.log(`outside${sum}`);
@@ -141,12 +160,11 @@ const ProfileNext = () =>{
             },
             0
           );
-            console.log("totalPrice");
-          setTotal(totalPrice);
+          console.log("totalPrice");
+        setScrap_p(ScrapPrice);
+      }
 
-        }
-
-        const [scrap,setScrap] = useState()
+        const [scrap,setScrap] = useState(false)
        
         const onChangeValue=(event)=>{
           console.log(event.target.value);
@@ -237,7 +255,17 @@ const ProfileNext = () =>{
             <div className={classes.leftsection}>Total:</div>
             <div className={classes.rightsection}>       
             {getFormattedPrice(total)}</div>
-          </div>
+            
+            <div className={classes.leftsection}>Scrap:</div>
+            <div className={classes.rightsection}>       
+              {getFormattedPrice(scrap_p*scrap)}
+            </div>
+
+            
+            <div className={classes.leftsection}>Amount to be paid:</div>
+            <div className={classes.rightsection}>       
+              {getFormattedPrice(total - scrap_p*scrap)}</div>
+            </div>
         </li>
       </ul>
       <div className={classes.radiobuttons} onChange={onChangeValue}>
@@ -254,14 +282,14 @@ const ProfileNext = () =>{
      </div>
      <br/>
      <Button
-                                type="submit"
-                                margin="normal"
-                                sx={{ width: '44ch',marginLeft:"39%",marginTop:"2px",marginBottom:"30px"}}
-                                variant="contained"
-                                onClick={submit}
-                                >
-                                Subscribe
-                            </Button>
+          type="submit"
+          margin="normal"
+          sx={{ width: '44ch',marginLeft:"39%",marginTop:"2px",marginBottom:"30px"}}
+          variant="contained"
+          onClick={submit}
+      >
+          Subscribe
+      </Button>
 
      </div>
     

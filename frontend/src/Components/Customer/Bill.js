@@ -39,28 +39,33 @@ const Bill = ()=>{
     const [total,setTotal] = useState(0)
     const [scrap,setScrap] = useState(0)
     const [bill_stat,setBill_stat] = useState("Your bill has not been collected yet")
+    const [page,setPage] = useState(false)
     
     const getCustomer = async()=>{
         const result = await axios.get(`http://localhost:4000/customer/bill/${id}`)
         setObj(result.data[0]);
-        console.log(result.data[0])
-        if(result.data[0].bill_status===1)
-            setBill_stat("Your bill has been collected")
-        if(result.data[0].scrap_service==1)
-            setBool("Yes")
-        
-        const result2 = await axios.get(`http://localhost:4000/customer/bill/${id}/${result.data[0].o_id}`)
-        //console.log(result2.data)
-        setPapers(result2.data)
+        if(result.data.length>0){
+            setPage(true)
+            console.log(result.data[0])
+            if(result.data[0].bill_status===1)
+                setBill_stat("Your bill has been collected")
+            if(result.data[0].scrap_service==1)
+                setBool("Yes")
+            
+            const result2 = await axios.get(`http://localhost:4000/customer/bill/${id}/${result.data[0].o_id}`)
+            //console.log(result2.data)
+            setPapers(result2.data)
 
-        let p=0,q=0;
-        for(let i=0;i<result2.data.length;i++){
-            p+=result2.data[i].price
-            q+=result2.data[i].scrap_price
+            let p=0,q=0;
+            for(let i=0;i<result2.data.length;i++){
+                p+=result2.data[i].price
+                q+=result2.data[i].scrap_price
+            }
+            setTotal(p)
+            if(result.data[0].scrap_service==1)
+                setScrap(q)
         }
-        setTotal(p)
-        if(result.data[0].scrap_service==1)
-            setScrap(q)
+        
     }
 
     useEffect(()=>{
@@ -72,7 +77,13 @@ const Bill = ()=>{
     return(
         <div style={{minHeight:"100vh",backgroundColor:"#E8E9FD"}}>
             <Header></Header>
-            <Grid container component="main" marginTop="80px" paddingLeft="25%" minHeight="50vh">
+            {!page &&
+                    <Typography align="center" variant="h5" style={{paddingTop:"150px"}}>No order has been placed Yet!!</Typography>
+            }
+             {!page &&
+                    <Typography align="center" variant="h5" style={{paddingTop:"20px"}}>Subscribe to get Newspapers Daily at your place!!</Typography>
+            }
+            {page && <Grid container component="main" marginTop="80px" paddingLeft="25%" minHeight="50vh">
                 <Grid item  lg={4} md={3} xs={2}  sx={{backgroundColor:"#C4C4C4"}}>
                     <Typography style={{paddingTop:"15px",paddingLeft:"30px",fontWeight:"bold",fontSize:"18px"}}>Account Details</Typography>
                     <Typography style={{paddingTop:"30px",paddingLeft:"70px"}}>Name : {obj.name} </Typography>
@@ -109,16 +120,16 @@ const Bill = ()=>{
                     <Typography paddingLeft="30%" paddingTop="5px">Amount to be paid : {total - scrap*obj.scrap_service}</Typography>
                     <Typography paddingLeft="30%" paddingTop="5px" paddingBottom="30px">Payment Method : COD</Typography>
                 </Grid>
-            </Grid>
-            <Button   type="submit" variant="contained"
+            </Grid> }
+            {page &&<Button   type="submit" variant="contained"
                     sx={{ width: '30%',marginLeft:"35%",color:"black",marginTop:"10px",backgroundColor:"#5CCE26"}}
                     onClick={()=>navigate('/customer/pastorder')}>
                     Past Orders
-            </Button>
-            <Typography align="center" marginTop="15px" paddingTop="5px"
+            </Button>}
+            {page && <Typography align="center" marginTop="15px" paddingTop="5px"
                 paddingBottom="5px" backgroundColor="#FF6D7F" color="white">
                 {bill_stat}
-            </Typography>
+            </Typography>}
         </div>
     )
 }

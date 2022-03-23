@@ -53,16 +53,22 @@ const VendorList = () => {
                                       {name:"mint",quantity:80,price:900}])
     const [vendorlist,setVendorlist] = useState([]);
     const id = localStorage.getItem('id')
+    const [list,setList]= useState(true)
+    const [allocate,setAllocate] = useState(true)
 
     useEffect(()=>{
-            axios.get(`http://localhost:4000/ndb/vendorlist`)
+            axios.get(`http://localhost:4000/ndb/vendorlist/${id}`)
             .then(res=>{
               console.log(res.data)
+              if(res.data.length==0)
+                setList(false)
               setVendorlist(res.data)
             })
 
-            axios.get(`http://localhost:4000/ndb/vendorlist/${id}`)
+            axios.get(`http://localhost:4000/ndb/vendorlist/allocate/${id}`)
             .then(res=>{
+              if(res.data.length==0)
+                setAllocate(false)
               console.log(res.data[0])
               setObj(res.data[0])
             })
@@ -71,14 +77,21 @@ const VendorList = () => {
 
   return (
     <div>
-      <Header/>
+    <Header/>
     <Grid container component="main"  
           direction="column" 
           justifyContent="space-evenly"
           alignItems="center"  
           className={classes.root}
           spacing={5} minHeight="100vh" > 
-          <Grid item lg={6} md={2} xs={1} sx={{marginTop:"50px"}}>
+          
+        <Grid item lg={6} md={2} xs={1} sx={{marginTop:"50px"}}>
+          {!allocate&&
+            <Typography align="center" variant="h5" style={{paddingTop:"50px",paddingBottom:"20px"}}>
+                No vendor is allocated to you
+            </Typography>
+          }
+          {allocate &&
             <Grid container justifyContent="space-evenly">
                <Grid item lg={6} md={4} xs={2} backgroundColor="#CCCFFB">
                   <Typography variant="h5" align="center" sx={{color:"white",padding:"5px",backgroundColor:"#2148C0"}}>Vendor's Info:</Typography>
@@ -107,10 +120,8 @@ const VendorList = () => {
                             </TableBody>
                         </Table>
                   </Grid>
-           </Grid>
-           
+           </Grid>}
           </Grid>
-        
         <Grid item lg={6} md={4} xs={2} sx={{marginTop:"20px",marginBottom:"40px"}}>
             <Typography variant="h5" align="center" sx={{color:"#B939A4",marginBottom:"10px"}}>List of other vendors:</Typography>
             <TableContainer component={Paper} sx={{width:1200 , margin:"auto"}}>
