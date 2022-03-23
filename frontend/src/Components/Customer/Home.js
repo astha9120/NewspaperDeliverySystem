@@ -30,13 +30,17 @@ const Home = ()=>{
     const navigate = useNavigate();
     const id = localStorage.getItem("id")
     const [newspapers,setNewspapers] = useState([{name:"",n_id:-1,description:"",scrap_price:0,isFlipped:false}])
+    const [bool,setBool] = useState(true)
     // const [isFlipped,setIsFlipped] = useState(false)
   
 
     const getData = async()=>{
         const result = await  axios.get(`http://localhost:4000/customer/home/${id}`)
+        console.log(result.data)
+        if(result.data.length==0)
+            setBool(false)
         setNewspapers(result.data)
-        console.log(newspapers)
+       // console.log(newspapers)
     }
 
     const handleEnter = id => e=>{
@@ -81,9 +85,13 @@ const Home = ()=>{
                     Click Here to Subscribe to newspapers
             </Button>
             <Typography align="center" variant="h5" style={{paddingTop:"20px",fontWeight:"bold",color:"#B939A4"}}>Newspapers List</Typography> 
+            {!bool &&
+                    <Typography align="center" variant="h5" style={{paddingTop:"70px"}}>Sorry! This Service Is not available in Your City</Typography>
+                }
             <Grid container spacing={5} className={classes.root}>
                
-                {newspapers.map(n=>{
+               {bool && 
+                    newspapers.map(n=>{
                     return(
                         <Grid item xs={12} sm={6} md={2.5} key={n.n_id}>
                                 <Card key ={n.n_id}
