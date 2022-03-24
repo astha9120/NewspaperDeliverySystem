@@ -19,8 +19,8 @@ const headersData = [
     href: "/vendor/profile",
   },
   {
-    label: "Delivery List",
-    href: "/vendor/deliverylist",
+    label: "PickUp list",
+    href: "/vendor/ndblist",
   },
   {
     label: "Add newspaper",

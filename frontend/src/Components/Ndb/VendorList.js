@@ -122,6 +122,8 @@ const VendorList = () => {
                   </Grid>
            </Grid>}
           </Grid>
+        
+        
         <Grid item lg={6} md={4} xs={2} sx={{marginTop:"20px",marginBottom:"40px"}}>
             <Typography variant="h5" align="center" sx={{color:"#B939A4",marginBottom:"10px"}}>List of other vendors:</Typography>
             <TableContainer component={Paper} sx={{width:1200 , margin:"auto"}}>
