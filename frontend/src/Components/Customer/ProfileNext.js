@@ -86,18 +86,7 @@ const ProfileNext = () =>{
     const getData = async () => {
      const response = await axios.get(`http://localhost:4000/customer/profilenext/${id}`)
      console.log(response.data);
-    //  if(response.data==="fail")
-    //  {
-       
-    //      Swal.fire({
-    //          icon: 'error',
-    //          title:'done',
-    //          text: 'Service Not Available',
-    //          showConfirmButton: false,
-    //          timer:   1500
-    //    })
-    //    navigate(`/customer/home`);
-    //  }
+   
      {
       const arr = response.data;
       setAllnewspaper(arr)
