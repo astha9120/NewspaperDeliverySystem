@@ -91,7 +91,7 @@ const Addnews = ()=>{
                 </Table>
            {/* </TableContainer> */}
     
-            {!flag && 
+            
             <div>
                 <Typography variant="h5" sx={{marginTop:"30px"}}>FORM</Typography>
                 <TextField
@@ -128,7 +128,7 @@ const Addnews = ()=>{
                     </Button> 
                 </div>     
             </div>
-            }
+            
             </div>
     )
 }
