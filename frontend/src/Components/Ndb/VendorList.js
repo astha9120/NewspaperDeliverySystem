@@ -59,17 +59,22 @@ const VendorList = () => {
     useEffect(()=>{
             axios.get(`http://localhost:4000/ndb/vendorlist/${id}`)
             .then(res=>{
-              console.log(res.data)
+              //console.log(res.data)
               if(res.data.length==0)
                 setList(false)
               setVendorlist(res.data)
             })
 
+
+            axios.get(`http://localhost:4000/ndb/vendorlist/quantity/${id}`)
+            .then(res=>{
+              setNewspaper(res.data)
+            })
             axios.get(`http://localhost:4000/ndb/vendorlist/allocate/${id}`)
             .then(res=>{
               if(res.data.length==0)
                 setAllocate(false)
-              console.log(res.data[0])
+              //console.log(res.data[0])
               setObj(res.data[0])
             })
     },[])
@@ -113,7 +118,7 @@ const VendorList = () => {
                                 {newspaper.map((e) => (
                                 <TableRow key={e.name}>
                                     <TableCell sx={{textAlign:"center" , fontSize:"14px"}} >{e.name}</TableCell>
-                                    <TableCell sx={{textAlign:"center" , fontSize:"14px"}} >{e.quantity}</TableCell>
+                                    <TableCell sx={{textAlign:"center" , fontSize:"14px"}} >{e.count}</TableCell>
                                     <TableCell sx={{textAlign:"center" , fontSize:"14px"}} >{e.price}</TableCell>
                                 </TableRow>
                                 ))}
