@@ -22,6 +22,7 @@ import PastOrders from './Components/Customer/PastOrders';
 import GetOrder from './Components/Customer/GetOrder';
 import Support_Admin from './Components/Admin/Support';
 import Ndblist_Admin from './Components/Admin/Ndblist';
+import Vendorlist_Admin from './Components/Admin/Vendorlist'
 
 
 function App() {
@@ -32,6 +33,7 @@ function App() {
         <Routes>
         <Route path='/admin/support' element={<Support_Admin/>}/>
         <Route path='/admin/ndblist' element={<Ndblist_Admin/>}/>
+        <Route path='/admin/vendorlist' element={<Vendorlist_Admin/>}/>
           <Route path='/' element={<Login/>}/>
           <Route path='/signup' element={<SignUp/>}/>
 
