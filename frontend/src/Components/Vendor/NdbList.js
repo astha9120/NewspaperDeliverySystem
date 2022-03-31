@@ -52,16 +52,16 @@ const NdbList = () => {
     const id = localStorage.getItem('id')
     const [list,setList]= useState(true)
     const [allocate,setAllocate] = useState(true)
-    const [quantity,setQuantity] = useState([{name:"",count:""}])
+    const [quantity,setQuantity] = useState([{}])
 
 
     useEffect(()=>{
+
             axios.get(`http://localhost:4000/vendor/ndblist/quantity/${id}`)
             .then(res=>{
               console.log(res.data)
               setQuantity(res.data)
             })
-
 
             axios.get(`http://localhost:4000/vendor/ndblist/${id}`)
             .then(res=>{
@@ -83,12 +83,12 @@ const NdbList = () => {
           justifyContent="flex-start"
           alignItems="center"  
           className={classes.root}
-          spacing={9} minHeight="100vh"
+          spacing={5} minHeight="100vh"
           marginTop="20px" > 
           
           {list && 
           <Grid item lg={6} md={4} xs={2} sx={{marginTop:"0px",marginBottom:"40px"}}>
-          <Typography variant="h4" align="center" sx={{color:"#B939A4",marginBottom:"20px"}}>Newspaper List:</Typography>
+          <Typography variant="h4" align="center" sx={{color:"#B939A4",marginBottom:"20px"}}>Newspaper List</Typography>
             <TableContainer component={Paper} sx={{width:500, margin:"auto"}}>
               <Table sx={{ minWidth: 500 }} aria-label="customized table">
                 <TableHead>
@@ -120,30 +120,36 @@ const NdbList = () => {
           {list &&
             
         <Grid item lg={6} md={4} xs={2} sx={{marginTop:"0px",marginBottom:"40px"}}>
-            <Typography variant="h4" align="center" sx={{color:"#B939A4",marginBottom:"28px"}}>Newspaper Deliveryperson Details:</Typography>
+            <Typography variant="h4" align="center" sx={{color:"#B939A4",marginBottom:"28px"}}>Newspaper Deliveryperson Details</Typography>
             <TableContainer component={Paper} sx={{width:1435 , margin:"auto"}}>
               <Table sx={{ minWidth: 1000 }} aria-label="customized table">
                 <TableHead>
                   <TableRow>
-                    <StyledTableCell>Name</StyledTableCell>
-                    <StyledTableCell align="center">Address</StyledTableCell>
-                    <StyledTableCell align="right">Area</StyledTableCell>
-                    <StyledTableCell align="right">City</StyledTableCell>
-                    <StyledTableCell align="right">State</StyledTableCell>
-                    
+                    <StyledTableCell align="center">Name</StyledTableCell> 
+                    <StyledTableCell align="center">Newspaper</StyledTableCell>                  
+                    <StyledTableCell align="center">Quantity</StyledTableCell> 
                   </TableRow>
                 </TableHead>
             
                 <TableBody>
                   {customerlist.map((row) => (
                     <StyledTableRow key={row.name}>
-                      <StyledTableCell component="th" scope="row">
+                      <StyledTableCell component="th" scope="row" align="center">
                         {row.name}
                       </StyledTableCell>
-                      <StyledTableCell align="center">{row.address}</StyledTableCell>
-                      <StyledTableCell align="right">{row.area}</StyledTableCell>
-                      <StyledTableCell align="right">{row.city}</StyledTableCell>
-                      <StyledTableCell align="right">{row.state}</StyledTableCell>
+                      
+                      <StyledTableCell align="center">                 
+                          {row.newspaper.map((row1) => (
+                            <Typography paddingBottom="2px">{row1.name} </Typography>
+                          ))} 
+                      </StyledTableCell>
+
+                      <StyledTableCell align="center">               
+                          {row.newspaper.map((row1) => (
+                            <Typography paddingBottom="2px">{row1.count} </Typography>
+                          ))} 
+                      </StyledTableCell>
+
                     </StyledTableRow>
                   ))}
                 </TableBody>
