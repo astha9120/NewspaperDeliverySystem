@@ -1,6 +1,6 @@
 import {BrowserRouter , Route , Link , NavLink , Routes} from 'react-router-dom';
 
-import VendorList from './Components/Ndb/VendorList';
+import VendorList from './Components/ndb/VendorList';
 import AboutUs from "./Components/Customer/AboutUs";
 import HowItWorks from "./Components/Customer/HowItWorks";
 import SignUp from "./Components/SignUp";
@@ -10,16 +10,18 @@ import ProfileVen from "./Components/Vendor/ProfileVen"
 import Addnews from "./Components/Vendor/Addnews";
 import ProfileCust from "./Components/Customer/ProfileCust";
 import ProfileNext from './Components/Customer/ProfileNext';
-import ProfileNdb from './Components/Ndb/ProfileNdb';
+import ProfileNdb from './Components/ndb/ProfileNdb';
 import Bill from "./Components/Customer/Bill"
-import BillCollection from "./Components/Ndb/BillCollection"
-import CustomerList from "./Components/Ndb/CustomerList"
+import BillCollection from "./Components/ndb/BillCollection"
+import CustomerList from "./Components/ndb/CustomerList"
 import NdbList from "./Components/Vendor/NdbList"
 
 import Footer from './Components/Footer';
 import Home from './Components/Customer/Home'
 import PastOrders from './Components/Customer/PastOrders';
 import GetOrder from './Components/Customer/GetOrder';
+import Support_Admin from './Components/Admin/Support';
+import Ndblist_Admin from './Components/Admin/Ndblist';
 
 
 function App() {
@@ -28,6 +30,8 @@ function App() {
       {/* <Header /> */}
       <BrowserRouter>
         <Routes>
+        <Route path='/admin/support' element={<Support_Admin/>}/>
+        <Route path='/admin/ndblist' element={<Ndblist_Admin/>}/>
           <Route path='/' element={<Login/>}/>
           <Route path='/signup' element={<SignUp/>}/>
 

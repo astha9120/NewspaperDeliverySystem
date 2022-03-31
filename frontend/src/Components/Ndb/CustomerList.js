@@ -51,7 +51,7 @@ const CustomerList = () => {
     const [customerlist,setCustomerlist] = useState([]);
     const id = localStorage.getItem('id')
     const [list,setList]= useState(true)
-    const [allocate,setAllocate] = useState(true)
+    const [newspaper,setNewspaper] = useState([])
     const [quantity,setQuantity] = useState([{name:"",count:""}])
 
     useEffect(()=>{
@@ -68,6 +68,12 @@ const CustomerList = () => {
                 setList(false)
               setCustomerlist(res.data)
             })
+
+            // axios.get(`http://localhost:4000/ndb/customerlist/newspaper/${id}`)
+            // .then(res=>{
+            //   console.log(res.data)
+            //   setNewspaper(res.data)
+            // })
 
         
     },[])
@@ -128,6 +134,7 @@ const CustomerList = () => {
                     <StyledTableCell align="right">Area</StyledTableCell>
                     <StyledTableCell align="right">City</StyledTableCell>
                     <StyledTableCell align="right">State</StyledTableCell>
+                    <StyledTableCell align="right">Newspapers</StyledTableCell>
                     
                   </TableRow>
                 </TableHead>
@@ -142,6 +149,22 @@ const CustomerList = () => {
                       <StyledTableCell align="right">{row.area}</StyledTableCell>
                       <StyledTableCell align="right">{row.city}</StyledTableCell>
                       <StyledTableCell align="right">{row.state}</StyledTableCell>
+                      <StyledTableCell align="right">
+                    
+                      {row.newspaper.map((row1) => (
+
+                        <Typography>{row1} </Typography>
+                      ))}
+                      
+                      
+                      </StyledTableCell>
+
+                       {/* <StyledTableCell align="center">{newspaper}</StyledTableCell> */}
+                       
+                     
+                  
+                      
+                      
                     </StyledTableRow>
                   ))}
                 </TableBody>
