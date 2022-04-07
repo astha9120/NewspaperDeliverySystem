@@ -1,5 +1,6 @@
 import  img1 from './newsDaily.png'
 
+
 import {
   AppBar,
   Toolbar,  
@@ -117,7 +118,9 @@ export default function Header() {
     <div className="classes.App">
       <AppBar position="sticky" className={classes.header}>
       {displayDesktop()}
+      
       </AppBar>
+      
     </div>
   );
   

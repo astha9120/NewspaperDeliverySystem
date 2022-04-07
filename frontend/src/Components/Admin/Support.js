@@ -87,7 +87,7 @@ const Support = () => {
           {list &&
             
         <Grid item lg={6} md={4} xs={2} sx={{marginTop:"0px",marginBottom:"40px"}}>
-            <Typography variant="h4" align="center" sx={{color:"#B939A4",marginBottom:"28px"}}>Issues :</Typography>
+            <Typography variant="h4" align="center" sx={{color:"#B939A4",marginBottom:"28px"}}>Issues </Typography>
             <TableContainer component={Paper} sx={{width:1435 , margin:"auto"}}>
               <Table sx={{ minWidth: 1000 }} aria-label="customized table">
                 <TableHead>

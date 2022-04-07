@@ -2,7 +2,7 @@ import { Typography } from "@material-ui/core";
 import Header from "./Header";
 import { useState ,useEffect } from 'react';
 import { makeStyles } from '@mui/styles';
-
+import Swal from 'sweetalert2';
 import Button from '@mui/material/Button';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -31,13 +31,53 @@ const  BillCollection=()=>{
 
     const getBills=async()=>{
         const result = await axios.get(`http://localhost:4000/ndb/billcollection/${id}`)
-        //console.log(result.data)
+        console.log("yet to be collected")
+        console.log(result.data)
         setBill(result.data)
     }
 
     const collect = o_id => async(e)=>{
-        const result = await axios.put(`http://localhost:4000/ndb/billcollection/${o_id}`)
-        //console.log(result.data)
+
+        const willDelete = await Swal.fire({
+            icon: 'success',
+            title:'Are you sure?',
+            text: "You won't be able to revert this",
+            showConfirmButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, collect it!',
+            timer: 15000
+        }).then((result)=>{
+                if (result.isConfirmed){
+                    Swal.fire(
+                    'Collected!',
+                    'Bill has been collected.',
+                    'success'
+                    )
+
+                axios.put(`http://localhost:4000/ndb/billcollection/${o_id}`)
+                .then(res=>{
+                    console.log("collect button click")
+                    console.log(res.data)
+                })
+            }   
+        })
+        //console.log(willDelete)
+            // if (willDelete) {
+            //   swal("Poof! Your imaginary file has been deleted!", {
+            //     icon: "success",
+            //   });
+            // } else {
+            //   swal("Your imaginary file is safe!");
+            // }
+          
+           // axios.put(`http://localhost:4000/ndb/billcollection/${o_id}`)
+                    // .then(res=>{
+                    //         console.log("collect button click")
+                    //         console.log(res.data)
+                    //     })
+                    //console.log(result.data)
+        
         window.location.reload(true)
     }
 
@@ -51,7 +91,8 @@ const  BillCollection=()=>{
         //console.log(date)
 
         const result = await axios.get(`http://localhost:4000/ndb/billcollection/${id}/${date}`)
-        //console.log(result.data)
+        console.log("collected bill")
+        console.log(result.data)
         setBillCollected(result.data)
     }
 

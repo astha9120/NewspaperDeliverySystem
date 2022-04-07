@@ -47,10 +47,7 @@ const VendorList = () => {
 
     const classes = useStyles();
     const [obj,setObj]=useState({name:"",phoneno:"",address:"",area:""})
-    const [newspaper,setNewspaper] = useState([{name:"divya Bhaskar",quantity:80,price:2000},
-                                      {name:"Gujarat Samachar",quantity:20,price:1000},
-                                      {name:"Times of India",quantity:80,price:1100},
-                                      {name:"mint",quantity:80,price:900}])
+    const [newspaper,setNewspaper] = useState([])
     const [vendorlist,setVendorlist] = useState([]);
     const id = localStorage.getItem('id')
     const [list,setList]= useState(true)
