@@ -65,7 +65,7 @@ const PastOrders = ()=>{
                             <TableCell sx={{textAlign:"center" , fontSize:"14px"}} >{e.bill}</TableCell>
                             <TableCell sx={{textAlign:"center" , fontSize:"14px"}} >{e.bill_status==1 ? "Paid" : "Pending"}</TableCell>
                             <TableCell sx={{textAlign:"center" , fontSize:"14px"}} >
-                                <Button onClick={()=>{navigate(`/customer/order/${e.o_id}`)}}>Click</Button>
+                                <Button onClick={()=>{navigate(`/customer/order/${e.o_id}`)}}>View Details</Button>
                             </TableCell>
                         </TableRow>
                     ))}

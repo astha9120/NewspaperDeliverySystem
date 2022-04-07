@@ -13,6 +13,8 @@ import { useState  , useEffect} from 'react';
 import { makeStyles } from '@mui/styles';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid'
+import Button from '@mui/material/Button';
+
 
 const axios = require("axios");
 
@@ -78,6 +80,12 @@ const CustomerList = () => {
         
     },[])
 
+    const submit = ()=>{
+        axios.get(`http://localhost:4000/ndb/customerlist/send/${id}`)
+        .then(res=>{
+          console.log(res.data)
+        })
+    }
 
   return (
     <div>
@@ -172,6 +180,9 @@ const CustomerList = () => {
             </TableContainer>
       </Grid>
            }
+           {list &&
+            <Button onClick={submit} paddingBottom="20px">Send Notification to all</Button>
+            }
           </Grid>
         
     {/* </Grid> */}
