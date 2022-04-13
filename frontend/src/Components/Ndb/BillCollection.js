@@ -83,12 +83,9 @@ const  BillCollection=()=>{
 
     const bill_collected = async()=>{
         let  date = new Date()
-        //console.log(date)
         const month = date.getMonth();
-        //console.log(month)
         date.setMonth(month-1)
         date = date.toJSON().slice(0,10).replace(/-/g,'-')
-        //console.log(date)
 
         const result = await axios.get(`http://localhost:4000/ndb/billcollection/${id}/${date}`)
         console.log("collected bill")

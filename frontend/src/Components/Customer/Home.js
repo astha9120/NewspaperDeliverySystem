@@ -26,6 +26,9 @@ const useStyles = makeStyles({
     },
     subscribe:{
         fontFamily: "Lato, sans-serif",
+    },
+    menu:{
+        minWidth:"30px"
     }
 })
 
@@ -37,14 +40,17 @@ const Home = ()=>{
     const [anchorEl, setAnchorEl] = useState(null);
     const navigate = useNavigate();
     const [noti,setNoti] = useState([]);
+    const [n_len,setN_len]= useState(0);
     const id = localStorage.getItem("id")
     const [newspapers,setNewspapers] = useState([{name:"",n_id:-1,description:"",scrap_price:0,isFlipped:false}])
     const [bool,setBool] = useState(true)
     // const [isFlipped,setIsFlipped] = useState(false)
     const open = Boolean(anchorEl);
+   
     const handleClick = (event) => {
       setAnchorEl(event.currentTarget);
     };
+
     const handleClose = () => {
       setAnchorEl(null);
     };
@@ -83,10 +89,13 @@ const Home = ()=>{
     }
     
     const getNoti = () =>{
+        console.log("Inside Noti")
             axios.get(`http://localhost:4000/customer/home/daily/${id}`)
             .then(res=>{
-                console.log(res.data)
+                console.log("Notifications")
                 setNoti(res.data)
+                console.log(noti)
+                setN_len(res.data.length)
             })
     }
 
@@ -101,11 +110,13 @@ const Home = ()=>{
     }
 
     const MarkRead = ()=>{
-
+        console.log("inside mark read")
         axios.post(`http://localhost:4000/customer/home/daily/${id}`)
         .then(res=>{
             console.log(res)
-            setNoti([])})
+            setNoti([])
+            window.location.reload(true)
+        })
 
     }
     return(
@@ -118,14 +129,15 @@ const Home = ()=>{
                     Click Here to Subscribe to newspapers
             </Button>
             
-            <Badge marginLeft="20%" badgeContent={4} color="primary">
+            <Badge marginLeft="20%" badgeContent={n_len} color="primary">
                 <NotificationsIcon color="action"  
                 aria-controls={open ? 'basic-menu' : undefined}
                 aria-haspopup="true"
                 aria-expanded={open ? 'true' : undefined}
                 onClick={handleClick} />
             </Badge>
-                    <Menu
+            <Menu
+                
                 id="basic-menu"
                 anchorEl={anchorEl}
                 open={open}
@@ -133,14 +145,19 @@ const Home = ()=>{
                 MenuListProps={{
                 'aria-labelledby': 'basic-button',
                 }}
+               
             >
-                <MenuItem>Newspaper delievered to you</MenuItem>
-                <MenuItem><Button onCLick = {MarkRead}>Mark As Read</Button></MenuItem>
+                {noti.map(e=>{
+                    return ( <MenuItem >{e}</MenuItem>)
+                    })
+                }
+                
+                { noti.length ? <MenuItem><Button onClick = {MarkRead}>Mark As Read</Button></MenuItem> : <MenuItem>No new Notifications</MenuItem>}
             </Menu>
             <Typography align="center" variant="h5" style={{paddingTop:"20px",fontWeight:"bold",color:"#B939A4"}}>Newspapers List</Typography> 
             {!bool &&
                     <Typography align="center" variant="h5" style={{paddingTop:"70px"}}>Sorry! This Service Is not available in Your City</Typography>
-                }
+            }
             <Grid container spacing={5} className={classes.root}>
                
                {bool && 
