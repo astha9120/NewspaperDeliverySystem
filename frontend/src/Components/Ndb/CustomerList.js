@@ -14,6 +14,7 @@ import { makeStyles } from '@mui/styles';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid'
 import Button from '@mui/material/Button';
+import Swal from 'sweetalert2';
 
 
 const axios = require("axios");
@@ -81,6 +82,13 @@ const CustomerList = () => {
     },[])
 
     const submit = ()=>{
+          Swal.fire({
+            icon: 'success',
+            title:'done',
+            text: 'Sending notifications to all the customer',
+            showConfirmButton: false,
+            timer: 1500
+        })
         axios.get(`http://localhost:4000/ndb/customerlist/send/${id}`)
         .then(res=>{
           console.log(res.data)
@@ -181,7 +189,10 @@ const CustomerList = () => {
       </Grid>
            }
            {list &&
-            <Button onClick={submit} paddingBottom="20px">Send Notification to all</Button>
+            <Button onClick={submit} paddingBottom="20px" 
+            sx={{ width: '44ch',margin:"auto",marginTop:"20px",marginBottom:"20px"
+            ,backgroundColor:"#EFF32C",color:"black"}}
+            variant="contained">Send Notification to all</Button>
             }
           </Grid>
         
