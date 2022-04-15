@@ -9,6 +9,10 @@ import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 import InputAdornment from '@mui/material/InputAdornment';
 import Swal from 'sweetalert2';
+import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
+import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
+
+//const mbxGeocoding = require("@mapbox/mapbox-sdk/services/geocoding");
 const axios = require("axios");
 
 const useStyles = makeStyles({
@@ -22,8 +26,11 @@ const useStyles = makeStyles({
     Profile:{
         fontFamily : "Roboto",
         color:"#88888"
-    },
-   
+    }, 
+    geocoder:{
+        zIndex: "1",
+        margin: "20px"
+    }
 
   });
 
@@ -43,6 +50,7 @@ const ProfileNdb = () =>{
     const [address,setAddress] = useState("")
     const [phoneno,setPhoneno] = useState("")
     const [name,setName] = useState("")
+    const [result1,setResult1] = useState("")
 
 
     const id = localStorage.getItem('id');
@@ -66,6 +74,32 @@ const ProfileNdb = () =>{
 
     const submit = async(e)=>{
         e.preventDefault();
+
+        
+        const mapBoxToken= process.env.REACT_APP_MAPBOX_TOKEN;
+        
+        const geocoder = new MapboxGeocoder({
+            accessToken:mapBoxToken ,
+            types: 'country,region,place,postcode,locality,neighborhood'
+        });
+
+        geocoder.addTo('#geocoder');
+
+        // Get the geocoder results container.
+        const results = document.getElementById('result');
+
+        // Add geocoder result to container.
+        geocoder.on('result', (e) => {
+            results.innerText = JSON.stringify(e.result, null, 2);
+        });
+
+        const GeoData=await geocoder.forwardGeocode({
+            query:result1,
+            limit:1
+        }).send()
+        
+        console.log(GeoData.body)
+ 
         const result = await axios.put(`http://localhost:4000/ndb/profile/${id}`,{
             phoneno:phoneno,
             address:address,
@@ -73,6 +107,7 @@ const ProfileNdb = () =>{
             charge:charge,
             name:name
         })
+
         console.log(result.data)
         if(result.data==="yes"){
             Swal.fire({
@@ -114,6 +149,9 @@ const ProfileNdb = () =>{
                         <Typography component="h4" variant="h4" className={classes.Profile}>Profile</Typography>
                     </Grid>
                     <Grid item lg={7} className={classes.form}>
+                    <div className={classes.geocoder} id = "geocoder" value={result1}  
+                        onChange={(e)=>setResult1(e.target.value)} ></div>
+                    <pre  id="result" label="result" name="result" ></pre>
                     <TextField
                                 required
                                 sx={{ width: '40ch',
@@ -156,7 +194,6 @@ const ProfileNdb = () =>{
                             />
 
                             <TextField
-                                required
                                 sx={{ width: '40ch',
                                 marginLeft:"75%",
                                 marginBottom:"20px"}}
@@ -170,7 +207,7 @@ const ProfileNdb = () =>{
                             />  
 
                         <TextField
-                                required
+                                
                                 sx={{ width: '40ch',
                                 marginLeft:"75%",
                                 marginBottom:"20px"}}
@@ -181,11 +218,11 @@ const ProfileNdb = () =>{
                                 onChange={(e)=>setCity(e.target.value)}
                                 autoComplete="city"
                                 autoFocus
-                                disabled={true}
+                                
                             />
                             
                         <TextField
-                                required
+                                // required
                                 sx={{ width: '40ch',
                                 marginLeft:"75%",
                                 marginBottom:"20px"}}
@@ -196,7 +233,7 @@ const ProfileNdb = () =>{
                                 onChange={(e)=>setState(e.target.value)}
                                 autoComplete="state"
                                 autoFocus
-                                disabled={true}
+                                
                             />
 
                             
