@@ -29,6 +29,10 @@ const useStyles = makeStyles({
     },
     menu:{
         minWidth:"30px"
+    },
+    noti:{
+        marginTop:"20px",
+        marginLeft:"75%"
     }
 })
 
@@ -122,20 +126,26 @@ const Home = ()=>{
     return(
         <div style={{minHeight:"100vh"}}>
             <Header />
-            <Button   type="submit"
-                    sx={{ width: '44ch',marginLeft:"40%",color:"black",marginTop:"20px",fontWeight:"bolder"}}
-                    onClick={()=>navigate('/customer/profile')}
-                    className = {classes.subscribe}>
-                    Click Here to Subscribe to newspapers
-            </Button>
+            <div className={classes.noti}>
+
+                <Badge  badgeContent={n_len} color="primary">
+                    <NotificationsIcon  color="action"  
+                    aria-controls={open ? 'basic-menu' : undefined}
+                    aria-haspopup="true"
+                    aria-expanded={open ? 'true' : undefined}
+                    onClick={handleClick} />
+                </Badge>
+
+                <Button   type="submit"
+                        sx={{ width: '44ch',color:"black",fontWeight:"bolder"}}
+                        onClick={()=>navigate('/customer/profile')}
+                        className = {classes.subscribe}>
+                        Click Here to Subscribe to newspapers
+                </Button>
+            </div>
             
-            <Badge marginLeft="20%" badgeContent={n_len} color="primary">
-                <NotificationsIcon color="action"  
-                aria-controls={open ? 'basic-menu' : undefined}
-                aria-haspopup="true"
-                aria-expanded={open ? 'true' : undefined}
-                onClick={handleClick} />
-            </Badge>
+            
+           
             <Menu
                 
                 id="basic-menu"

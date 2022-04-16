@@ -9,6 +9,7 @@ import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 import InputAdornment from '@mui/material/InputAdornment';
 import Swal from 'sweetalert2';
+const mbxGeocoding = require("@mapbox/mapbox-sdk/services/geocoding");
 const axios = require("axios");
 
 
@@ -46,6 +47,8 @@ const ProfileVen = () =>{
     const [address,setAddress] = useState("")
     const [phoneno,setPhoneno] = useState("")
     const [name,setName] = useState("")
+    //const [lat,setLat] = useState(0.0)
+    //const [long,setLong] = useState(0.0)
 
 
     const id = localStorage.getItem('id');
@@ -68,13 +71,40 @@ const ProfileVen = () =>{
 
     const submit = async(e)=>{
         e.preventDefault();
+
+        const mapBoxToken= process.env.REACT_APP_MAPBOX_TOKEN;
+        
+        const geocoder=mbxGeocoding({
+            accessToken:mapBoxToken,
+            types: 'country,region,place,postcode,locality,neighborhood,address'
+        });
+    
+
+        const add = `${address} , ${area} , ${city} , ${state} , United States`
+
+        const GeoData=await geocoder.forwardGeocode({
+            query:add,
+            limit:1
+        }).send()
+        
+
+        // setLat(GeoData.body.features[0].center[1])
+        // setLong(GeoData.body.features[0].center[0])
+        console.log("location cor")
+        console.log(GeoData.body.features[0])
+
         const result = await axios.put(`http://localhost:4000/vendor/profile/${id}`,{
             phoneno:phoneno,
             address:address,
             area:area,
             charge:charge,
-            name:name
+            name:name,
+            latitude:GeoData.body.features[0].center[1],
+            longitude:GeoData.body.features[0].center[0],
+            city:city,
+            state:state
         })
+
         console.log(result.data)
         if(result.data==="yes"){
             Swal.fire({
@@ -84,7 +114,7 @@ const ProfileVen = () =>{
                 showConfirmButton: false,
                 timer: 1500
           })
-            navigate(`/vendor/profile`);
+            
         }
         else{
             Swal.fire({
@@ -94,8 +124,9 @@ const ProfileVen = () =>{
                 showConfirmButton: false,
                 timer:   1500
           })
-          navigate(`/vendor/profile`);
+          
         }
+        //window.location.reload(true)
     }
 
 
@@ -182,7 +213,7 @@ const ProfileVen = () =>{
                                 onChange={(e)=>setCity(e.target.value)}
                                 autoComplete="city"
                                 autoFocus
-                                disabled={true}
+                                // disabled={true}
                             />
                             
                         <TextField
@@ -197,7 +228,7 @@ const ProfileVen = () =>{
                                 onChange={(e)=>setState(e.target.value)}
                                 autoComplete="state"
                                 autoFocus
-                                disabled={true}
+                                // disabled={true}
                             />
 
                             

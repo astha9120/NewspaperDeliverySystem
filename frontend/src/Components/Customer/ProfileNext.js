@@ -182,7 +182,7 @@ const ProfileNext = () =>{
               scrap:scrap,
               bill:total - scrap_p*scrap,
               billstatus:0,
-              subscription:0,
+              subscription:1,
               date:new Date().toJSON().slice(0,10).replace(/-/g,'-')
 
           })
