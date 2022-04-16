@@ -152,7 +152,7 @@ const Vendorlist = () => {
                         {row.name}
                       </StyledTableCell>
                       
-                      <StyledTableCell align="center">{row.address + row.area + row.city +row.state}</StyledTableCell>
+                      <StyledTableCell align="center">{`${row.address}  ${row.area}  ${row.city} ${row.state}`}</StyledTableCell>
                       <StyledTableCell align="center">{row.phoneno}</StyledTableCell>
                       <StyledTableCell align="center">{row.charge}</StyledTableCell>
                       <StyledTableCell align="center">
