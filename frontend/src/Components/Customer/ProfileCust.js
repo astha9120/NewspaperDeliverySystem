@@ -9,7 +9,10 @@ import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 import InputAdornment from '@mui/material/InputAdornment';
 import Swal from 'sweetalert2';
+
 const axios = require("axios");
+const mbxGeocoding = require("@mapbox/mapbox-sdk/services/geocoding");
+
 
 const useStyles = makeStyles({
     root: {
@@ -42,8 +45,8 @@ const ProfileCust = () =>{
     const [address,setAddress] = useState("")
     const [phoneno,setPhoneno] = useState("")
     const [name,setName] = useState("")
-    const [latitude,setLatitude] = useState(23.038396835327)
-    const [longitude,setLongitude] = useState(72.606819152832)
+    //const [lat,setLat] = useState(0.0)
+    //const [long,setLong] = useState(0.0)
 
 
     const id = localStorage.getItem('id');
@@ -65,14 +68,36 @@ const ProfileCust = () =>{
     }, []);
 
     const submit = async(e)=>{
+
         e.preventDefault();
+
+        const mapBoxToken= process.env.REACT_APP_MAPBOX_TOKEN;
+        
+        const geocoder=mbxGeocoding({
+            accessToken:mapBoxToken,
+            types: 'country,region,place,postcode,locality,neighborhood,address'
+        });
+    
+
+        const add = `${address} , ${area} , ${city} , ${state} , United States`
+
+        const GeoData=await geocoder.forwardGeocode({
+            query:add,
+            limit:1
+        }).send()
+        
+
+        //setLat(GeoData.body.features[0].center[1])
+        //setLong(GeoData.body.features[0].center[0])
+        console.log(GeoData.body.features[0])
+        
         const result = await axios.put(`http://localhost:4000/customer/profile/${id}`,{
             phoneno:phoneno,
             address:address,
             area:area,
             name:name,
-            longitude:longitude,
-            latitude:latitude
+            longitude:GeoData.body.features[0].center[0],
+            latitude:GeoData.body.features[0].center[1]
         })
         console.log(result.data)
         if(result.data==="not available"){
@@ -158,7 +183,6 @@ const ProfileCust = () =>{
                             />
 
                             <TextField
-                                required
                                 sx={{ width: '40ch',
                                 marginLeft:"75%",
                                 marginBottom:"20px"}}
@@ -183,7 +207,7 @@ const ProfileCust = () =>{
                                 onChange={(e)=>setCity(e.target.value)}
                                 autoComplete="city"
                                 autoFocus
-                                disabled={true}
+                                
                             />
                             
                         <TextField
@@ -198,7 +222,7 @@ const ProfileCust = () =>{
                                 onChange={(e)=>setState(e.target.value)}
                                 autoComplete="state"
                                 autoFocus
-                                disabled={true}
+                                
                             />
 
                             <Button

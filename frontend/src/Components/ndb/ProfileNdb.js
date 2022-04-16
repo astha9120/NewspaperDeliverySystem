@@ -9,8 +9,9 @@ import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 import InputAdornment from '@mui/material/InputAdornment';
 import Swal from 'sweetalert2';
-import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
-import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
+const mbxGeocoding = require("@mapbox/mapbox-sdk/services/geocoding");
+// import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
+// import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
 
 //const mbxGeocoding = require("@mapbox/mapbox-sdk/services/geocoding");
 const axios = require("axios");
@@ -50,7 +51,8 @@ const ProfileNdb = () =>{
     const [address,setAddress] = useState("")
     const [phoneno,setPhoneno] = useState("")
     const [name,setName] = useState("")
-    const [result1,setResult1] = useState("")
+    //const [lat,setLat] = useState(0.0)
+    //const [long,setLong] = useState(0.0)
 
 
     const id = localStorage.getItem('id');
@@ -78,34 +80,34 @@ const ProfileNdb = () =>{
         
         const mapBoxToken= process.env.REACT_APP_MAPBOX_TOKEN;
         
-        const geocoder = new MapboxGeocoder({
-            accessToken:mapBoxToken ,
-            types: 'country,region,place,postcode,locality,neighborhood'
+        const geocoder=mbxGeocoding({
+            accessToken:mapBoxToken,
+            types: 'country,region,place,postcode,locality,neighborhood,address'
         });
+    
 
-        geocoder.addTo('#geocoder');
-
-        // Get the geocoder results container.
-        const results = document.getElementById('result');
-
-        // Add geocoder result to container.
-        geocoder.on('result', (e) => {
-            results.innerText = JSON.stringify(e.result, null, 2);
-        });
+        const add = `${address} , ${area} , ${city} , ${state} , United States`
 
         const GeoData=await geocoder.forwardGeocode({
-            query:result1,
+            query:add,
             limit:1
         }).send()
         
-        console.log(GeoData.body)
+
+        //setLat(GeoData.body.features[0].center[1])
+        //setLong(GeoData.body.features[0].center[0])
+        console.log(GeoData.body.features[0])
  
         const result = await axios.put(`http://localhost:4000/ndb/profile/${id}`,{
             phoneno:phoneno,
             address:address,
             area:area,
             charge:charge,
-            name:name
+            name:name,
+            latitude:GeoData.body.features[0].center[1],
+            longitude:GeoData.body.features[0].center[0],
+            city:city,
+            state:state
         })
 
         console.log(result.data)
@@ -149,9 +151,7 @@ const ProfileNdb = () =>{
                         <Typography component="h4" variant="h4" className={classes.Profile}>Profile</Typography>
                     </Grid>
                     <Grid item lg={7} className={classes.form}>
-                    <div className={classes.geocoder} id = "geocoder" value={result1}  
-                        onChange={(e)=>setResult1(e.target.value)} ></div>
-                    <pre  id="result" label="result" name="result" ></pre>
+                    
                     <TextField
                                 required
                                 sx={{ width: '40ch',
