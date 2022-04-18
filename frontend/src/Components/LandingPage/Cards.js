@@ -18,6 +18,7 @@ const useStyles = makeStyles({
   cards :{
     padding: "4rem",
     background: "#fff",
+    fontFamily:'Playfair Display,serif'
   }
   
 })
@@ -70,7 +71,7 @@ function Cards() {
                   alt="green iguana"
                 />
               <CardContent>
-                  <Typography gutterBottom variant="h5" component="div" align="center">
+                  <Typography gutterBottom variant="h5" component="div" align="center" fontFamily="Playfair Display,serif">
                   Customer
                   </Typography>
               </CardContent>
@@ -86,7 +87,7 @@ function Cards() {
           alt="green iguana"
         />
         <CardContent>
-          <Typography gutterBottom variant="h5" component="div" align="center">
+          <Typography gutterBottom variant="h5" component="div" align="center" fontFamily="Playfair Display,serif">
             Delivery Person
           </Typography>
           
@@ -106,7 +107,7 @@ function Cards() {
           alt="green iguana"
         />
         <CardContent>
-          <Typography gutterBottom variant="h5" component="div" align="center">
+          <Typography gutterBottom variant="h5" component="div" align="center" fontFamily="Playfair Display,serif">
             Vendor
           </Typography>
           
@@ -125,14 +126,24 @@ function Cards() {
           <div className="modal-content">
           <Card sx={{ width: 400 }}>
       <CardActionArea  >
-        
+      <CardMedia
+          component="img"
+          height="250"
+          image="/images/customer.png"
+          alt="Customer"
+        />
         <CardContent>
-          <Typography gutterBottom variant="h5" component="div" align="center">
+          <Typography gutterBottom variant="h5" component="div" align="center" fontFamily="Playfair Display,serif">
             Customer
           </Typography>
            <Typography variant="body2" color="text.secondary">
-            Lizards are a widespread group of squamate reptiles, with over 6,000
-            species, ranging across all continents except Antarctica
+           
+           Sign-up and Login giving all the necessary information.
+           Browse Newspapers available in your area
+           Click on subscribe and give your address for Delivery.
+           Can view your bill and all your past orders anytime.
+           Website will notify your newspaper delivery everyday.
+         
           </Typography>
           <Button className="close-modal" onClick={toggleModal}>
               CLOSE
@@ -156,14 +167,23 @@ function Cards() {
           <div className="modal-content">
           <Card sx={{ width: 400 }}>
       <CardActionArea  >
-        
+      <CardMedia
+          component="img"
+          height="250"
+          image="/images/ndb.png"
+          alt="Delivery Person"
+        />
         <CardContent>
-          <Typography gutterBottom variant="h5" component="div" align="center">
+          <Typography gutterBottom variant="h5" component="div" align="center" fontFamily="Playfair Display,serif">
            Delivery Person
           </Typography>
            <Typography variant="body2" color="text.secondary">
-            Lizards are a widespread group of squamate reptiles, with over 6,000
-            species, ranging across all continents except Antarctica
+           Sign-up and Login giving all the necessary information.
+           The account will be verified by the admin to confirm the employment.
+           After verification the user will be able to see the vendor assigned to them according to the minimum distance between user and the vendor.
+           Customer will be assigned gradually and user will be able to see their order and addresses.
+           Daily notification has to be sent by the user to all the customers to confirm the delivery.
+           Bill information has to be updated regularly according to the bill collection status.
           </Typography>
           <Button className="close-modal" onClick={toggleModal2}>
               CLOSE
@@ -187,14 +207,22 @@ function Cards() {
           <div className="modal-content">
           <Card sx={{ width: 400 }}>
       <CardActionArea  >
-        
+      <CardMedia
+          component="img"
+          height="250"
+          image="/images/vendor.png"
+          alt="vendor"
+        />
         <CardContent>
-          <Typography gutterBottom variant="h5" component="div" align="center">
+          <Typography gutterBottom variant="h5" component="div" align="center" fontFamily="Playfair Display,serif">
             Vendor
           </Typography>
            <Typography variant="body2" color="text.secondary">
-            Lizards are a widespread group of squamate reptiles, with over 6,000
-            species, ranging across all continents except Antarctica
+           Sign-up and Login giving all the necessary information.
+           Browse Newspapers available in your area
+           Click on subscribe and give your address for Delivery.
+           Can view your bill and all your past orders anytime.
+           Website will notify your newspaper delivery everyday.
           </Typography>
           <Button className="close-modal" onClick={toggleModal3}>
               CLOSE
