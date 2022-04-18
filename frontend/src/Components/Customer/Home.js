@@ -15,8 +15,7 @@ import { useState,useEffect } from 'react';
 import { makeStyles } from '@mui/styles';
 import Header from './Header';
 import { useNavigate } from 'react-router-dom';
-import Badge from '@mui/material/Badge';
-import NotificationsIcon from '@mui/icons-material/Notifications';
+
 import "../LandingPage/Modal.css"
 
 
@@ -103,7 +102,7 @@ const Home = ()=>{
 
                 
 
-            <Typography align="center" variant="h3" style={{paddingTop:"40px",paddingBottom:"20px",color:"#e85a4f"}} fontFamily= 'Playfair Display,serif'>Newspapers List</Typography> 
+            <Typography align="center" variant="h3" style={{paddingTop:"50px",paddingBottom:"40px",color:"#e85a4f"}} fontFamily= 'Playfair Display,serif' fontSize="60px" fontWeight="400"  boxSizing="border-box">Newspapers List</Typography> 
             {!bool &&
                 <Typography align="center" variant="h5" style={{paddingTop:"70px"}}>Sorry! This Service Is not available in Your City</Typography>
             }
