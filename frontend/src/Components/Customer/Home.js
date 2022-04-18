@@ -3,6 +3,8 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import CardHeader from '@mui/material/CardHeader';
 import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
+import { borders } from '@mui/system';
 import {Button,CardActionArea, CardActions } from '@mui/material';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
@@ -15,25 +17,20 @@ import Header from './Header';
 import { useNavigate } from 'react-router-dom';
 import Badge from '@mui/material/Badge';
 import NotificationsIcon from '@mui/icons-material/Notifications';
+import "../LandingPage/Modal.css"
 
 
 const useStyles = makeStyles({
-    root:{
-        paddingLeft:"220px",
+    h_root:{
+        paddingLeft:"180px",
         paddingRight:"80px",
         paddingTop:"30px",
-        paddingBottom:"30px"
+        paddingBottom:"60px",
+        backgroundColor:" #eae7dc"
     },
-    subscribe:{
-        fontFamily: "Lato, sans-serif",
-    },
-    menu:{
+    h_menu:{
         minWidth:"30px"
     },
-    noti:{
-        marginTop:"20px",
-        marginLeft:"75%"
-    }
 })
 
 
@@ -41,23 +38,27 @@ const useStyles = makeStyles({
 const Home = ()=>{
 
     const classes = useStyles();
-    const [anchorEl, setAnchorEl] = useState(null);
     const navigate = useNavigate();
-    const [noti,setNoti] = useState([]);
-    const [n_len,setN_len]= useState(0);
     const id = localStorage.getItem("id")
+    const [no,setNo]=useState(3);
+    const [flag_load,setFlag_load]=useState(false)
     const [newspapers,setNewspapers] = useState([{name:"",n_id:-1,description:"",scrap_price:0,isFlipped:false}])
     const [bool,setBool] = useState(true)
     // const [isFlipped,setIsFlipped] = useState(false)
-    const open = Boolean(anchorEl);
    
-    const handleClick = (event) => {
-      setAnchorEl(event.currentTarget);
-    };
+   
+    const getFormattedPrice = (price) => `₹${price.toFixed(2)}`;
+    const slice = newspapers.slice(0,no)
+    
+    
 
-    const handleClose = () => {
-      setAnchorEl(null);
-    };
+
+    const loadMore =async ()=>{
+        if(no+3>=newspapers.length)
+            setFlag_load(true)
+        setNo(no+3)
+        
+    }
 
     const getData = async()=>{
         const result = await  axios.get(`http://localhost:4000/customer/home/${id}`)
@@ -91,100 +92,34 @@ const Home = ()=>{
         setNewspapers(newArr)
         
     }
-    
-    const getNoti = () =>{
-        console.log("Inside Noti")
-            axios.get(`http://localhost:4000/customer/home/daily/${id}`)
-            .then(res=>{
-                console.log("Notifications")
-                setNoti(res.data)
-                console.log(noti)
-                setN_len(res.data.length)
-            })
-    }
 
     useEffect(()=>{
         getData();
-        getNoti();
     },[])
 
-    
-    const submit = async(e)=>{
-        navigate('/customer/profile')
-    }
-
-    const MarkRead = ()=>{
-        console.log("inside mark read")
-        axios.post(`http://localhost:4000/customer/home/daily/${id}`)
-        .then(res=>{
-            console.log(res)
-            setNoti([])
-            window.location.reload(true)
-        })
-
-    }
     return(
-        <div style={{minHeight:"100vh"}}>
+        <div style={{minHeight:"100vh",backgroundColor:" #eae7dc"}} > 
             <Header />
-            <div className={classes.noti}>
 
-                <Badge  badgeContent={n_len} color="primary">
-                    <NotificationsIcon  color="action"  
-                    aria-controls={open ? 'basic-menu' : undefined}
-                    aria-haspopup="true"
-                    aria-expanded={open ? 'true' : undefined}
-                    onClick={handleClick} />
-                </Badge>
+                
 
-                <Button   type="submit"
-                        sx={{ width: '44ch',color:"black",fontWeight:"bolder"}}
-                        onClick={()=>navigate('/customer/profile')}
-                        className = {classes.subscribe}>
-                        Click Here to Subscribe to newspapers
-                </Button>
-            </div>
-            
-            
-           
-            <Menu
-                
-                id="basic-menu"
-                anchorEl={anchorEl}
-                open={open}
-                onClose={handleClose}
-                MenuListProps={{
-                'aria-labelledby': 'basic-button',
-                }}
-               
-            >
-                {noti.map(e=>{
-                    return ( <MenuItem >{e}</MenuItem>)
-                    })
-                }
-                
-                { noti.length ? <MenuItem><Button onClick = {MarkRead}>Mark As Read</Button></MenuItem> : <MenuItem>No new Notifications</MenuItem>}
-            </Menu>
-            <Typography align="center" variant="h5" style={{paddingTop:"20px",fontWeight:"bold",color:"#B939A4"}}>Newspapers List</Typography> 
+            <Typography align="center" variant="h3" style={{paddingTop:"40px",paddingBottom:"20px",color:"#e85a4f"}} fontFamily= 'Playfair Display,serif'>Newspapers List</Typography> 
             {!bool &&
-                    <Typography align="center" variant="h5" style={{paddingTop:"70px"}}>Sorry! This Service Is not available in Your City</Typography>
+                <Typography align="center" variant="h5" style={{paddingTop:"70px"}}>Sorry! This Service Is not available in Your City</Typography>
             }
-            <Grid container spacing={5} className={classes.root}>
-               
+            
+            <Grid container spacing={5} className={classes.h_root}>   
                {bool && 
-                    newspapers.map(n=>{
+                    slice.map(n=>{
                     return(
-                        <Grid item xs={12} sm={6} md={2.5} key={n.n_id}>
+                        <Grid item xs={12} sm={6} md={4} key={n.n_id}>      
                                 <Card key ={n.n_id}
-                                style={{height:"350px" , backgroundColor:"#CCCFFB"}}
+                                style={{width:"300px", height:"330px"}}
                                 onMouseEnter={handleEnter(n.n_id)}
                                 onMouseLeave={handleLeave(n.n_id)}>                                    
                                     <ReactCardFlip isFlipped={n.isFlipped} flipDirection="horizontal">
                                         <div >
                                             <CardActionArea>
-                                                <CardHeader title={n.name} align="center"
-                                                titleTypographyProps={{variant:'h6'}}
-                                                style={{backgroundColor:"#2148C0" , color:"white"}}/>
-                                                
                                                 <CardMedia
                                                 component="img" 
                                                 className={classes.media}
@@ -192,12 +127,15 @@ const Home = ()=>{
                                                 alt={n.name}
                                                 title={n.name}/>
                                                 
-                                                <CardContent>       
-                                                    <Typography gutterBottom variant="body" component="div" align="center" fontWeight={"bold"}>
-                                                    Price : {n.price*30+20} - {n.price*30+50}    
+                                                <CardContent> 
+                                                    <Typography gutterBottom variant="h6" component="div" align="center" fontWeight={"bold"} fontFamily= 'Nunito,sans-serif'>
+                                                        {n.name}   
+                                                    </Typography>      
+                                                    <Typography gutterBottom  variant="body2" color="text.secondary" component="div" align="center" fontWeight={"bold"} fontFamily= 'Nunito,sans-serif'>
+                                                        Price : {getFormattedPrice(n.price*30+20)} - {getFormattedPrice(n.price*30+50)}
                                                     </Typography>
-                                                    <Typography gutterBottom variant="body" component="div" align="center" fontWeight={"bold"}>
-                                                    Scrap_price : {n.scrap_price}
+                                                    <Typography gutterBottom  variant="body2" color="text.secondary" component="div" align="center" fontWeight={"bold"} fontFamily= 'Nunito,sans-serif'>
+                                                        Scrap price : {getFormattedPrice(n.scrap_price)}
                                                     </Typography>
                                                 </CardContent>
                                             </CardActionArea>
@@ -205,7 +143,7 @@ const Home = ()=>{
                                         <div>
                                             <CardActionArea>
                                                 <CardContent>
-                                                    <Typography variant="p" component="div">
+                                                    <Typography variant="p" component="div"  fontFamily= 'Nunito,sans-serif'>
                                                     {n.description}
                                                     </Typography>
                                                 </CardContent>
@@ -213,12 +151,25 @@ const Home = ()=>{
                                         </div>
                                     </ReactCardFlip> 
                                 </Card>
+                    
                             </Grid>
-                    )
-                })} 
-                 
-                </Grid>      
-               
+                    )})
+                }
+            </Grid>
+            {/* <Button  type="submit"
+                sx={{ width: '44ch',marginLeft:"69%",marginBottom:"30px",fontSize:"20px",color:"#027eb5"}}
+                fontFamily= 'Helvetica Neue, Helvetica, Arial, sans-serif'
+                onClick={()=>navigate('/customer/profile')}
+                >
+                Subscribe
+            </Button>    */}
+
+            <Button  type="submit" variant="contained"
+                sx={{ width: '39ch',color:"black",backgroundColor:"#e98074",marginLeft:"610px",marginBottom:"20px"}}
+                onClick={()=>loadMore()} disabled={flag_load}
+                className = {classes.h_subscribe}>
+                Load more...
+            </Button>  
         </div>
     )
 }
