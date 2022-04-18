@@ -80,7 +80,7 @@ const Login = () =>{
                 showConfirmButton: false,
                 timer: 1500
             })
-            navigate('/');
+            navigate('/login');
         }
         else{
             Swal.fire({
