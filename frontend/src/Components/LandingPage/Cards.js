@@ -53,7 +53,7 @@ function Cards() {
 
   const classes = useStyles()
   return (
-    <div className='cards'>
+    <div className={classes.cards}>
       <h1>How It Works!</h1>
       
        <>
