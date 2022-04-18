@@ -1,5 +1,11 @@
 import  img1 from './newsDaily.png'
-
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import Badge from '@mui/material/Badge';
+import { useState,useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import NotificationsIcon from '@mui/icons-material/Notifications';
 
 import {
   AppBar,
@@ -9,8 +15,8 @@ import {
   Typography,
   Button
 } from "@material-ui/core";
-import Box from "@material-ui/core/Box";
 import { Link as RouterLink } from "react-router-dom";
+
 
 
 const headersData = [
@@ -23,24 +29,12 @@ const headersData = [
     href: "/customer/aboutus",
   },
   {
-    label: "Working",
-    href: "/customer/howitworks",
-  },
-  {
-    label: "Log",
-    href: "/customer/log",
-  },
-  {
     label: "Bill",
     href: "/customer/bill",
   },
   {
     label: "Orders",
     href: "/customer/pastorder",
-  },
-  {
-    label: "Support",
-    href: "/customer/support",
   },
   {
     label: "LogOut",
@@ -55,7 +49,7 @@ const useStyles = makeStyles({
         textAlign: "center"
     },
   header: {
-    backgroundColor: "transparent",
+    backgroundColor: "white",
     // backgroundColor: "#add8e6",
     color: "black",
     boxShadow: "1px",
@@ -79,7 +73,12 @@ const useStyles = makeStyles({
   width:'100%'
 },
 test:{
-  marginLeft:"30%"
+  marginLeft:"40%"
+},
+sub_b:{
+  marginLeft:"10px",
+  backgroundColor:"#e85a4f",
+  color:"white"
 }
 
 
@@ -88,11 +87,83 @@ test:{
 
 
 export default function Header() {
+  const [anchorEl, setAnchorEl] = useState(null);
+  const navigate = useNavigate();
+  const [noti,setNoti] = useState([]);
+  const id = localStorage.getItem("id");
+  const [n_len,setN_len]= useState(0);
   const classes = useStyles();
+
+  useEffect(()=>{
+    getNoti();
+},[])
+
+
+  const open = Boolean(anchorEl);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const getNoti = () =>{
+    console.log("Inside Noti")
+        axios.get(`http://localhost:4000/customer/home/daily/${id}`)
+        .then(res=>{
+            console.log("Notifications")
+            setNoti(res.data)
+            console.log(noti)
+            setN_len(res.data.length)
+        })
+}
+  const MarkRead = ()=>{
+    console.log("inside mark read")
+    axios.post(`http://localhost:4000/customer/home/daily/${id}`)
+    .then(res=>{
+        console.log(res)
+        setNoti([])
+        window.location.reload(true)
+    })
+
+}
+
   const displayDesktop = () => {
     return <Toolbar><img src={img1} className={classes.image}/>
             <div className={classes.test}>{getMenuButtons()}</div>
-    </Toolbar>;
+            <div style={{marginLeft:"22px"}}>
+                <Button variant="contained" 
+                onClick={()=>navigate('/customer/profile')}
+                className={classes.sub_b}>Subscribe</Button>
+            </div>
+            <div style={{marginLeft:"20px"}}>
+              <Badge badgeContent={n_len} color="primary">
+                      <NotificationsIcon  color="action"  
+                      aria-controls={open ? 'basic-menu' : undefined}
+                      aria-haspopup="true"
+                      aria-expanded={open ? 'true' : undefined}
+                      onClick={handleClick} />
+                </Badge>
+                
+              <Menu
+                  id="basic-menu"
+                  anchorEl={anchorEl}
+                  open={open}
+                  onClose={handleClose}
+                  MenuListProps={{
+                  'aria-labelledby': 'basic-button',
+                  }}>
+                  {noti.map(e=>{
+                      return ( <MenuItem >{e}</MenuItem>)
+                      })
+                  }
+                  
+                  { noti.length ? <MenuItem><Button onClick = {MarkRead}>Mark As Read</Button></MenuItem> : <MenuItem>No new Notifications</MenuItem>}
+              </Menu> 
+            </div>             
+            </Toolbar>;
     
   };
 

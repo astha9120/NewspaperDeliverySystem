@@ -1,23 +1,27 @@
 import React, { useState } from "react";
-import './Cards.css';
 
-import Popup from 'reactjs-popup';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { Button, CardActionArea, CardActions } from '@mui/material';
 import { makeStyles } from '@mui/styles';
-
 import "./Modal.css";
+
 const useStyles = makeStyles({
   land:{
     display:"flex",
     justifyContent:"space-between",
-    marginTop:"70px"
-
+    marginTop:"80px" ,
+    marginBottom:"100px"
+  },
+  cards :{
+    padding: "4rem",
+    background: "#fff",
   }
+  
 })
+
 function Cards() {
   const [modal, setModal] = useState(false);
   const [modal2, setModal2] = useState(false);
@@ -53,30 +57,25 @@ function Cards() {
 
   const classes = useStyles()
   return (
-    <div className='cards'>
-      <h1>How It Works!</h1>
-      
-       <>
-       <div className={classes.land}>
-       <Card sx={{ width: 400 }}>
-      <CardActionArea className="close-modal" onClick={toggleModal}>
-        <CardMedia
-          component="img"
-          height="250"
-          image="/images/customer.png"
-          alt="green iguana"
-        />
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="div" align="center">
-            Customer
-          </Typography>
-          
-        </CardContent>
-      </CardActionArea>
-      <CardActions>
-      
-      </CardActions>
-    </Card>
+    <div className={classes.cards}>
+      <h1 style={{fontSize:"50px",marginTop:"40px"}} align="center"> HOW IT WORKS!</h1>
+      <>
+        <div className={classes.land}>
+          <Card sx={{ width: 400 }}>
+            <CardActionArea className="close-modal" onClick={toggleModal}>
+                <CardMedia
+                  component="img"
+                  height="250"
+                  image="/images/customer.png"
+                  alt="green iguana"
+                />
+              <CardContent>
+                  <Typography gutterBottom variant="h5" component="div" align="center">
+                  Customer
+                  </Typography>
+              </CardContent>
+           </CardActionArea>
+         </Card>
 
     <Card sx={{ width: 400}}>
       <CardActionArea className="close-modal" onClick={toggleModal2}>
