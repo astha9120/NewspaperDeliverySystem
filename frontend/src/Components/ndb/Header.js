@@ -56,7 +56,7 @@ const useStyles = makeStyles({
      
   },
   menuButton: {
-    fontFamily: "Lato, sans-serif",
+    fontFamily:'Playfair Display,serif',
     fontWeight: 600,
     size: "16px",
     marginLeft: "40px",

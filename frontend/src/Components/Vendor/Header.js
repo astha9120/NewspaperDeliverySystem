@@ -39,7 +39,7 @@ const useStyles = makeStyles({
         textAlign: "center"
     },
   header: {
-    backgroundColor: "transparent",
+    backgroundColor: "white",
     // backgroundColor: "#add8e6",
     color: "black",
     boxShadow: "1px",
@@ -52,7 +52,7 @@ const useStyles = makeStyles({
      
   },
   menuButton: {
-    fontFamily: "Lato, sans-serif",
+    fontFamily:'Playfair Display,serif',
     fontWeight: 600,
     size: "18px",
     marginLeft: "40px",

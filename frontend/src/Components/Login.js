@@ -92,7 +92,7 @@ const Login = () =>{
           })
             localStorage.setItem('id',parseInt(result.data));
             if(user==="vendor")
-                navigate('/vendor/profile')
+                navigate('/vendor/addnews')
             else if(user==="customer")
                 navigate('/customer/home')
             else if(user==="ndb")
