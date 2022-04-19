@@ -24,10 +24,7 @@ const useStyles = makeStyles({
         minHeight: '100vh',
         fontFamily:'Playfair Display,serif',
         // backgroundColor:'#ddd'
-      }, 
-    logo: {
-        paddingTop:"8px"
-    },
+      }
   });
 
 
@@ -46,7 +43,7 @@ const ProfileVen = () =>{
     const [address,setAddress] = useState("")
     const [phoneno,setPhoneno] = useState("")
     const [name,setName] = useState("")
-    const [profile_stat,setProfile_stat] = useState("Your bill has not been verified")
+    const [profile_stat,setProfile_stat] = useState("Your profile has not been verified")
     const id = localStorage.getItem('id');
 
     
@@ -139,7 +136,7 @@ const ProfileVen = () =>{
                         > PROFILE
                         </Typography>
                     </Grid>
-                    <Grid item lg={7} className={classes.form}>
+                    <Grid item lg={7}>
                             <TextField
                                 required
                                 sx={{ width: '40ch',
@@ -187,15 +184,13 @@ const ProfileVen = () =>{
                                 marginLeft:"15%",
                                 marginBottom:"20px"}}
                                 id="charge"
-                                label="Charge per month"
+                                label="Charge per newspaper"
                                 name="charge"
                                 value={charge!=null ? charge : ""}
                                 onChange={(e)=>setCharge(e.target.value)}
                                 autoComplete="charge"
                                 autoFocus
                             />
-
-                            
 
                             <Button
                                 type="submit"

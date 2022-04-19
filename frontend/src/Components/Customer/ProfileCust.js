@@ -10,24 +10,21 @@ import Typography from '@mui/material/Typography'
 import InputAdornment from '@mui/material/InputAdornment';
 import Swal from 'sweetalert2';
 
+import 'mapbox-gl/dist/mapbox-gl.css'
+import 'react-map-gl-geocoder/dist/mapbox-gl-geocoder.css'
+import {useRef, useCallback } from 'react'
+import MapGL from 'react-map-gl'
+import Geocoder from 'react-map-gl-geocoder'
+
 const axios = require("axios");
-const mbxGeocoding = require("@mapbox/mapbox-sdk/services/geocoding");
 
 
 const useStyles = makeStyles({
-    root: {
+    cust_root: {
         // backgroundColor:'#ddd'
-        minHeight:"100vh"
-      }, 
-    logo: {
-        paddingTop:"8px"
-    },
-    Profile:{
-        fontFamily : "Roboto",
-        color:"#88888"
-    },
-   
-
+        minHeight: '100vh',
+        fontFamily:'Playfair Display,serif',
+      }
   });
 
 
@@ -39,8 +36,6 @@ const ProfileCust = () =>{
 
     const classes = useStyles();
     const navigate = useNavigate();
-    const [state,setState] = useState("")
-    const [city,setCity] = useState("")
     const [area,setArea] = useState("")
     const [address,setAddress] = useState("")
     const [phoneno,setPhoneno] = useState("")
@@ -52,10 +47,25 @@ const ProfileCust = () =>{
     const id = localStorage.getItem('id');
     console.log("id "+id)
 
+    const mapBoxToken= process.env.REACT_APP_MAPBOX_TOKEN;
+
+      const [viewport, setViewport] = useState({
+        latitude: 40.7128,
+        longitude: -74.0060,
+        zoom: 8,
+      });
+
+
+      const geocoderContainerRef = useRef();
+      const mapRef = useRef();
+      const handleViewportChange = useCallback(
+        (newViewport) => setViewport(newViewport),
+        []
+      );
+
+
     const getData = async () => {
         const response = await axios.get(`http://localhost:4000/customer/profile/${id}`)
-        setState(response.data[0].state)
-        setCity(response.data[0].city)
         setArea(response.data[0].area)
         setAddress(response.data[0].address)
         setPhoneno(response.data[0].phoneno)
@@ -70,34 +80,14 @@ const ProfileCust = () =>{
     const submit = async(e)=>{
 
         e.preventDefault();
-
-        const mapBoxToken= process.env.REACT_APP_MAPBOX_TOKEN;
-        
-        const geocoder=mbxGeocoding({
-            accessToken:mapBoxToken,
-            types: 'country,region,place,postcode,locality,neighborhood,address'
-        });
-    
-
-        const add = `${address} , ${area} , ${city} , ${state} , United States`
-
-        const GeoData=await geocoder.forwardGeocode({
-            query:add,
-            limit:1
-        }).send()
-        
-
-        //setLat(GeoData.body.features[0].center[1])
-        //setLong(GeoData.body.features[0].center[0])
-        console.log(GeoData.body.features[0])
         
         const result = await axios.put(`http://localhost:4000/customer/profile/${id}`,{
             phoneno:phoneno,
             address:address,
             area:area,
             name:name,
-            longitude:GeoData.body.features[0].center[0],
-            latitude:GeoData.body.features[0].center[1]
+            latitude:viewport.latitude,
+            longitude:viewport.longitude,
         })
         console.log(result.data)
         if(result.data==="not available"){
@@ -125,26 +115,26 @@ const ProfileCust = () =>{
 
 
     return(
-        <div>
+        <div style={{backgroundColor:"#eae7dc"}}>
             <Header />
-        <Grid container component="main"   className={classes.root}>
+        <Grid container component="main"   className={classes.cust_root}>
             
             <Grid item lg={6} md={4} xs={2}>
                 <Grid container direction="column"  
                     justifyContent="space-evenly"
                     alignItems="center" 
                     spacing={5}>
-                    <Grid item lg={2} marginLeft="75%">
-                         {/* <img src = "../images/newsDaily.png" alt="logo" className={classes.logo}></img> */}
-                    </Grid>
-                    <Grid item lg={2} marginLeft="84%">
-                        <Typography component="h4" variant="h4" className={classes.Profile}>Profile</Typography>
+                    <Grid item lg={2}>
+                        <Typography variant="h4"
+                            style={{ fontFamily: 'Playfair Display,serif',color:"#e85a4f",paddingTop:"50px",paddingRight:"150px"}}
+                        > PROFILE
+                        </Typography>
                     </Grid>
                     <Grid item lg={7} className={classes.form}>
                     <TextField
                                 required
                                 sx={{ width: '40ch',
-                                marginLeft:"75%",
+                                marginLeft:"15%",
                                 marginBottom:"20px"}}
                                 id="name"
                                 label="Name"
@@ -157,7 +147,7 @@ const ProfileCust = () =>{
                             <TextField
                                 required
                                 sx={{ width: '40ch',
-                                marginLeft:"75%",
+                                marginLeft:"15%",
                                 marginBottom:"20px"}}
                                 id="phoneno"
                                 label="Phone Number"
@@ -171,73 +161,49 @@ const ProfileCust = () =>{
                             <TextField
                                 required
                                 sx={{ width: '40ch',
-                                marginLeft:"75%",
+                                marginLeft:"15%",
                                 marginBottom:"20px"}}
                                 id="address"
-                                label="Address"
+                                label="House no"
                                 name="address"
                                 value={address!=null ? address : ""}
                                 onChange={(e)=>setAddress(e.target.value)}
                                 autoComplete="address"
                                 autoFocus
                             />
-
-                            <TextField
-                                sx={{ width: '40ch',
-                                marginLeft:"75%",
-                                marginBottom:"20px"}}
-                                id="area"
-                                label="Area"
-                                name="area"
-                                value={area!=null ? area : ""}
-                                onChange={(e)=>setArea(e.target.value)}
-                                autoComplete="area"
-                                autoFocus
-                            />  
-
-                        <TextField
-                                required
-                                sx={{ width: '40ch',
-                                marginLeft:"75%",
-                                marginBottom:"20px"}}
-                                id="city"
-                                label="City"
-                                name="city"
-                                value={city}
-                                onChange={(e)=>setCity(e.target.value)}
-                                autoComplete="city"
-                                autoFocus
-                                
-                            />
-                            
-                        <TextField
-                                required
-                                sx={{ width: '40ch',
-                                marginLeft:"75%",
-                                marginBottom:"20px"}}
-                                id="state"
-                                label="State"
-                                name="state"
-                                value={state}
-                                onChange={(e)=>setState(e.target.value)}
-                                autoComplete="state"
-                                autoFocus
-                                
-                            />
-
+            
                             <Button
                                 type="submit"
                                 margin="normal"
-                                sx={{ width: '44ch',marginLeft:"75%",marginTop:"20px",marginBottom:"30px"}}
+                                sx={{ width: '48ch',marginLeft:"15%",marginTop:"20px",marginBottom:"30px"
+                                ,backgroundColor:"#e85a4f"}}
                                 variant="contained"
                                 onClick={submit}>
-                                {state===null ? "Submit" : "Update"}
+                                {area===null ? "Submit" : "Update"}
                             </Button>
                     </Grid>
-    
-                
-                    
-                </Grid>
+               </Grid>
+            </Grid>
+            <Grid item lg={6} md={4} xs={2}>
+                <div style={{marginTop:"50px"}} ref={geocoderContainerRef}/>
+                    <MapGL
+                        ref={mapRef}
+                        {...viewport}
+                        width="90%"
+                        height="500px"
+                        onViewportChange={handleViewportChange}
+                        mapboxApiAccessToken={mapBoxToken}
+                    >
+                        <Geocoder
+                            required
+                            mapRef={mapRef}
+                            containerRef={geocoderContainerRef}
+                            onViewportChange={handleViewportChange}
+                            mapboxApiAccessToken={mapBoxToken}
+                            position="top-left"
+                            onResult = {(r)=>setArea(r.result.place_name)}
+                        />
+                    </MapGL>
             </Grid>
         </Grid>
         </div>

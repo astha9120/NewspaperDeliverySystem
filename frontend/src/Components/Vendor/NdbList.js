@@ -55,6 +55,7 @@ const NdbList = () => {
     const [list,setList]= useState(true)
     const [allocate,setAllocate] = useState(true)
     const [quantity,setQuantity] = useState([{}])
+    const [charge,setCharge] = useState(0)
 
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -97,6 +98,11 @@ const NdbList = () => {
               setCustomerlist(res.data)
             })
 
+            axios.get(`http://localhost:4000/vendor/ndblist/charge/${id}`)
+            .then(res=> {
+              console.log(res.data)
+              setCharge(res.data[0].charge)
+            })
         
     },[])
 
@@ -115,7 +121,7 @@ const NdbList = () => {
           {list && 
           <Grid item lg={6} md={4} xs={2} sx={{marginTop:"0px",marginBottom:"40px"}}>
               <Typography variant="h2" align="center" sx={{color:"white",marginBottom:"20px",fontFamily:'Playfair Display,serif'}}>Newspaper List</Typography>
-              <Divider  sx={{ width: '20ch',marginTop:"15px",marginLeft:"29%",height:"3px",marginBottom:"10px",backgroundColor:"white",marginTop:"30px"}} />
+              <Divider  sx={{ width: '20ch',marginTop:"30px",marginLeft:"29%",height:"3px",marginBottom:"10px",backgroundColor:"white"}} />
                   
               <Paper sx={{ width: '500px', overflow: 'hidden',marginTop:"50px"}}>
                             <TableContainer sx={{ maxHeight: 440}}>
@@ -157,7 +163,7 @@ const NdbList = () => {
           {!list&&
             <Typography align="center" variant="h2" style={{paddingTop:"50px",paddingBottom:"20px",color:"#e85a4f",fontFamily:'Playfair Display,serif'}}>
                 No Ndb is allocated to you
-                <Divider  sx={{ width: '20ch',marginTop:"15px",marginLeft:"29%",height:"3px",marginBottom:"10px",backgroundColor:"white",marginTop:"30px"}} />
+                <Divider  sx={{ width: '20ch',marginTop:"30px",marginLeft:"29%",height:"3px",marginBottom:"10px",backgroundColor:"white"}} />
             </Typography>
             
           }
@@ -165,7 +171,7 @@ const NdbList = () => {
             
         <Grid item lg={6} md={4} xs={2} sx={{marginTop:"0px",marginBottom:"40px"}}>
             <Typography variant="h2" align="center" sx={{color:"white",marginBottom:"28px",fontFamily:'Playfair Display,serif'}}>Delivery Person Details</Typography>
-            <Divider  sx={{ width: '35ch',marginTop:"15px",marginLeft:"36%",height:"3px",marginBottom:"10px",backgroundColor:"white",marginTop:"30px"}} />
+            <Divider  sx={{ width: '35ch',marginLeft:"36%",height:"3px",marginBottom:"10px",backgroundColor:"white",marginTop:"30px"}} />
             <Paper sx={{ width: '1200px', overflow: 'hidden',marginTop:"80px"}}>
                             <TableContainer sx={{ maxHeight: 440}}>
                                 <Table stickyHeader aria-label="sticky table">
@@ -177,6 +183,10 @@ const NdbList = () => {
                                             fontSize:"22px" ,textAlign:"center"}}>Newspaper</TableCell> 
                                             <TableCell sx={{backgroundColor:"#eae7dc",fontFamily:'Playfair Display,serif',color:"black",
                                             fontSize:"22px" ,textAlign:"center"}}>Quantity</TableCell> 
+                                            <TableCell sx={{backgroundColor:"#eae7dc",fontFamily:'Playfair Display,serif',color:"black",
+                                            fontSize:"22px" ,textAlign:"center"}}>Amount</TableCell> 
+                                             <TableCell sx={{backgroundColor:"#eae7dc",fontFamily:'Playfair Display,serif',color:"black",
+                                            fontSize:"22px" ,textAlign:"center"}}>Total price</TableCell> 
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
@@ -196,6 +206,14 @@ const NdbList = () => {
                                                     <Typography paddingBottom="2px" fontFamily='Nunito,sans-serif'>{row1.count} </Typography>
                                                   ))} 
                                                 </TableCell>  
+                                                <TableCell sx={{fontFamily:'Nunito,sans-serif',fontSize:"16px",textAlign:"center"}}>
+                                                  {row.newspaper.map((row1) => (
+                                                    <Typography paddingBottom="2px" fontFamily='Nunito,sans-serif'>{row1.price} </Typography>
+                                                  ))} 
+                                                </TableCell> 
+                                                <TableCell sx={{fontFamily:'Nunito,sans-serif',fontSize:"16px",textAlign:"center"}}>
+                                                   { row.total_p}
+                                                </TableCell> 
                                             </TableRow>
                                         )})
                                     }
