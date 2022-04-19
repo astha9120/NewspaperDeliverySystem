@@ -1,5 +1,7 @@
 import "./AboutUs.css"
 import Header from './Header';
+import Divider from '@mui/material/Divider';
+import Typography from '@mui/material/Typography';
 export default function AboutUs(){
     
     return(
@@ -9,9 +11,12 @@ export default function AboutUs(){
      <div className="aboutus--section">
           <div className="aboutus--container">
              <div className="aboutus--content-section">
-                <div className="aboutus--title">
-                            <h1>About us</h1>
-                </div>
+                <Typography className="aboutus--title" fontFamily='Playfair Display,serif'  margin="0px"
+  padding="0px" boxSizing="border-box"  fontSize="35px" fontWeight="400" color="#ffffff" marginLeft="20%">
+                            <h1>ABOUT US</h1>
+                            
+                </Typography>
+                <Divider  sx={{ width: '10ch',marginTop:"15px",marginLeft:"37%",height:"3px",marginBottom:"40px",backgroundColor:"white"}} />
                     <div className="aboutus--content">
                         <h3>“The newspaper is a greater treasure to the people than uncounted millions of gold.”
                          <br/><b className="aboutus--author">Henry Ward Beecher</b></h3>
