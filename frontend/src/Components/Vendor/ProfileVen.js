@@ -20,22 +20,14 @@ const axios = require("axios");
 
 
 const useStyles = makeStyles({
-    root: {
+    vendor_root: {
         minHeight: '100vh',
-        fontFamily : "Space Mono, monospace",
+        fontFamily:'Playfair Display,serif',
         // backgroundColor:'#ddd'
       }, 
     logo: {
         paddingTop:"8px"
     },
-    Profile:{
-        fontFamily: 'Playfair Display,serif',
-        color:"#e85a4f",
-        paddingTop:"50px",
-        paddingRight:"250px"
-    },
-   
-
   });
 
 
@@ -54,6 +46,7 @@ const ProfileVen = () =>{
     const [address,setAddress] = useState("")
     const [phoneno,setPhoneno] = useState("")
     const [name,setName] = useState("")
+    const [profile_stat,setProfile_stat] = useState("Your bill has not been verified")
     const id = localStorage.getItem('id');
 
     
@@ -62,7 +55,7 @@ const ProfileVen = () =>{
 
       const [viewport, setViewport] = useState({
         latitude: 40.7128,
-        longitude: 74.0060,
+        longitude: -74.0060,
         zoom: 8,
       });
 
@@ -74,22 +67,6 @@ const ProfileVen = () =>{
         []
       );
 
-    // const set_Add = async(e)=>{
-
-    //     let place=''
-
-    //     place = await e.result.place_name.map(p=>{
-    //         place.append(p)
-    //         if(p==',')
-    //             return place
-    //     })
-
-    //     setArea(place)
-    //     console.log("area is")
-    //     console.log(area)
-
-    // }   
-
     const getData = async () => {
         const response = await axios.get(`http://localhost:4000/vendor/profile/${id}`)
         setCharge(response.data[0].charge)
@@ -97,6 +74,8 @@ const ProfileVen = () =>{
         setAddress(response.data[0].address)
         setPhoneno(response.data[0].phoneno)
         setName(response.data[0].name)
+        if(response.data[0].accept==1)
+            setProfile_stat("Your profile is verified")
         
     }
     
@@ -106,6 +85,7 @@ const ProfileVen = () =>{
 
     const submit = async(e)=>{
         e.preventDefault();
+        console.log(area)
 
         const result = await axios.put(`http://localhost:4000/vendor/profile/${id}`,{
             phoneno:phoneno,
@@ -143,9 +123,9 @@ const ProfileVen = () =>{
 
 
     return(
-       <div>
+       <div style={{backgroundColor:"#eae7dc"}}>
         <Header />
-        <Grid container component="main"   className={classes.root}>
+        <Grid container component="main" className={classes.vendor_root}>
              
             <Grid item lg={6} md={4} xs={2}>
                 <Grid container direction="column"  
@@ -153,13 +133,17 @@ const ProfileVen = () =>{
                     alignItems="center" 
                     spacing={5}>
                     <Grid item lg={2}>
-                        <Typography component="h4" variant="h4" className={classes.Profile}>PROFILE</Typography>
+                         
+                        <Typography variant="h4"
+                            style={{ fontFamily: 'Playfair Display,serif',color:"#e85a4f",paddingTop:"50px",paddingRight:"150px"}}
+                        > PROFILE
+                        </Typography>
                     </Grid>
                     <Grid item lg={7} className={classes.form}>
                             <TextField
                                 required
                                 sx={{ width: '40ch',
-                                marginLeft:"10%",
+                                marginLeft:"15%",
                                 marginBottom:"20px"}}
                                 id="name"
                                 label="Name"
@@ -172,7 +156,7 @@ const ProfileVen = () =>{
                             <TextField
                                 required
                                 sx={{ width: '40ch',
-                                marginLeft:"10%",
+                                marginLeft:"15%",
                                 marginBottom:"20px"}}
                                 id="phoneno"
                                 label="Phone Number"
@@ -186,7 +170,7 @@ const ProfileVen = () =>{
                             <TextField
                                 required
                                 sx={{ width: '40ch',
-                                marginLeft:"10%",
+                                marginLeft:"15%",
                                 marginBottom:"20px"}}
                                 id="address"
                                 label="House number"
@@ -200,7 +184,7 @@ const ProfileVen = () =>{
                             <TextField
                                 required
                                 sx={{ width: '40ch',
-                                marginLeft:"10%",
+                                marginLeft:"15%",
                                 marginBottom:"20px"}}
                                 id="charge"
                                 label="Charge per month"
@@ -216,7 +200,8 @@ const ProfileVen = () =>{
                             <Button
                                 type="submit"
                                 margin="normal"
-                                sx={{ width: '44ch',marginLeft:"10%",marginTop:"20px",marginBottom:"30px"}}
+                                sx={{ width: '48ch',marginLeft:"15%",marginTop:"20px",marginBottom:"30px",backgroundColor:"#e85a4f",
+                            }}
                                 variant="contained"
                                 onClick={submit}>
                                 {charge===null ? "Submit" : "Update"}
@@ -238,6 +223,7 @@ const ProfileVen = () =>{
                         mapboxApiAccessToken={mapBoxToken}
                     >
                         <Geocoder
+                            required
                             mapRef={mapRef}
                             containerRef={geocoderContainerRef}
                             onViewportChange={handleViewportChange}
@@ -247,7 +233,13 @@ const ProfileVen = () =>{
                         />
                     </MapGL>
             </Grid>
+            <Typography align="center" marginTop="40px"
+                marginBottom="30px" height="35px" width="100%" fontSize="20px" 
+                fontFamily= 'Playfair Display,serif' backgroundColor="#e85a4f" color="white">
+                {profile_stat}
+            </Typography>
         </Grid>
+        
     </div>
     )
 
