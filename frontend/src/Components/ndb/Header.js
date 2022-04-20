@@ -43,7 +43,7 @@ const useStyles = makeStyles({
         textAlign: "center"
     },
   header: {
-    backgroundColor: "transparent",
+    backgroundColor: "white",
     //backgroundColor: "#add8e6",
     color: "black",
     boxShadow: "1px",

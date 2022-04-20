@@ -3,6 +3,7 @@ import Header from "./Header";
 import { useState ,useEffect } from 'react';
 import { makeStyles } from '@mui/styles';
 import Swal from 'sweetalert2';
+import Grid from '@mui/material/Grid'
 import Button from '@mui/material/Button';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -10,6 +11,11 @@ import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import { useNavigate } from 'react-router-dom';
+import Paper from '@mui/material/Paper';
+import Divider from '@mui/material/Divider';
+import TablePagination from '@mui/material/TablePagination';
+import TableContainer from '@mui/material/TableContainer';
+
 
 const axios = require("axios")
 
@@ -18,6 +24,7 @@ const useStyles = makeStyles({
         textAlign:"center",
         paddingTop:"40px",
         paddingBottom:"30px",
+        color:"#e85a4f"
     }
 })
 
@@ -27,7 +34,31 @@ const  BillCollection=()=>{
     const [bill,setBill]= useState([{name:"",bill:0,address:"",area:"",bill_status:0,o_id:-1}])
     const [billCollected,setBillCollected]=useState([{name:"",bill:0,address:"",area:"",collection_date:"",o_id:-1}])
     const id = localStorage.getItem('id')
+
+    const [page, setPage] = useState(0);
+    const [rowsPerPage, setRowsPerPage] = useState(5);
+
+    const handleChangePage = (event, newPage) => {
+        setPage(newPage);
+      };
     
+      const handleChangeRowsPerPage = (event) => {
+        setRowsPerPage(+event.target.value);
+        setPage(0);
+      };
+
+    const [page2, setPage2] = useState(0);
+    const [rowsPerPage2, setRowsPerPage2] = useState(10);
+
+    const handleChangePage2 = (event, newPage) => {
+        setPage2(newPage);
+      };
+    
+      const handleChangeRowsPerPage2 = (event) => {
+        setRowsPerPage2(+event.target.value);
+        setPage2(0);
+      };
+
 
     const getBills=async()=>{
         const result = await axios.get(`http://localhost:4000/ndb/billcollection/${id}`)
@@ -62,21 +93,7 @@ const  BillCollection=()=>{
                 })
             }   
         })
-        //console.log(willDelete)
-            // if (willDelete) {
-            //   swal("Poof! Your imaginary file has been deleted!", {
-            //     icon: "success",
-            //   });
-            // } else {
-            //   swal("Your imaginary file is safe!");
-            // }
-          
-           // axios.put(`http://localhost:4000/ndb/billcollection/${o_id}`)
-                    // .then(res=>{
-                    //         console.log("collect button click")
-                    //         console.log(res.data)
-                    //     })
-                    //console.log(result.data)
+      
         
         window.location.reload(true)
     }
@@ -100,53 +117,111 @@ const  BillCollection=()=>{
 
 
     return(
-        <div style={{minHeight:"100vh",backgroundColor:"#E8E9FD"}}>
+        <div style={{minHeight:"100vh",backgroundColor:"#eae7dc"}}>
             <Header></Header>
-            <Typography variant="h2" className={classes.bill}>Bill Collection</Typography>
-            <Table aria-label="simple table" sx={{marginLeft:"25%",width:"50%"}}>
-                <TableHead>
-                    <TableRow style={{backgroundColor:"#FF6D7F"}}>
-                        <TableCell  sx={{textAlign:"center",fontSize:"14px",fontWeight:"bold",color:"white"}}>Name</TableCell>
-                        <TableCell  sx={{textAlign:"center",fontSize:"14px",fontWeight:"bold",color:"white"}}>Address</TableCell>
-                        <TableCell  sx={{textAlign:"center",fontSize:"14px",fontWeight:"bold",color:"white"}}>Price</TableCell>
-                        <TableCell  sx={{textAlign:"center",fontSize:"14px",fontWeight:"bold",color:"white"}}>Status</TableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody style={{backgroundColor:"#C6F3BF"}}>
-                    {bill.map((e) => (
-                        <TableRow key={e.o_id} >
-                            <TableCell sx={{textAlign:"center" , fontSize:"14px"}} >{e.name}</TableCell>
-                            <TableCell sx={{textAlign:"center" , fontSize:"14px"}} >{e.address}</TableCell>
-                            <TableCell sx={{textAlign:"center" , fontSize:"14px"}} >{e.bill}</TableCell>
-                            <Button  sx= {{marginLeft:"20%",marginTop:"5px"}} type="submit" 
-                                variant="outlined" onClick={collect(e.o_id)}>
-                                Collect
-                            </Button>
-                        </TableRow>
-                    ))}
-                </TableBody>
-            </Table>
-            <Typography variant="h2" className={classes.bill}>Bill Collected</Typography>
-            <Table aria-label="simple table" sx={{marginLeft:"25%",width:"50%"}}>
-                <TableHead>
-                    <TableRow style={{backgroundColor:"#FF6D7F"}}>
-                        <TableCell  sx={{textAlign:"center",fontSize:"14px",fontWeight:"bold",color:"white"}}>Name</TableCell>
-                        <TableCell  sx={{textAlign:"center",fontSize:"14px",fontWeight:"bold",color:"white"}}>Address</TableCell>
-                        <TableCell  sx={{textAlign:"center",fontSize:"14px",fontWeight:"bold",color:"white"}}>Price</TableCell>
-                        <TableCell  sx={{textAlign:"center",fontSize:"14px",fontWeight:"bold",color:"white"}}>Date</TableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody style={{backgroundColor:"#C6F3BF"}}>
-                    {billCollected.map((e) => (
-                        <TableRow key={e.o_id} >
-                            <TableCell sx={{textAlign:"center" , fontSize:"14px"}} >{e.name}</TableCell>
-                            <TableCell sx={{textAlign:"center" , fontSize:"14px"}} >{e.address}</TableCell>
-                            <TableCell sx={{textAlign:"center" , fontSize:"14px"}} >{e.bill}</TableCell>
-                            <TableCell sx={{textAlign:"center" , fontSize:"14px"}} >{e.collection_date.substring(0,10)}</TableCell>
-                        </TableRow>
-                    ))}
-                </TableBody>
-            </Table>
+            <Grid container component="main"  direction="column" justifyContent="flex-start"alignItems="center"  
+                spacing={5} minHeight="100vh">          
+                <Grid item lg={6} md={4} xs={2} sx={{marginTop:"0px",marginBottom:"40px"}}>
+                <Typography variant="h2" align="center" className={classes.bill} style={{fontFamily:'Playfair Display,serif'}}>Bill Collection</Typography>
+                <Divider  sx={{ width: '20ch',marginTop:"20px",marginLeft:"43%",height:"3px",marginBottom:"15px",backgroundColor:"#e85a4f"}} />
+                    <Paper sx={{ width: '1300px', overflow: 'hidden',marginTop:"50px"}}>
+                            <TableContainer sx={{ maxHeight: 440}}>
+                                <Table stickyHeader aria-label="sticky table">
+                                    <TableHead >
+                                        <TableRow >
+                                           <TableCell sx={{fontFamily: 'Playfair Display,serif',backgroundColor:"#e85a4f",color:"white",
+                                            fontSize:"22px" ,textAlign:"center"}}>Name</TableCell> 
+                                            <TableCell sx={{backgroundColor:"#e85a4f",fontFamily:'Playfair Display,serif',color:"white",
+                                            fontSize:"22px" ,textAlign:"center"}}>Address</TableCell>
+                                            <TableCell sx={{backgroundColor:"#e85a4f",fontFamily:'Playfair Display,serif',color:"white",
+                                            fontSize:"22px" ,textAlign:"center"}}>Price</TableCell>
+                                            <TableCell sx={{backgroundColor:"#e85a4f",fontFamily:'Playfair Display,serif',color:"white",
+                                            fontSize:"22px" ,textAlign:"center"}}>Status</TableCell> 
+                                        </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                    {bill
+                                        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                        .map((row) => {
+                                        return (
+                                            <TableRow hover role="checkbox" tabIndex={-1} key={row.o_id}>
+                                                <TableCell sx={{fontFamily:'Nunito,sans-serif',fontSize:"16px",textAlign:"center"}}>{row.name}</TableCell>
+                                                <TableCell sx={{fontFamily:'Nunito,sans-serif',fontSize:"16px",textAlign:"center"}}>{row.address}</TableCell>
+                                                <TableCell sx={{fontFamily:'Nunito,sans-serif',fontSize:"16px",textAlign:"center"}}>{row.bill}</TableCell>
+                                                <TableCell>
+                                                    <Button  sx= {{marginLeft:"35%",marginTop:"5px",backgroundColor:"#e85a4f",color:"white"}} type="submit" 
+                                                        variant="contained"  onClick={collect(row.o_id)}>
+                                                    Collect
+                                                    </Button>
+                                                </TableCell>
+                                                                                           
+                                            </TableRow>
+                                        )})
+                                    }
+                                    </TableBody>
+                                </Table>
+                            </TableContainer>
+                            <TablePagination
+                                rowsPerPageOptions={[5, 10, 20]}
+                                component="div"
+                                count={bill.length}
+                                rowsPerPage={rowsPerPage}
+                                page={page}
+                                onPageChange={handleChangePage}
+                                onRowsPerPageChange={handleChangeRowsPerPage}
+                            />
+                        </Paper>
+                </Grid>
+                <Grid item lg={6} md={4} xs={2} sx={{marginTop:"0px",marginBottom:"40px"}}>
+                <Typography variant="h2" align="center" className={classes.bill} style={{fontFamily:'Playfair Display,serif'}}>Bill Collected</Typography>
+                <Divider  sx={{ width: '20ch',marginTop:"20px",marginLeft:"43%",height:"3px",marginBottom:"15px",backgroundColor:"#e85a4f"}} />
+                    <Paper sx={{ width: '1300px', overflow: 'hidden',marginTop:"50px"}}>
+                            <TableContainer sx={{ maxHeight: 440}}>
+                                <Table stickyHeader aria-label="sticky table">
+                                    <TableHead >
+                                        <TableRow >
+                                           <TableCell sx={{fontFamily: 'Playfair Display,serif',backgroundColor:"#e85a4f",color:"white",
+                                            fontSize:"22px" ,textAlign:"center"}}>Name</TableCell> 
+                                            <TableCell sx={{backgroundColor:"#e85a4f",fontFamily:'Playfair Display,serif',color:"white",
+                                            fontSize:"22px" ,textAlign:"center"}}>Address</TableCell>
+                                            <TableCell sx={{backgroundColor:"#e85a4f",fontFamily:'Playfair Display,serif',color:"white",
+                                            fontSize:"22px" ,textAlign:"center"}}>Price</TableCell>
+                                            <TableCell sx={{backgroundColor:"#e85a4f",fontFamily:'Playfair Display,serif',color:"white",
+                                            fontSize:"22px" ,textAlign:"center"}}>Date</TableCell> 
+                                        </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                    {billCollected
+                                        .slice(page2 * rowsPerPage2, page2 * rowsPerPage2 + rowsPerPage2)
+                                        .map((row) => {
+                                        return (
+                                            <TableRow hover role="checkbox" tabIndex={-1} key={row.o_id}>
+                                                <TableCell sx={{fontFamily:'Nunito,sans-serif',fontSize:"16px",textAlign:"center"}}>{row.name}</TableCell>
+                                                <TableCell sx={{fontFamily:'Nunito,sans-serif',fontSize:"16px",textAlign:"center"}}>{row.address}</TableCell>
+                                                <TableCell sx={{fontFamily:'Nunito,sans-serif',fontSize:"16px",textAlign:"center"}}>{row.bill}</TableCell>
+                                                <TableCell sx={{fontFamily:'Nunito,sans-serif',fontSize:"16px",textAlign:"center"}}>{row.collection_date.substring(0,10)}</TableCell>           
+                                                                                           
+                                            </TableRow>
+                                        )})
+                                    }
+                                    </TableBody>
+                                </Table>
+                            </TableContainer>
+                            <TablePagination
+                                rowsPerPageOptions={[5, 10, 20]}
+                                component="div"
+                                count={billCollected.length}
+                                rowsPerPage={rowsPerPage2}
+                                page={page2}
+                                onPageChange={handleChangePage2}
+                                onRowsPerPageChange={handleChangeRowsPerPage2}
+                            />
+                        </Paper>
+                </Grid>
+            </Grid>
+            
+            
+            
         </div>
     )
 }
