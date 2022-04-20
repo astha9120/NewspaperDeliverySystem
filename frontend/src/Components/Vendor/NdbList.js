@@ -19,9 +19,7 @@ import Divider from '@mui/material/Divider';
 const axios = require("axios");
 
 const useStyles = makeStyles({
-   root:{
-    fontFamily : "Roboto"
-   }
+   
   });
 
 // const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -114,7 +112,6 @@ const NdbList = () => {
           direction="column" 
           justifyContent="flex-start"
           alignItems="center"  
-          className={classes.root}
           spacing={5} minHeight="100vh"
           marginTop="20px" > 
           
@@ -184,14 +181,14 @@ const NdbList = () => {
                                             <TableCell sx={{backgroundColor:"#eae7dc",fontFamily:'Playfair Display,serif',color:"black",
                                             fontSize:"22px" ,textAlign:"center"}}>Quantity</TableCell> 
                                             <TableCell sx={{backgroundColor:"#eae7dc",fontFamily:'Playfair Display,serif',color:"black",
-                                            fontSize:"22px" ,textAlign:"center"}}>Amount</TableCell> 
+                                            fontSize:"22px" ,textAlign:"center"}}>Amount (₹)</TableCell> 
                                              <TableCell sx={{backgroundColor:"#eae7dc",fontFamily:'Playfair Display,serif',color:"black",
-                                            fontSize:"22px" ,textAlign:"center"}}>Total price</TableCell> 
+                                            fontSize:"22px" ,textAlign:"center"}}>Total price (₹)</TableCell> 
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
                                     {customerlist
-                                        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                        .slice(page2 * rowsPerPage2, page2 * rowsPerPage2 + rowsPerPage2)
                                         .map((row) => {
                                         return (
                                             <TableRow hover role="checkbox" tabIndex={-1} key={row.n_id}>
@@ -230,7 +227,7 @@ const NdbList = () => {
                                 onRowsPerPageChange={handleChangeRowsPerPage2}
                             />
                         </Paper>
-      </Grid>
+                </Grid>
            }
           </Grid>
         

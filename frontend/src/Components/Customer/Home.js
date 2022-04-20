@@ -155,13 +155,7 @@ const Home = ()=>{
                     )})
                 }
             </Grid>
-            {/* <Button  type="submit"
-                sx={{ width: '44ch',marginLeft:"69%",marginBottom:"30px",fontSize:"20px",color:"#027eb5"}}
-                fontFamily= 'Helvetica Neue, Helvetica, Arial, sans-serif'
-                onClick={()=>navigate('/customer/profile')}
-                >
-                Subscribe
-            </Button>    */}
+    
 
             <Button  type="submit" variant="contained"
                 sx={{ width: '39ch',color:"black",backgroundColor:"#e98074",marginLeft:"610px",marginBottom:"20px"}}
