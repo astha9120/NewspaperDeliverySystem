@@ -9,11 +9,9 @@ import { TextareaAutosize } from '@mui/base';
 
 const axios = require("axios");
 
-const useStyles = makeStyles({
-})
 
-function Footer() {
-    const classes = useStyles();
+
+function Support() {
     const navigate = useNavigate();
     const [name,setName] = useState("")
     const [email,setEmail] = useState("")
@@ -45,13 +43,11 @@ function Footer() {
         </div>
         <div>
             <TextareaAutosize required id="s_msg" placeholder="Write down Issue/Suggestion" name="msg" value={msg}
-            sx={{marginBottom:"30px",backgroundColor:"white"}}
             aria-label="minimum height"
-           minRows={7}
-            style={{ width: 490 ,marginBottom:'20px',paddingLeft:'12px',paddingTop:'10px',fontSize:'17px'}}
-            maxRows={10}
+            minRows={7}
+            style={{ width: 480 ,marginBottom:'30px',paddingLeft:'12px',paddingTop:'10px',fontSize:'17px',fontFamily:"roboto"}}
+            maxRows={9}
              onChange={(e)=>setMsg(e.target.value)}/> 
-
         </div>
         <div>
             <Button type="submit" marginTop="30px" variant="contained"onClick={submit} sx={{width: '62ch',height:'7ch',backgroundColor:"orange"}}>Send
@@ -68,4 +64,4 @@ function Footer() {
   );
 }
 
-export default Footer;
+export default Support;
