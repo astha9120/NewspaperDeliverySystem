@@ -169,8 +169,7 @@ const Addnews = ()=>{
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                    {newspaper
-                                        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                    {newspaper.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                         .map((row) => {
                                         return (
                                             <TableRow hover role="checkbox" tabIndex={-1} key={row.n_id}>
