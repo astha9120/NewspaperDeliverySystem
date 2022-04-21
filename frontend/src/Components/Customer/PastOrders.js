@@ -38,7 +38,10 @@ const PastOrders = ()=>{
     const id = localStorage.getItem('id')
 
     const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(3);
+    const [rowsPerPage, setRowsPerPage] = useState(5);
+
+    const [orderDirection,setOrderDirection]=useState('asc')
+    const [valueToOrderBy,setValueToOrderBy] = useState("date")
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -49,7 +52,41 @@ const PastOrders = ()=>{
         setPage(0);
       };
 
-     
+          
+
+    const handleRequestSort = (event,property)=>{
+        const isAscending = (valueToOrderBy === property && orderDirection === 'asc')
+        setValueToOrderBy(property)
+        setOrderDirection(isAscending ? 'desc' : 'asc')
+    }
+  
+    const createSortHandler = (property) => (event) =>{
+        handleRequestSort(event,property)
+    }
+  
+    function descendingComparator(a,b,orderBy){
+        if(b[orderBy]<a[orderBy])
+            return -1;
+        if(b[orderBy]>a[orderBy])
+            return 1;
+        return 0;
+    }
+  
+    function getComparator(order,orderBy){
+        return order === 'desc' 
+        ? (a,b) => descendingComparator(a,b,orderBy)
+        : (a,b) => -descendingComparator(a,b,orderBy)
+    }
+  
+    const sortedRowInformation = (rowArray , comparator) =>{
+        const stabilizedRowArray = rowArray.map((el,index)=>[el,index])
+        stabilizedRowArray.sort((a,b)=>{
+            const order = comparator(a[0],b[0])
+            if(order!==0) return order
+            return a[1]-b[1]
+        })
+        return stabilizedRowArray.map((el)=>el[0])
+    }
 
 
     const getOrders = async()=>{
@@ -89,25 +126,46 @@ const PastOrders = ()=>{
             <Table stickyHeader aria-label="sticky table" >
                 <TableHead>
                     <TableRow >
-                        <TableCell  sx={{backgroundColor:"#e98074",fontFamily:'Playfair Display,serif',color:"black",
-                                            fontSize:"20px" ,textAlign:"center"}}
-                                            >Date</TableCell>
+                        <TableCell  key="date"  sx={{backgroundColor:"#e98074",fontFamily:'Playfair Display,serif',color:"black",
+                                    fontSize:"20px" ,textAlign:"center"}}>
+                            <TableSortLabel active={valueToOrderBy==="date"}
+                             direction = {valueToOrderBy==="date" ? orderDirection : 'asc'} onClick ={createSortHandler("date")}>
+                                 Date
+                            </TableSortLabel>
+                        </TableCell>
                                             
                         <TableCell  sx={{backgroundColor:"#e98074",fontFamily:'Playfair Display,serif',color:"black",
-                                            fontSize:"20px" ,textAlign:"center"}}>Duration</TableCell>
-                        <TableCell  sx={{backgroundColor:"#e98074",fontFamily:'Playfair Display,serif',color:"black",
-                                            fontSize:"20px" ,textAlign:"center"}}>Price</TableCell>
-                        <TableCell  sx={{backgroundColor:"#e98074",fontFamily:'Playfair Display,serif',color:"black",
-                                            fontSize:"20px" ,textAlign:"center"}}>Status</TableCell>
-                        <TableCell  sx={{backgroundColor:"#e98074",fontFamily:'Playfair Display,serif',color:"black",
-                                            fontSize:"20px" ,textAlign:"center"}}>Details</TableCell>
+                                    fontSize:"20px" ,textAlign:"center"}}>
+                            Duration
+                        </TableCell>
+
+                        <TableCell key="bill" sx={{backgroundColor:"#e98074",fontFamily:'Playfair Display,serif',color:"black",
+                                    fontSize:"20px" ,textAlign:"center"}}>
+                           <TableSortLabel active={valueToOrderBy==="bill"} 
+                             direction = {valueToOrderBy==="bill" ? orderDirection : 'asc'} onClick ={createSortHandler("bill")}>
+                                 Price
+                            </TableSortLabel>
+                        </TableCell>
+
+                        <TableCell  key="bill_status" sx={{backgroundColor:"#e98074",fontFamily:'Playfair Display,serif',color:"black",
+                                    fontSize:"20px" ,textAlign:"center"}}>
+                            <TableSortLabel active={valueToOrderBy==="bill_status"} 
+                             direction = {valueToOrderBy==="bill_status" ? orderDirection : 'asc'} onClick ={createSortHandler("bill_status")}>
+                                 Status
+                            </TableSortLabel>
+                        </TableCell>
+                        <TableCell key="o_id" sx={{backgroundColor:"#e98074",fontFamily:'Playfair Display,serif',color:"black",
+                            fontSize:"20px" ,textAlign:"center"}}>
+                                Details
+                        </TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody style={{backgroundColor:"#C6F3BF"}}>
-                    {orders.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                        .map((e) => {
+                    {sortedRowInformation(orders,getComparator(orderDirection,valueToOrderBy))
+                        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                        .map((e,index) => {
                         return(
-                        <TableRow  hover role="checkbox" tabIndex={-1} key={e.o_id} >
+                        <TableRow  key={index} hover role="checkbox" tabIndex={-1} >
                             <TableCell sx={{textAlign:"center" , fontFamily:'Nunito,sans-serif',fontSize:"16px",backgroundColor:"#eae7dc",color:"black"}} >{e.date.substring(0,10)}</TableCell>
                             <TableCell sx={{textAlign:"center" , fontFamily:'Nunito,sans-serif',fontSize:"16px",backgroundColor:"#eae7dc",color:"black"}} >30</TableCell>
                             <TableCell sx={{textAlign:"center" , fontFamily:'Nunito,sans-serif',fontSize:"16px",backgroundColor:"#eae7dc",color:"black"}} >{e.bill}</TableCell>
@@ -123,7 +181,7 @@ const PastOrders = ()=>{
             </Table>
             </TableContainer>
             <TablePagination
-                                rowsPerPageOptions={[3, 10, 20]}
+                                rowsPerPageOptions={[5, 10, 20]}
                                 component="div"
                                 count={orders.length}
                                 rowsPerPage={rowsPerPage}

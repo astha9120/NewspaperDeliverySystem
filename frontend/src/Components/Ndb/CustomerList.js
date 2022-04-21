@@ -32,6 +32,9 @@ const CustomerList = () => {
 
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
+    
+    const [orderDirection,setOrderDirection]=useState('asc')
+    const [valueToOrderBy,setValueToOrderBy] = useState("name")
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -54,7 +57,41 @@ const CustomerList = () => {
         setPage2(0);
       };
 
+      
 
+    const handleRequestSort = (event,property)=>{
+      const isAscending = (valueToOrderBy === property && orderDirection === 'asc')
+      setValueToOrderBy(property)
+      setOrderDirection(isAscending ? 'desc' : 'asc')
+  }
+
+  const createSortHandler = (property) => (event) =>{
+      handleRequestSort(event,property)
+  }
+
+  function descendingComparator(a,b,orderBy){
+      if(b[orderBy]<a[orderBy])
+          return -1;
+      if(b[orderBy]>a[orderBy])
+          return 1;
+      return 0;
+  }
+
+  function getComparator(order,orderBy){
+      return order === 'desc' 
+      ? (a,b) => descendingComparator(a,b,orderBy)
+      : (a,b) => -descendingComparator(a,b,orderBy)
+  }
+
+  const sortedRowInformation = (rowArray , comparator) =>{
+      const stabilizedRowArray = rowArray.map((el,index)=>[el,index])
+      stabilizedRowArray.sort((a,b)=>{
+          const order = comparator(a[0],b[0])
+          if(order!==0) return order
+          return a[1]-b[1]
+      })
+      return stabilizedRowArray.map((el)=>el[0])
+  }
 
     useEffect(()=>{
 
@@ -150,51 +187,66 @@ const CustomerList = () => {
            <Typography variant="h2" align="center" sx={{color:"white",marginBottom:"28px",fontFamily:'Playfair Display,serif'}}>Customer Details</Typography>
             <Divider  sx={{ width: '35ch',marginLeft:"36%",height:"3px",marginBottom:"10px",backgroundColor:"white",marginTop:"30px"}} />
             <Paper sx={{ width: '1200px', overflow: 'hidden',marginTop:"80px"}}>
-                            <TableContainer sx={{ maxHeight: 440}}>
-                                <Table stickyHeader aria-label="sticky table">
-                                    <TableHead >
-                                        <TableRow >
-                                          <TableCell sx={{backgroundColor:"#eae7dc",fontFamily:'Playfair Display,serif',color:"black",
-                                            fontSize:"22px" ,textAlign:"center"}}>Name</TableCell> 
-                                           <TableCell sx={{backgroundColor:"#eae7dc",fontFamily:'Playfair Display,serif',color:"black",
-                                            fontSize:"22px" ,textAlign:"center"}}>House no</TableCell> 
-                                            <TableCell sx={{backgroundColor:"#eae7dc",fontFamily:'Playfair Display,serif',color:"black",
-                                            fontSize:"22px" ,textAlign:"center"}}>Address</TableCell> 
-                                            <TableCell sx={{backgroundColor:"#eae7dc",fontFamily:'Playfair Display,serif',color:"black",
-                                            fontSize:"22px" ,textAlign:"center"}}>Newspapper</TableCell> 
-                                        </TableRow>
-                                    </TableHead>
-                                    <TableBody>
-                                    {customerlist
-                                        .slice(page2 * rowsPerPage2, page2 * rowsPerPage2 + rowsPerPage2)
-                                        .map((row) => {
-                                        return (
-                                            <TableRow hover role="checkbox" tabIndex={-1} key={row.c_id}>
-                                                <TableCell sx={{fontFamily:'Nunito,sans-serif',fontSize:"16px",textAlign:"center"}}>{row.name}</TableCell>
-                                                <TableCell sx={{fontFamily:'Nunito,sans-serif',fontSize:"16px",textAlign:"center"}}>{row.address}</TableCell>
-                                                <TableCell sx={{fontFamily:'Nunito,sans-serif',fontSize:"16px",textAlign:"center"}}>{row.area}</TableCell>
-                                                <TableCell sx={{fontFamily:'Nunito,sans-serif',fontSize:"16px",textAlign:"center"}}>
-                                                  {row.newspaper.map((row1) => (
-                                                  <Typography paddingBottom="2px" fontFamily='Nunito,sans-serif'>{row1} </Typography>
-                                                  ))} 
-                                                </TableCell>
-                  
-                                            </TableRow>
-                                        )})
-                                    }
-                                    </TableBody>
-                                </Table>
-                            </TableContainer>
-                            <TablePagination
-                                rowsPerPageOptions={[10, 20, 50]}
-                                component="div"
-                                count={customerlist.length}
-                                rowsPerPage={rowsPerPage2}
-                                page={page2}
-                                onPageChange={handleChangePage2}
-                                onRowsPerPageChange={handleChangeRowsPerPage2}
-                            />
-                        </Paper>
+
+        <TableContainer sx={{maxHeight:440}}>
+            <Table>
+                <TableHead>
+                    <TableRow>
+                        <TableCell key="name"  sx={{backgroundColor:"#eae7dc",fontFamily:'Playfair Display,serif',color:"black",
+                            fontSize:"22px" ,textAlign:"center"}}>
+                            <TableSortLabel active={valueToOrderBy==="name"}
+                             direction = {valueToOrderBy==="name" ? orderDirection : 'asc'} onClick ={createSortHandler("name")}
+                            >Name</TableSortLabel>
+                        </TableCell>
+                        <TableCell key="address"  sx={{backgroundColor:"#eae7dc",fontFamily:'Playfair Display,serif',color:"black",
+                            fontSize:"22px" ,textAlign:"center"}}>
+                            <TableSortLabel active={valueToOrderBy==="address"} 
+                             direction = {valueToOrderBy==="address" ? orderDirection : 'asc'} onClick ={createSortHandler("address")}
+                             >House no
+                            </TableSortLabel>
+                        </TableCell>
+                        <TableCell key="area"  sx={{backgroundColor:"#eae7dc",fontFamily:'Playfair Display,serif',color:"black",
+                            fontSize:"22px" ,textAlign:"center"}}>
+                            <TableSortLabel active={valueToOrderBy==="area"} 
+                             direction = {valueToOrderBy==="area" ? orderDirection : 'asc'} onClick ={createSortHandler("area")}
+                            >Address
+                            </TableSortLabel>
+                        </TableCell>
+                        <TableCell key="newspaper"  sx={{backgroundColor:"#eae7dc",fontFamily:'Playfair Display,serif',color:"black",
+                        fontSize:"22px" ,textAlign:"center"}}>
+                                Newspaper
+                        </TableCell>
+                    </TableRow>
+                </TableHead>
+
+                {
+                    sortedRowInformation(customerlist,getComparator(orderDirection,valueToOrderBy))
+                    .slice(page2 * rowsPerPage2, page2 * rowsPerPage2 + rowsPerPage2)
+                    .map((person,index)=>(
+                        <TableRow key={index}>
+                            <TableCell  sx={{fontFamily:'Nunito,sans-serif',fontSize:"16px",textAlign:"center"}}>{person.name}</TableCell>
+                            <TableCell  sx={{fontFamily:'Nunito,sans-serif',fontSize:"16px",textAlign:"center"}}>{person.address}</TableCell>
+                            <TableCell  sx={{fontFamily:'Nunito,sans-serif',fontSize:"16px",textAlign:"center"}}>{person.area}</TableCell>
+                            <TableCell sx={{fontFamily:'Nunito,sans-serif',fontSize:"16px",textAlign:"center"}}>
+                                {person.newspaper.map((row1) => (
+                                        <Typography paddingBottom="2px" fontFamily='Nunito,sans-serif'>{row1} </Typography>
+                                ))} 
+                            </TableCell>
+                        </TableRow>
+                    ))
+                }
+            </Table>
+                </TableContainer>
+                <TablePagination
+                rowsPerPageOptions={[10, 20, 50]}
+                component="div"
+                count={customerlist.length}
+                rowsPerPage={rowsPerPage2}
+                page={page2}
+                onPageChange={handleChangePage2}
+                onRowsPerPageChange={handleChangeRowsPerPage2}
+            />
+            </Paper>
         </Grid>
            }
            {list &&
