@@ -8,9 +8,11 @@ import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
+import  img1 from './newsDaily.png'
 import TableRow from '@mui/material/TableRow';
 import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
+import Divider from '@mui/material/Divider';
 
 
 
@@ -27,6 +29,11 @@ const useStyles = makeStyles({
         paddingTop:"20px",
         paddingBottom:"20px",
         marginTop:"80px"
+    },
+    image:{
+        paddingTop:"30px",
+        paddingLeft:"40px",
+        height:"80px"
     }
 })
 
@@ -69,53 +76,85 @@ const GetOrder = (e)=>{
         getCustomer();
 
     },[])
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    var yyyy = today.getFullYear();
 
     return(
-        <div style={{minHeight:"100vh",backgroundColor:"#E8E9FD"}}>
-            <Header></Header>
-            <Grid container component="main" marginTop="80px" paddingLeft="25%" minHeight="50vh">
-                <Grid item  lg={4} md={3} xs={2}  sx={{backgroundColor:"#C4C4C4"}}>
-                    <Typography style={{paddingTop:"15px",paddingLeft:"30px",fontWeight:"bold",fontSize:"18px"}}>Account Details</Typography>
-                    <Typography style={{paddingTop:"30px",paddingLeft:"70px"}}>Name : {obj.name} </Typography>
-                    <Typography style={{paddingTop:"5px",paddingLeft:"70px"}}>Address : {obj.address}</Typography>
-                    <div className={classes.subscription} >
-                        <Typography style={{fontWeight:"bold",paddingBottom:"10px"}}>Subscription Info</Typography>
-                        <Typography>Start Date : {obj.date.substring(0,10)}</Typography>
-                        <Typography>Days : 30</Typography>
-                        <Typography>Scraping Service : {bool}</Typography>
-                    </div>     
-                </Grid>
-                <Grid item  lg={4} md={3} xs={2}  sx={{backgroundColor:"#CCCFFB"}}>
-                    <Typography style={{paddingTop:"15px",paddingBottom:"20px",paddingLeft:"30px",fontWeight:"bold",fontSize:"18px"}}>Order Info</Typography>
-                    <Table aria-label="simple table">
-                            <TableHead>
-                                    <TableRow>
-                                        <TableCell  sx={{textAlign:"center",fontSize:"14px",fontWeight:"bold"}}>Newspaper</TableCell>
-                                        <TableCell  sx={{textAlign:"center",fontSize:"14px",fontWeight:"bold"}}>Price</TableCell>
-                                        <TableCell  sx={{textAlign:"center",fontSize:"14px",fontWeight:"bold"}}>Scrap_price</TableCell>
-                                    </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {papers.map((e) => (
-                                <TableRow key={e.name}>
-                                    <TableCell sx={{textAlign:"center" , fontSize:"14px"}} >{e.name}</TableCell>
-                                    <TableCell sx={{textAlign:"center" , fontSize:"14px"}} >{e.price}</TableCell>
-                                    <TableCell sx={{textAlign:"center" , fontSize:"14px"}} >{e.scrap_price}</TableCell>
-                                </TableRow>
-                                ))}
-                            </TableBody>
-                    </Table>
-                    <Typography paddingLeft="30%" paddingTop="40px">Total Price :  {total}</Typography>
-                    <Typography paddingLeft="30%" paddingTop="5px">Scrap Price : {scrap}</Typography>
-                    <Typography paddingLeft="30%" paddingTop="5px">Amount to be paid : {total - scrap*obj.scrap_service}</Typography>
-                    <Typography paddingLeft="30%" paddingTop="5px" paddingBottom="30px">Payment Method : COD</Typography>
-                </Grid>
+    <div style={{minHeight:"100vh", backgroundColor: "#e98074"}}>
+        <Header></Header>
+       
+         
+        <Grid container component="main" direction="column" marginTop="80px" paddingLeft="15%" paddingRight="15%"  minHeight="50vh">
+
+        <Grid item  lg={4} md={3} xs={2}  sx={{backgroundColor:" white"}}>
+            <div style={{display:"flex"}}>
+            <img src={img1} className={classes.image}/>
+            <Typography style={{paddingTop:"26px",paddingLeft:"30px",fontWeight:"bold",fontSize:"16px",fontWeight:"bold",marginLeft:"60%",paddingBottom:"25px"}} >INVOICE<br></br><span style={{fontWeight:"500",color:"grey",fontSize:"14px",paddingLeft:"8px"}}>#{obj.o_id}</span></Typography>
+           
+            </div>
+            <Divider  sx={{ width: '92%',marginTop:"27px",height:"2px",marginLeft:"4%",marginBottom:"10px",backgroundColor:"grey"}} />
+            <div style={{display:"flex", justifyContent:"space-between", paddingBottom:"30px" }}>
+                <div>
+                <Typography style={{fontWeight:"bold",fontSize:"23px",paddingLeft:"40px",paddingTop:"25px",paddingBottom:"15px"}} fontFamily= 'Playfair Display'>Bill To</Typography>
+                <Typography style={{paddingLeft:"40px",fontWeight:"600",paddingBottom:"5px",fontSize:"20px"}} fontFamily= 'Nunito,sans-serif'> {obj.name} </Typography>
+                <Typography style={{paddingLeft:"40px",fontSize:"19px"}} color="text.secondary" variant="body"  fontWeight={"bold"}  fontFamily= 'Nunito,sans-serif' >{obj.address}</Typography>
+                </div>
+                <div>
+                <Typography style={{fontWeight:"bold",fontSize:"23px",paddingTop:"25px",paddingBottom:"15px",paddingRight:"40px"}} fontFamily= 'Playfair Display'>Subscription Details</Typography>
+                <Typography style={{fontWeight:"600",paddingBottom:"5px",fontSize:"16px"}} fontFamily= 'Nunito,sans-serif'> Start Date : {obj.date.substring(0,10)}</Typography>
+                <Typography style={{fontWeight:"600",paddingBottom:"5px",fontSize:"16px"}} fontFamily= 'Nunito,sans-serif'>Days : 30</Typography>
+                <Typography style={{fontWeight:"600",paddingBottom:"5px",fontSize:"16px"}} fontFamily= 'Nunito,sans-serif'>Scraping Service : {bool}</Typography>
+                   
+                    </div>
+                    </div>
             </Grid>
-            <Button variant="contained" style={{marginLeft:"48%",marginTop:"10px"}}
-            onClick = {()=>navigate('/customer/pastorder')}
-            >Back</Button>
-        </div>
-    )
+            <Grid item  lg={4} md={3} xs={2}  sx={{backgroundColor:"white",paddingTop:"50px"}}>
+                
+                <Table aria-label="simple table" sx={{width:"60%",marginLeft:"20%"}}>
+                        <TableHead>
+                                <TableRow>
+                                    <TableCell  sx={{backgroundColor:"#d3d3d3",textAlign:"left",fontSize:"16px",fontWeight:"bold",fontFamily:"Playfair Display"}} >Newspaper</TableCell>
+                                    <TableCell  sx={{backgroundColor:"#d3d3d3",textAlign:"right",fontSize:"16px",fontWeight:"bold",fontFamily:"Playfair Display"}}>Price (₹)</TableCell>
+                                    <TableCell  sx={{backgroundColor:"#d3d3d3",textAlign:"right",fontSize:"16px",fontWeight:"bold",fontFamily:"Playfair Display"}}>Scrap Price (₹)</TableCell>
+                                </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {papers.map((e) => (
+                            <TableRow key={e.name}>
+                                <TableCell sx={{textAlign:"left" , fontSize:"14px",fontFamily: 'Nunito,sans-serif',fontWeight:"600"}} >{e.name}</TableCell>
+                                <TableCell sx={{textAlign:"right" , fontSize:"14px",fontFamily: 'Nunito,sans-serif,fontWeight:"600"'}} >{e.price}</TableCell>
+                                <TableCell sx={{textAlign:"right" , fontSize:"14px",fontFamily:'Nunito,sans-serif',fontWeight:"600"}} >{e.scrap_price}</TableCell>
+                            </TableRow>
+                            ))}
+                        </TableBody>
+                </Table>
+                <Divider  sx={{ width: '92%',marginTop:"27px",height:"2px",marginLeft:"4%",marginBottom:"10px",backgroundColor:"grey",marginTop:"70px"}} />
+         
+                <div style={{paddingTop:"30px",float:"right",paddingRight:"21%",paddingBottom:"30px"}}>
+                <Typography  paddingBottom="15px"  fontSize="18px" fontFamily='Nunito,sans-serif' ><span style={{fontWeight:"bold" ,paddingRight:"80px"}}>Sub Total  </span> ₹{total}</Typography>
+                <Typography paddingBottom="15px"  fontSize="18px" fontFamily='Nunito,sans-serif'><span style={{fontWeight:"bold" ,paddingRight:"64px"}}>Scrap Discount  </span> ₹{scrap}</Typography>
+                <Typography paddingBottom="15px"  fontSize="18px" fontFamily='Nunito,sans-serif'><span style={{fontWeight:"bold" ,paddingRight:"116px" }}>Total </span>₹{total - scrap*obj.scrap_service}</Typography>
+                <Typography fontSize="18px" fontFamily='Nunito,sans-serif'><span style={{fontWeight:"bold" ,paddingRight:"46px"}}>Payment Method</span>COD</Typography>
+                </div>
+                <Divider  sx={{ width: '92%',height:"2px",marginLeft:"4%",backgroundColor:"grey",paddingTop:"20px"}} />
+             
+                <Typography sx={{marginTop:"10px"}} fontFamily='Nunito,sans-serif' align="center" color="text.secondary" variant="body2">
+                   @Made by NewsDaily on {yyyy + '-' + mm + '-' + dd}
+                </Typography>
+           
+            </Grid>
+           
+        </Grid> 
+       <Button   type="submit" variant="contained"
+                sx={{ width: '20%',marginLeft:"40%",color:"black",marginTop:"30px",backgroundColor:" #eae7dc",borderRadius:"13px"}}
+                onClick = {()=>navigate('/customer/pastorder')}>
+                Back
+        </Button>
+       
+    </div>
+)
 }
 
 export default GetOrder;
