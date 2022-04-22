@@ -206,6 +206,7 @@ const NdbList = () => {
               placeholder="Search your customer"
               inputProps={{ 'aria-label': 'search' }}
               onChange={handleSearch}
+              variant="filled"
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
