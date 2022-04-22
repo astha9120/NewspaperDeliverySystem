@@ -15,7 +15,7 @@ import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid'
 import Button from '@mui/material/Button';
 import Swal from 'sweetalert2';
-
+import InputBase from '@material-ui/core/InputBase';
 import TableSortLabel from '@mui/material/TableSortLabel';
 
 
@@ -35,6 +35,14 @@ const CustomerList = () => {
     
     const [orderDirection,setOrderDirection]=useState('asc')
     const [valueToOrderBy,setValueToOrderBy] = useState("name")
+
+    const [filter,setFilter] = useState("");
+
+    const handleSearch = (e)=>{
+        console.log(e.target.value);
+        setFilter(e.target.value);
+    }
+      
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -125,7 +133,7 @@ const CustomerList = () => {
 
   return (
     <div style={{backgroundColor:"#e98074"}}>
-    <Header/>
+    <Header/>			
     <Grid container component="main"  
           direction="column" 
           justifyContent="flex-start"
@@ -176,18 +184,26 @@ const CustomerList = () => {
           </Grid> }
 
           {!list&&
-            <Typography align="center" variant="h2" style={{paddingTop:"50px",paddingBottom:"20px",color:"#e85a4f",fontFamily:'Playfair Display,serif'}}>
+            <Typography align="center" variant="h2" style={{paddingTop:"100px",paddingBottom:"20px",color:"white",fontFamily:'Playfair Display,serif'}}>
                 No customer is allocated to you
-                <Divider  sx={{ width: '20ch',marginTop:"30px",marginLeft:"29%",height:"3px",marginBottom:"10px",backgroundColor:"white"}} />
+                <Divider  sx={{ width: '30ch',marginTop:"30px",height:"3px",marginBottom:"10px",backgroundColor:"white"}} />
             </Typography>
             
           }
+         
         {list &&  
         <Grid item lg={6} md={4} xs={2} sx={{marginTop:"0px",marginBottom:"40px"}}>
            <Typography variant="h2" align="center" sx={{color:"white",marginBottom:"28px",fontFamily:'Playfair Display,serif'}}>Customer Details</Typography>
             <Divider  sx={{ width: '35ch',marginLeft:"36%",height:"3px",marginBottom:"10px",backgroundColor:"white",marginTop:"30px"}} />
+            <InputBase
+              placeholder="Search your customer"
+              inputProps={{ 'aria-label': 'search' }}
+              onChange={handleSearch}
+              style={{marginTop:"40px",paddingLeft:"20px",color:"#e85a4f",backgroundColor:"white",borderRadius:"13px",height:"40px"}}
+            />
             <Paper sx={{ width: '1200px', overflow: 'hidden',marginTop:"80px"}}>
-
+                
+            
         <TableContainer sx={{maxHeight:440}}>
             <Table>
                 <TableHead>
@@ -222,18 +238,25 @@ const CustomerList = () => {
                 {
                     sortedRowInformation(customerlist,getComparator(orderDirection,valueToOrderBy))
                     .slice(page2 * rowsPerPage2, page2 * rowsPerPage2 + rowsPerPage2)
-                    .map((person,index)=>(
-                        <TableRow key={index}>
-                            <TableCell  sx={{fontFamily:'Nunito,sans-serif',fontSize:"16px",textAlign:"center"}}>{person.name}</TableCell>
-                            <TableCell  sx={{fontFamily:'Nunito,sans-serif',fontSize:"16px",textAlign:"center"}}>{person.address}</TableCell>
-                            <TableCell  sx={{fontFamily:'Nunito,sans-serif',fontSize:"16px",textAlign:"center"}}>{person.area}</TableCell>
-                            <TableCell sx={{fontFamily:'Nunito,sans-serif',fontSize:"16px",textAlign:"center"}}>
-                                {person.newspaper.map((row1) => (
-                                        <Typography paddingBottom="2px" fontFamily='Nunito,sans-serif'>{row1} </Typography>
-                                ))} 
-                            </TableCell>
-                        </TableRow>
-                    ))
+                    .map((person,index)=>{
+                        if(person.name.includes(filter)===true || person.address.includes(filter)===true ||
+                         person.area.includes(filter)===true) 
+                        {
+                            return (
+                                <TableRow key={index}>
+                                <TableCell  sx={{fontFamily:'Nunito,sans-serif',fontSize:"16px",textAlign:"center"}}>{person.name}</TableCell>
+                                <TableCell  sx={{fontFamily:'Nunito,sans-serif',fontSize:"16px",textAlign:"center"}}>{person.address}</TableCell>
+                                <TableCell  sx={{fontFamily:'Nunito,sans-serif',fontSize:"16px",textAlign:"center"}}>{person.area}</TableCell>
+                                <TableCell sx={{fontFamily:'Nunito,sans-serif',fontSize:"16px",textAlign:"center"}}>
+                                    {person.newspaper.map((row1) => (
+                                            <Typography paddingBottom="2px" fontFamily='Nunito,sans-serif'>{row1} </Typography>
+                                    ))} 
+                                </TableCell>
+                            </TableRow>
+                            )
+                        }
+                        return null;
+                    })
                 }
             </Table>
                 </TableContainer>

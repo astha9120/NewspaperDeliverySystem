@@ -15,6 +15,9 @@ import { makeStyles } from '@mui/styles';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid'
 import Divider from '@mui/material/Divider';
+import TableSortLabel from '@mui/material/TableSortLabel';
+import InputBase from '@material-ui/core/InputBase';
+
 
 const axios = require("axios");
 
@@ -55,6 +58,16 @@ const NdbList = () => {
     const [quantity,setQuantity] = useState([{}])
     const [charge,setCharge] = useState(0)
 
+    const [filter,setFilter] = useState("");
+
+    const handleSearch = (e)=>{
+        console.log(e.target.value);
+        setFilter(e.target.value);
+    }
+
+    const [orderDirection,setOrderDirection]=useState('asc')
+    const [valueToOrderBy,setValueToOrderBy] = useState("name")
+
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
 
@@ -78,6 +91,41 @@ const NdbList = () => {
         setRowsPerPage2(+event.target.value);
         setPage2(0);
       };
+
+      
+    const handleRequestSort = (event,property)=>{
+      const isAscending = (valueToOrderBy === property && orderDirection === 'asc')
+      setValueToOrderBy(property)
+      setOrderDirection(isAscending ? 'desc' : 'asc')
+  }
+
+  const createSortHandler = (property) => (event) =>{
+      handleRequestSort(event,property)
+  }
+
+  function descendingComparator(a,b,orderBy){
+      if(b[orderBy]<a[orderBy])
+          return -1;
+      if(b[orderBy]>a[orderBy])
+          return 1;
+      return 0;
+  }
+
+  function getComparator(order,orderBy){
+      return order === 'desc' 
+      ? (a,b) => descendingComparator(a,b,orderBy)
+      : (a,b) => -descendingComparator(a,b,orderBy)
+  }
+
+  const sortedRowInformation = (rowArray , comparator) =>{
+      const stabilizedRowArray = rowArray.map((el,index)=>[el,index])
+      stabilizedRowArray.sort((a,b)=>{
+          const order = comparator(a[0],b[0])
+          if(order!==0) return order
+          return a[1]-b[1]
+      })
+      return stabilizedRowArray.map((el)=>el[0])
+  }
 
 
     useEffect(()=>{
@@ -119,7 +167,7 @@ const NdbList = () => {
           <Grid item lg={6} md={4} xs={2} sx={{marginTop:"0px",marginBottom:"40px"}}>
               <Typography variant="h2" align="center" sx={{color:"white",marginBottom:"20px",fontFamily:'Playfair Display,serif'}}>Newspaper List</Typography>
               <Divider  sx={{ width: '20ch',marginTop:"30px",marginLeft:"29%",height:"3px",marginBottom:"10px",backgroundColor:"white"}} />
-                  
+              
               <Paper sx={{ width: '500px', overflow: 'hidden',marginTop:"50px"}}>
                             <TableContainer sx={{ maxHeight: 440}}>
                                 <Table stickyHeader aria-label="sticky table">
@@ -158,61 +206,85 @@ const NdbList = () => {
           </Grid> }
 
           {!list&&
-            <Typography align="center" variant="h2" style={{paddingTop:"50px",paddingBottom:"20px",color:"#e85a4f",fontFamily:'Playfair Display,serif'}}>
+            <Typography align="center" variant="h2" style={{paddingTop:"100px",paddingBottom:"20px",color:"white",fontFamily:'Playfair Display,serif'}}>
                 No Ndb is allocated to you
-                <Divider  sx={{ width: '20ch',marginTop:"30px",marginLeft:"29%",height:"3px",marginBottom:"10px",backgroundColor:"white"}} />
+                <Divider  sx={{ width: '20ch',marginTop:"30px",height:"3px",marginBottom:"10px",backgroundColor:"white"}} />
             </Typography>
             
           }
+
+  
           {list &&
             
         <Grid item lg={6} md={4} xs={2} sx={{marginTop:"0px",marginBottom:"40px"}}>
             <Typography variant="h2" align="center" sx={{color:"white",marginBottom:"28px",fontFamily:'Playfair Display,serif'}}>Delivery Person Details</Typography>
             <Divider  sx={{ width: '35ch',marginLeft:"36%",height:"3px",marginBottom:"10px",backgroundColor:"white",marginTop:"30px"}} />
+            <InputBase
+              placeholder="Search your customer"
+              inputProps={{ 'aria-label': 'search' }}
+              onChange={handleSearch}
+              style={{marginTop:"40px",paddingLeft:"20px",color:"#e85a4f",backgroundColor:"white",borderRadius:"13px",height:"40px"}}
+            />
             <Paper sx={{ width: '1200px', overflow: 'hidden',marginTop:"80px"}}>
                             <TableContainer sx={{ maxHeight: 440}}>
                                 <Table stickyHeader aria-label="sticky table">
                                     <TableHead >
                                         <TableRow >
+                                          <TableCell key ="name" sx={{backgroundColor:"#eae7dc",fontFamily:'Playfair Display,serif',color:"black",
+                                            fontSize:"22px" ,textAlign:"center"}}>
+                                              <TableSortLabel active={valueToOrderBy==="name"}
+                                                direction = {valueToOrderBy==="name" ? orderDirection : 'asc'} onClick ={createSortHandler("name")}
+                                              >Name</TableSortLabel>
+                                          </TableCell> 
+                                          
                                           <TableCell sx={{backgroundColor:"#eae7dc",fontFamily:'Playfair Display,serif',color:"black",
-                                            fontSize:"22px" ,textAlign:"center"}}>Name</TableCell> 
-                                           <TableCell sx={{backgroundColor:"#eae7dc",fontFamily:'Playfair Display,serif',color:"black",
                                             fontSize:"22px" ,textAlign:"center"}}>Newspaper</TableCell> 
-                                            <TableCell sx={{backgroundColor:"#eae7dc",fontFamily:'Playfair Display,serif',color:"black",
-                                            fontSize:"22px" ,textAlign:"center"}}>Quantity</TableCell> 
-                                            <TableCell sx={{backgroundColor:"#eae7dc",fontFamily:'Playfair Display,serif',color:"black",
-                                            fontSize:"22px" ,textAlign:"center"}}>Amount (₹)</TableCell> 
-                                             <TableCell sx={{backgroundColor:"#eae7dc",fontFamily:'Playfair Display,serif',color:"black",
-                                            fontSize:"22px" ,textAlign:"center"}}>Total price (₹)</TableCell> 
+                                          
+                                          <TableCell sx={{backgroundColor:"#eae7dc",fontFamily:'Playfair Display,serif',color:"black",
+                                          fontSize:"22px" ,textAlign:"center"}}>Quantity</TableCell> 
+                                          
+                                          <TableCell sx={{backgroundColor:"#eae7dc",fontFamily:'Playfair Display,serif',color:"black",
+                                          fontSize:"22px" ,textAlign:"center"}}>Amount (₹)</TableCell> 
+                                          
+                                          <TableCell key="total_p" sx={{backgroundColor:"#eae7dc",fontFamily:'Playfair Display,serif',color:"black",
+                                                fontSize:"22px" ,textAlign:"center"}}>
+                                                <TableSortLabel active={valueToOrderBy==="total_p"}
+                                                direction = {valueToOrderBy==="total_p" ? orderDirection : 'asc'} onClick ={createSortHandler("total_p")}
+                                                >Total price (₹)
+                                                </TableSortLabel>
+                                          </TableCell> 
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                    {customerlist
+                                    {sortedRowInformation(customerlist,getComparator(orderDirection,valueToOrderBy))
                                         .slice(page2 * rowsPerPage2, page2 * rowsPerPage2 + rowsPerPage2)
-                                        .map((row) => {
-                                        return (
-                                            <TableRow hover role="checkbox" tabIndex={-1} key={row.n_id}>
-                                                <TableCell sx={{fontFamily:'Nunito,sans-serif',fontSize:"16px",textAlign:"center"}}>{row.name}</TableCell>
-                                                <TableCell sx={{fontFamily:'Nunito,sans-serif',fontSize:"16px",textAlign:"center"}}>
-                                                  {row.newspaper.map((row1) => (
-                                                  <Typography paddingBottom="2px" fontFamily='Nunito,sans-serif'>{row1.name} </Typography>
-                                                  ))} 
-                                                </TableCell>
-                                                <TableCell sx={{fontFamily:'Nunito,sans-serif',fontSize:"16px",textAlign:"center"}}>
-                                                  {row.newspaper.map((row1) => (
-                                                    <Typography paddingBottom="2px" fontFamily='Nunito,sans-serif'>{row1.count} </Typography>
-                                                  ))} 
-                                                </TableCell>  
-                                                <TableCell sx={{fontFamily:'Nunito,sans-serif',fontSize:"16px",textAlign:"center"}}>
-                                                  {row.newspaper.map((row1) => (
-                                                    <Typography paddingBottom="2px" fontFamily='Nunito,sans-serif'>{row1.price} </Typography>
-                                                  ))} 
-                                                </TableCell> 
-                                                <TableCell sx={{fontFamily:'Nunito,sans-serif',fontSize:"16px",textAlign:"center"}}>
-                                                   { row.total_p}
-                                                </TableCell> 
-                                            </TableRow>
-                                        )})
+                                        .map((row,index) => {
+                                          if(row.name.includes(filter)===true){
+                                            return (
+                                              <TableRow hover role="checkbox" tabIndex={-1} key={index}>
+                                                  <TableCell sx={{fontFamily:'Nunito,sans-serif',fontSize:"16px",textAlign:"center"}}>{row.name}</TableCell>
+                                                  <TableCell sx={{fontFamily:'Nunito,sans-serif',fontSize:"16px",textAlign:"center"}}>
+                                                    {row.newspaper.map((row1) => (
+                                                    <Typography paddingBottom="2px" fontFamily='Nunito,sans-serif'>{row1.name} </Typography>
+                                                    ))} 
+                                                  </TableCell>
+                                                  <TableCell sx={{fontFamily:'Nunito,sans-serif',fontSize:"16px",textAlign:"center"}}>
+                                                    {row.newspaper.map((row1) => (
+                                                      <Typography paddingBottom="2px" fontFamily='Nunito,sans-serif'>{row1.count} </Typography>
+                                                    ))} 
+                                                  </TableCell>  
+                                                  <TableCell sx={{fontFamily:'Nunito,sans-serif',fontSize:"16px",textAlign:"center"}}>
+                                                    {row.newspaper.map((row1) => (
+                                                      <Typography paddingBottom="2px" fontFamily='Nunito,sans-serif'>{row1.price} </Typography>
+                                                    ))} 
+                                                  </TableCell> 
+                                                  <TableCell sx={{fontFamily:'Nunito,sans-serif',fontSize:"16px",textAlign:"center"}}>
+                                                     { row.total_p}
+                                                  </TableCell> 
+                                              </TableRow>
+                                          )
+                                          }
+                                        })
                                     }
                                     </TableBody>
                                 </Table>
