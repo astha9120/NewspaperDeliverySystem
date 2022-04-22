@@ -4,6 +4,7 @@ import Typography from '@mui/material/Typography'
 import { useState ,useEffect,useRef } from 'react';
 import { makeStyles } from '@mui/styles';
 import Divider from '@mui/material/Divider';
+import PrintIcon from '@mui/icons-material/Print';
 import Button from '@mui/material/Button';
 import  img1 from './newsDaily.png'
 import Table from '@mui/material/Table';
@@ -100,18 +101,11 @@ const Bill = ()=>{
                     <Typography align="center" variant="h5" style={{paddingTop:"20px"}}>Subscribe to get Newspapers Daily at your place!!</Typography>
             }
 
-            { page && <ReactToPrint
-                trigger={()=><Button   type="submit" variant="contained"
-                                sx={{ width: '20%',color:"black",backgroundColor:" #eae7dc",
-                                    marginLeft:"40%",marginTop:"80px"}}>
-                                Print / Download
-                            </Button>}
-                content={()=> componentRef.current}/>
-            } 
+           
         
             {page &&
             
-             <Grid container component="main" direction="column" marginTop="20px" paddingLeft="15%" paddingRight="15%"  minHeight="50vh" ref={componentRef}>
+             <Grid container component="main" direction="column" marginTop="65px" paddingLeft="15%" paddingRight="15%"  minHeight="50vh" ref={componentRef}>
 
                  
             <Grid item  lg={4} md={3} xs={2}  sx={{backgroundColor:" white"}} >
@@ -177,10 +171,19 @@ const Bill = ()=>{
                
             </Grid> }
             {page &&<Button   type="submit" variant="contained"
-                    sx={{ width: '20%',marginLeft:"40%",color:"black",marginTop:"30px",backgroundColor:" #eae7dc",borderRadius:"13px"}}
+                    sx={{ width: '17%',marginLeft:"22%",color:"black",marginTop:"50px",backgroundColor:" #eae7dc",fontWeight:"bold"}}
                     onClick={()=>navigate('/customer/pastorder')}>
                     Past Orders
             </Button>}
+            { page && <ReactToPrint
+                trigger={()=><Button   type="submit" variant="contained"
+                                sx={{ width: '17%',color:"black",backgroundColor:" #eae7dc",
+                                    marginLeft:"20%",marginTop:"50px",fontFamily:'Nunito,sans-serif',fontWeight:"bold"}}>
+                                Print E-Receipt 
+                                <PrintIcon></PrintIcon>
+                            </Button>}
+                content={()=> componentRef.current}/>
+            } 
             {page && <Typography align="center" marginTop="45px" paddingTop="5px"
                 paddingBottom="5px" backgroundColor="white" color="black">
                 {bill_stat}
