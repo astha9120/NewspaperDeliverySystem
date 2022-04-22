@@ -4,6 +4,7 @@ import Typography from '@mui/material/Typography'
 import { useState ,useEffect } from 'react';
 import { makeStyles } from '@mui/styles';
 import Button from '@mui/material/Button';
+import Divider from '@mui/material/Divider';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -12,7 +13,7 @@ import  img1 from './newsDaily.png'
 import TableRow from '@mui/material/TableRow';
 import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
-import Divider from '@mui/material/Divider';
+
 
 
 
