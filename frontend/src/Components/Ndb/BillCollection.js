@@ -36,6 +36,7 @@ const  BillCollection=()=>{
     const [billCollected,setBillCollected]=useState([{}])
     const id = localStorage.getItem('id')
     const [bool_bill,setBool_bill] = useState(false)
+    const [bool_bill_p,setBool_bill_p] = useState(false)
 
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -115,8 +116,13 @@ const  BillCollection=()=>{
     const getBills=async()=>{
         const result = await axios.get(`http://localhost:4000/ndb/billcollection/${id}`)
         console.log("yet to be collected")
-        console.log(result.data)
-        setBill(result.data)
+        if(result.data.length!=0){
+            setBill(result.data)
+            setBool_bill_p(true)
+            console.log(bill)
+
+        }
+
     }
 
     const collect = o_id => async(e)=>{
@@ -159,9 +165,14 @@ const  BillCollection=()=>{
         const result = await axios.get(`http://localhost:4000/ndb/billcollection/${id}/${date}`)
         console.log("collected bill")
         console.log(result.data.length)
-        if(result.data.length!=0)
+        if(result.data.length!=0){
+            setBillCollected(result.data)
             setBool_bill(true)
-        setBillCollected(result.data)
+            console.log("hello there")
+            console.log(billCollected)
+        }
+            
+
     }
 
     useEffect(()=>{
@@ -210,7 +221,7 @@ const  BillCollection=()=>{
                                             fontSize:"22px" ,textAlign:"center"}}>Status</TableCell> 
                                         </TableRow>
                                     </TableHead>
-                                    <TableBody>
+                                   {bool_bill_p && <TableBody>
                                     {sortedRowInformation(bill,getComparator(orderDirection,valueToOrderBy))
                                         .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                         .map((row,index) => {
@@ -229,7 +240,7 @@ const  BillCollection=()=>{
                                             </TableRow>
                                         )})
                                     }
-                                    </TableBody>
+                                    </TableBody>}
                                 </Table>
                             </TableContainer>
                             <TablePagination
