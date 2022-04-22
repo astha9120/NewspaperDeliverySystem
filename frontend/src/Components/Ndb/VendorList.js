@@ -17,6 +17,9 @@ import Grid from '@mui/material/Grid'
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import InputBase from '@material-ui/core/InputBase';
+import SearchIcon from '@mui/icons-material/Search';
+import InputAdornment from '@mui/material/InputAdornment';
+import TextField from '@mui/material/TextField';
 
 
 const axios = require("axios");
@@ -186,11 +189,18 @@ const VendorList = () => {
         <Grid item lg={6} md={4} xs={2} sx={{marginTop:"60px",marginBottom:"40px"}}>
         <Typography variant="h2" align="center" sx={{color:"white",marginBottom:"28px",fontFamily:'Playfair Display,serif'}}>Other Vendor's Details</Typography>
             {/* <Divider  sx={{ width: '35ch',marginLeft:"36%",height:"3px",marginBottom:"10px",backgroundColor:"white",marginTop:"30px"}} /> */}
-            <InputBase
+            <TextField
               placeholder="Search your customer"
               inputProps={{ 'aria-label': 'search' }}
               onChange={handleSearch}
-              style={{marginTop:"20px",paddingLeft:"10px",color:"#e85a4f",backgroundColor:"white",borderRadius:"13px",height:"40px",marginRight:"85%"}}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <SearchIcon />
+                  </InputAdornment>
+                ),
+              }}
+              style={{marginTop:"50px",width:"30%",marginRight:"70%"}}
             />
             <Paper sx={{ width: '1200px', overflow: 'hidden',marginTop:"80px"}}>
                             <TableContainer sx={{ maxHeight: 440}}>

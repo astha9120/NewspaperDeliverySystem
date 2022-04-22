@@ -17,6 +17,9 @@ import Button from '@mui/material/Button';
 import Swal from 'sweetalert2';
 import InputBase from '@material-ui/core/InputBase';
 import TableSortLabel from '@mui/material/TableSortLabel';
+import SearchIcon from '@mui/icons-material/Search';
+import InputAdornment from '@mui/material/InputAdornment';
+import TextField from '@mui/material/TextField';
 
 
 
@@ -195,11 +198,18 @@ const CustomerList = () => {
         <Grid item lg={6} md={4} xs={2} sx={{marginTop:"0px",marginBottom:"40px"}}>
            <Typography variant="h2" align="center" sx={{color:"white",marginBottom:"28px",fontFamily:'Playfair Display,serif'}}>Customer Details</Typography>
             <Divider  sx={{ width: '35ch',marginLeft:"36%",height:"3px",marginBottom:"10px",backgroundColor:"white",marginTop:"30px"}} />
-            <InputBase
+            <TextField
               placeholder="Search your customer"
               inputProps={{ 'aria-label': 'search' }}
               onChange={handleSearch}
-              style={{marginTop:"40px",paddingLeft:"20px",color:"#e85a4f",backgroundColor:"white",borderRadius:"13px",height:"40px"}}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <SearchIcon />
+                  </InputAdornment>
+                ),
+              }}
+              style={{marginTop:"50px",width:"30%"}}
             />
             <Paper sx={{ width: '1200px', overflow: 'hidden',marginTop:"80px"}}>
                 
@@ -274,9 +284,10 @@ const CustomerList = () => {
            }
            {list &&
             <Button onClick={submit} paddingBottom="20px" 
-            sx={{ width: '44ch',margin:"auto",marginTop:"20px",marginBottom:"20px"
+            variant="contained"
+            sx={{ width: '44ch',margin:"auto"
             ,backgroundColor:"white",color:"#e98074"}}
-            variant="contained">Send Notification to all</Button>
+            >Send Notification to all</Button>
             }
           </Grid>
         

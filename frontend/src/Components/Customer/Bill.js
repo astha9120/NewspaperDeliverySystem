@@ -119,10 +119,10 @@ const Bill = ()=>{
                 </div>
                 <Divider  sx={{ width: '92%',marginTop:"27px",height:"2px",marginLeft:"4%",marginBottom:"10px",backgroundColor:"grey"}} />
                 <div style={{display:"flex", justifyContent:"space-between", paddingBottom:"30px" }}>
-                    <div>
-                    <Typography style={{fontWeight:"bold",fontSize:"23px",paddingLeft:"40px",paddingTop:"25px",paddingBottom:"15px"}} fontFamily= 'Playfair Display'>Bill To</Typography>
-                    <Typography style={{paddingLeft:"40px",fontWeight:"600",paddingBottom:"5px",fontSize:"20px"}} fontFamily= 'Nunito,sans-serif'> {obj.name} </Typography>
-                    <Typography style={{paddingLeft:"40px",fontSize:"19px"}} color="text.secondary" variant="body"  fontWeight={"bold"}  fontFamily= 'Nunito,sans-serif' >{obj.address}</Typography>
+                    <div style={{paddingLeft: '40px'}}>
+                    <Typography style={{fontWeight:"bold",fontSize:"23px",paddingTop:"25px",paddingBottom:"15px"}} fontFamily= 'Playfair Display'>Bill To</Typography>
+                    <Typography style={{fontWeight:"600",paddingBottom:"5px",fontSize:"20px"}} fontFamily= 'Nunito,sans-serif'> {obj.name} </Typography>
+                    <Typography style={{fontSize:"19px"}} color="text.secondary" variant="body"  fontWeight={"bold"}  fontFamily= 'Nunito,sans-serif' >{obj.address}</Typography>
                     </div>
                     <div>
                     <Typography style={{fontWeight:"bold",fontSize:"23px",paddingTop:"25px",paddingBottom:"15px",paddingRight:"40px"}} fontFamily= 'Playfair Display'>Subscription Details</Typography>
