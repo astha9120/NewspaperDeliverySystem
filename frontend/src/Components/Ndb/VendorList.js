@@ -192,6 +192,7 @@ const VendorList = () => {
             <TextField
               placeholder="Search your customer"
               inputProps={{ 'aria-label': 'search' }}
+              variant="filled"
               onChange={handleSearch}
               InputProps={{
                 startAdornment: (
