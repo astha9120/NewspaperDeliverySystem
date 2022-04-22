@@ -15,6 +15,7 @@ import Paper from '@mui/material/Paper';
 import Divider from '@mui/material/Divider';
 import TablePagination from '@mui/material/TablePagination';
 import TableContainer from '@mui/material/TableContainer';
+import TableSortLabel from '@mui/material/TableSortLabel';
 
 
 const axios = require("axios")
@@ -31,9 +32,10 @@ const useStyles = makeStyles({
 const  BillCollection=()=>{
     const classes = useStyles();
     const navigate = useNavigate();
-    const [bill,setBill]= useState([{name:"",bill:0,address:"",area:"",bill_status:0,o_id:-1}])
-    const [billCollected,setBillCollected]=useState([{name:"",bill:0,address:"",area:"",collection_date:"",o_id:-1}])
+    const [bill,setBill]= useState([{}])
+    const [billCollected,setBillCollected]=useState([{}])
     const id = localStorage.getItem('id')
+    const [bool_bill,setBool_bill] = useState(false)
 
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -59,6 +61,56 @@ const  BillCollection=()=>{
         setPage2(0);
       };
 
+    const [orderDirection,setOrderDirection]=useState('asc')
+    const [valueToOrderBy,setValueToOrderBy] = useState("name")
+
+    const [orderDirection2,setOrderDirection2]=useState('asc')
+    const [valueToOrderBy2,setValueToOrderBy2] = useState("name")
+
+    const handleRequestSort2 = (event,property)=>{
+        const isAscending = (valueToOrderBy2 === property && orderDirection2 === 'asc')
+        setValueToOrderBy2(property)
+        setOrderDirection2(isAscending ? 'desc' : 'asc')
+    }
+
+    const createSortHandler2 = (property) => (event) =>{
+        handleRequestSort2(event,property)
+    }
+  
+
+    const handleRequestSort = (event,property)=>{
+        const isAscending = (valueToOrderBy === property && orderDirection === 'asc')
+        setValueToOrderBy(property)
+        setOrderDirection(isAscending ? 'desc' : 'asc')
+    }
+  
+    const createSortHandler = (property) => (event) =>{
+        handleRequestSort(event,property)
+    }
+  
+    function descendingComparator(a,b,orderBy){
+        if(b[orderBy]<a[orderBy])
+            return -1;
+        if(b[orderBy]>a[orderBy])
+            return 1;
+        return 0;
+    }
+  
+    function getComparator(order,orderBy){
+        return order === 'desc' 
+        ? (a,b) => descendingComparator(a,b,orderBy)
+        : (a,b) => -descendingComparator(a,b,orderBy)
+    }
+  
+    const sortedRowInformation = (rowArray , comparator) =>{
+        const stabilizedRowArray = rowArray.map((el,index)=>[el,index])
+        stabilizedRowArray.sort((a,b)=>{
+            const order = comparator(a[0],b[0])
+            if(order!==0) return order
+            return a[1]-b[1]
+        })
+        return stabilizedRowArray.map((el)=>el[0])
+    }
 
     const getBills=async()=>{
         const result = await axios.get(`http://localhost:4000/ndb/billcollection/${id}`)
@@ -106,7 +158,9 @@ const  BillCollection=()=>{
 
         const result = await axios.get(`http://localhost:4000/ndb/billcollection/${id}/${date}`)
         console.log("collected bill")
-        console.log(result.data)
+        console.log(result.data.length)
+        if(result.data.length!=0)
+            setBool_bill(true)
         setBillCollected(result.data)
     }
 
@@ -129,24 +183,41 @@ const  BillCollection=()=>{
                                 <Table stickyHeader aria-label="sticky table">
                                     <TableHead >
                                         <TableRow >
-                                           <TableCell sx={{fontFamily: 'Playfair Display,serif',backgroundColor:"#e85a4f",color:"white",
-                                            fontSize:"22px" ,textAlign:"center"}}>Name</TableCell> 
-                                            <TableCell sx={{backgroundColor:"#e85a4f",fontFamily:'Playfair Display,serif',color:"white",
-                                            fontSize:"22px" ,textAlign:"center"}}>Address</TableCell>
-                                            <TableCell sx={{backgroundColor:"#e85a4f",fontFamily:'Playfair Display,serif',color:"white",
-                                            fontSize:"22px" ,textAlign:"center"}}>Price</TableCell>
-                                            <TableCell sx={{backgroundColor:"#e85a4f",fontFamily:'Playfair Display,serif',color:"white",
+                                           <TableCell key="name" sx={{fontFamily: 'Playfair Display,serif',backgroundColor:"#e85a4f",color:"white",
+                                            fontSize:"22px" ,textAlign:"center"}}>
+                                                <TableSortLabel active={valueToOrderBy==="name"}
+                                                    direction = {valueToOrderBy==="name" ? orderDirection : 'asc'} onClick ={createSortHandler("name")}>
+                                                    Name
+                                                </TableSortLabel>
+                                            </TableCell> 
+
+                                            <TableCell key="address" sx={{backgroundColor:"#e85a4f",fontFamily:'Playfair Display,serif',color:"white",
+                                            fontSize:"22px" ,textAlign:"center"}}>
+                                                <TableSortLabel active={valueToOrderBy==="address"} 
+                                                    direction = {valueToOrderBy==="address" ? orderDirection : 'asc'} onClick ={createSortHandler("address")}>
+                                                    Address
+                                                </TableSortLabel>
+                                            </TableCell>
+
+                                            <TableCell key="bill" sx={{backgroundColor:"#e85a4f",fontFamily:'Playfair Display,serif',color:"white",
+                                            fontSize:"22px" ,textAlign:"center"}}>
+                                                <TableSortLabel active={valueToOrderBy==="bill"} 
+                                                direction = {valueToOrderBy==="bill" ? orderDirection : 'asc'} onClick ={createSortHandler("bill")}
+                                                >Price
+                                                </TableSortLabel>
+                                            </TableCell>
+                                            <TableCell  sx={{backgroundColor:"#e85a4f",fontFamily:'Playfair Display,serif',color:"white",
                                             fontSize:"22px" ,textAlign:"center"}}>Status</TableCell> 
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                    {bill
+                                    {sortedRowInformation(bill,getComparator(orderDirection,valueToOrderBy))
                                         .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                        .map((row) => {
+                                        .map((row,index) => {
                                         return (
-                                            <TableRow hover role="checkbox" tabIndex={-1} key={row.o_id}>
+                                            <TableRow hover role="checkbox" tabIndex={-1} key={index}>
                                                 <TableCell sx={{fontFamily:'Nunito,sans-serif',fontSize:"16px",textAlign:"center"}}>{row.name}</TableCell>
-                                                <TableCell sx={{fontFamily:'Nunito,sans-serif',fontSize:"16px",textAlign:"center"}}>{row.address}</TableCell>
+                                                <TableCell sx={{fontFamily:'Nunito,sans-serif',fontSize:"16px",textAlign:"center"}}>{`${row.address} ${row.area}`}</TableCell>
                                                 <TableCell sx={{fontFamily:'Nunito,sans-serif',fontSize:"16px",textAlign:"center"}}>{row.bill}</TableCell>
                                                 <TableCell>
                                                     <Button  sx= {{marginLeft:"35%",marginTop:"5px",backgroundColor:"#e85a4f",color:"white"}} type="submit" 
@@ -180,31 +251,51 @@ const  BillCollection=()=>{
                                 <Table stickyHeader aria-label="sticky table">
                                     <TableHead >
                                         <TableRow >
-                                           <TableCell sx={{fontFamily: 'Playfair Display,serif',backgroundColor:"#e85a4f",color:"white",
-                                            fontSize:"22px" ,textAlign:"center"}}>Name</TableCell> 
-                                            <TableCell sx={{backgroundColor:"#e85a4f",fontFamily:'Playfair Display,serif',color:"white",
-                                            fontSize:"22px" ,textAlign:"center"}}>Address</TableCell>
-                                            <TableCell sx={{backgroundColor:"#e85a4f",fontFamily:'Playfair Display,serif',color:"white",
-                                            fontSize:"22px" ,textAlign:"center"}}>Price</TableCell>
-                                            <TableCell sx={{backgroundColor:"#e85a4f",fontFamily:'Playfair Display,serif',color:"white",
-                                            fontSize:"22px" ,textAlign:"center"}}>Date</TableCell> 
+                                           <TableCell key="name" sx={{fontFamily: 'Playfair Display,serif',backgroundColor:"#e85a4f",color:"white",
+                                            fontSize:"22px" ,textAlign:"center"}}>
+                                                 <TableSortLabel active={valueToOrderBy2==="name"}
+                                                direction = {valueToOrderBy2==="name" ? orderDirection2 : 'asc'} onClick ={createSortHandler2("name")}>
+                                                Name</TableSortLabel>
+                                            </TableCell> 
+                                            <TableCell key="address" sx={{backgroundColor:"#e85a4f",fontFamily:'Playfair Display,serif',color:"white",
+                                            fontSize:"22px" ,textAlign:"center"}}>
+                                                <TableSortLabel active={valueToOrderBy2==="address"} 
+                                                    direction = {valueToOrderBy2==="address" ? orderDirection2 : 'asc'} onClick ={createSortHandler2("address")}
+                                                    >Address
+                                                </TableSortLabel>
+                                            </TableCell>
+                                            <TableCell key="bill" sx={{backgroundColor:"#e85a4f",fontFamily:'Playfair Display,serif',color:"white",
+                                            fontSize:"22px" ,textAlign:"center"}}>
+                                                <TableSortLabel active={valueToOrderBy2==="bill"} 
+                                                    direction = {valueToOrderBy2==="bill" ? orderDirection2 : 'asc'} onClick ={createSortHandler2("bill")}
+                                                    >Price
+                                                </TableSortLabel>
+                                            </TableCell>
+                                            <TableCell key="collection_date" sx={{backgroundColor:"#e85a4f",fontFamily:'Playfair Display,serif',color:"white",
+                                            fontSize:"22px" ,textAlign:"center"}}>
+                                                <TableSortLabel active={valueToOrderBy2==="collection_date"} 
+                                                    direction = {valueToOrderBy2==="collection_date" ? orderDirection2 : 'asc'} onClick ={createSortHandler2("collection_date")}
+                                                    >Date
+                                                </TableSortLabel>
+                                            </TableCell> 
                                         </TableRow>
                                     </TableHead>
+                                    {bool_bill && 
                                     <TableBody>
-                                    {billCollected
+                                    { sortedRowInformation(billCollected,getComparator(orderDirection2,valueToOrderBy2))
                                         .slice(page2 * rowsPerPage2, page2 * rowsPerPage2 + rowsPerPage2)
-                                        .map((row) => {
+                                        .map((row,index) => {
                                         return (
-                                            <TableRow hover role="checkbox" tabIndex={-1} key={row.o_id}>
+                                            <TableRow hover role="checkbox" tabIndex={-1} key={index}>
                                                 <TableCell sx={{fontFamily:'Nunito,sans-serif',fontSize:"16px",textAlign:"center"}}>{row.name}</TableCell>
-                                                <TableCell sx={{fontFamily:'Nunito,sans-serif',fontSize:"16px",textAlign:"center"}}>{row.address}</TableCell>
+                                                <TableCell sx={{fontFamily:'Nunito,sans-serif',fontSize:"16px",textAlign:"center"}}>{`${row.address} ${row.area}`}</TableCell>
                                                 <TableCell sx={{fontFamily:'Nunito,sans-serif',fontSize:"16px",textAlign:"center"}}>{row.bill}</TableCell>
                                                 <TableCell sx={{fontFamily:'Nunito,sans-serif',fontSize:"16px",textAlign:"center"}}>{row.collection_date.substring(0,10)}</TableCell>           
                                                                                            
                                             </TableRow>
                                         )})
                                     }
-                                    </TableBody>
+                                    </TableBody>}
                                 </Table>
                             </TableContainer>
                             <TablePagination

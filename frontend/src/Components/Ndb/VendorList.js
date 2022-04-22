@@ -1,9 +1,8 @@
 import Header from './Header';
 import * as React from 'react';
-import { styled } from '@mui/material/styles';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
-import TableCell, { tableCellClasses } from '@mui/material/TableCell';
+import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
@@ -17,7 +16,7 @@ import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid'
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
-
+import InputBase from '@material-ui/core/InputBase';
 
 
 const axios = require("axios");
@@ -43,6 +42,13 @@ const VendorList = () => {
     const id = localStorage.getItem('id')
     const [list,setList]= useState(true)
     const [allocate,setAllocate] = useState(true)
+
+    const [filter,setFilter] = useState("");
+
+    const handleSearch = (e)=>{
+        console.log(e.target.value);
+        setFilter(e.target.value);
+    }
 
     
     const [page, setPage] = useState(0);
@@ -96,6 +102,7 @@ const VendorList = () => {
   return (
     <div className={classes.main}>    
     <Header/>
+  
     <Grid container component="main"  
           direction="column" 
           justifyContent="space-evenly"
@@ -103,7 +110,7 @@ const VendorList = () => {
           className={classes.root}
           spacing={5} minHeight="100vh" > 
           
-        <Grid item lg={6} md={2} xs={1} sx={{marginTop:"50px"}}>
+        <Grid item lg={6} md={2} xs={1} sx={{marginTop:"60px"}}>
           {!allocate&&
              <Typography align="center" variant="h2" style={{paddingTop:"50px",paddingBottom:"20px",color:"#e85a4f",fontFamily:'Playfair Display,serif'}}>
                 No vendor is allocated to you
@@ -176,9 +183,15 @@ const VendorList = () => {
           </Grid>
         
         
-        <Grid item lg={6} md={4} xs={2} sx={{marginTop:"70px",marginBottom:"40px"}}>
+        <Grid item lg={6} md={4} xs={2} sx={{marginTop:"60px",marginBottom:"40px"}}>
         <Typography variant="h2" align="center" sx={{color:"white",marginBottom:"28px",fontFamily:'Playfair Display,serif'}}>Other Vendor's Details</Typography>
             {/* <Divider  sx={{ width: '35ch',marginLeft:"36%",height:"3px",marginBottom:"10px",backgroundColor:"white",marginTop:"30px"}} /> */}
+            <InputBase
+              placeholder="Search your customer"
+              inputProps={{ 'aria-label': 'search' }}
+              onChange={handleSearch}
+              style={{marginTop:"20px",paddingLeft:"10px",color:"#e85a4f",backgroundColor:"white",borderRadius:"13px",height:"40px",marginRight:"85%"}}
+            />
             <Paper sx={{ width: '1200px', overflow: 'hidden',marginTop:"80px"}}>
                             <TableContainer sx={{ maxHeight: 440}}>
                                 <Table stickyHeader aria-label="sticky table">
@@ -199,15 +212,20 @@ const VendorList = () => {
                                     {vendorlist
                                         .slice(page2 * rowsPerPage2, page2 * rowsPerPage2 + rowsPerPage2)
                                         .map((row) => {
-                                        return (
-                                            <TableRow hover role="checkbox" tabIndex={-1} key={row.n_id}>
-                                                <TableCell sx={{fontFamily:'Nunito,sans-serif',fontSize:"16px",textAlign:"center"}}>{row.name}</TableCell>
-                                                <TableCell sx={{fontFamily:'Nunito,sans-serif',fontSize:"16px",textAlign:"center"}}>{row.phoneno}</TableCell>
-                                                <TableCell sx={{fontFamily:'Nunito,sans-serif',fontSize:"16px",textAlign:"center"}}>{row.address}</TableCell>
-                                                <TableCell sx={{fontFamily:'Nunito,sans-serif',fontSize:"16px",textAlign:"center"}}>{row.area}</TableCell>
-                                                
-                                            </TableRow>
-                                        )})
+                                          if(row.name.includes(filter)===true || row.phoneno.includes(filter)===true || 
+                                            row.address.includes(filter)===true || row.area.includes(filter)===true)
+                                            {
+                                              return (
+                                                <TableRow hover role="checkbox" tabIndex={-1} key={row.n_id}>
+                                                    <TableCell sx={{fontFamily:'Nunito,sans-serif',fontSize:"16px",textAlign:"center"}}>{row.name}</TableCell>
+                                                    <TableCell sx={{fontFamily:'Nunito,sans-serif',fontSize:"16px",textAlign:"center"}}>{row.phoneno}</TableCell>
+                                                    <TableCell sx={{fontFamily:'Nunito,sans-serif',fontSize:"16px",textAlign:"center"}}>{row.address}</TableCell>
+                                                    <TableCell sx={{fontFamily:'Nunito,sans-serif',fontSize:"16px",textAlign:"center"}}>{row.area}</TableCell>
+                                                    
+                                                </TableRow>)
+                                            }
+
+                                        })
                                     }
                                     </TableBody>
                                 </Table>
