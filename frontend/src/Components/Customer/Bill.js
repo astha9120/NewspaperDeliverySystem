@@ -1,9 +1,10 @@
 import Header from "./Header";
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
-import { useState ,useEffect } from 'react';
+import { useState ,useEffect,useRef } from 'react';
 import { makeStyles } from '@mui/styles';
 import Divider from '@mui/material/Divider';
+import PrintIcon from '@mui/icons-material/Print';
 import Button from '@mui/material/Button';
 import  img1 from './newsDaily.png'
 import Table from '@mui/material/Table';
@@ -12,6 +13,7 @@ import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import { useNavigate } from 'react-router-dom';
+import ReactToPrint from "react-to-print"
 
 
 const axios = require("axios")
@@ -47,6 +49,13 @@ const Bill = ()=>{
     const [scrap,setScrap] = useState(0)
     const [bill_stat,setBill_stat] = useState("Your bill has not been collected yet")
     const [page,setPage] = useState(false)
+    const componentRef = useRef();
+
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    var yyyy = today.getFullYear();
+
     
     const getCustomer = async()=>{
         const result = await axios.get(`http://localhost:4000/customer/bill/${id}`)
@@ -80,10 +89,7 @@ const Bill = ()=>{
         getCustomer();
 
     },[])
-    var today = new Date();
-var dd = String(today.getDate()).padStart(2, '0');
-var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-var yyyy = today.getFullYear();
+    
 
     return(
         <div style={{minHeight:"100vh", backgroundColor: "#e98074"}}>
@@ -94,12 +100,21 @@ var yyyy = today.getFullYear();
              {!page &&
                     <Typography align="center" variant="h5" style={{paddingTop:"20px"}}>Subscribe to get Newspapers Daily at your place!!</Typography>
             }
-            {page && <Grid container component="main" direction="column" marginTop="80px" paddingLeft="15%" paddingRight="15%"  minHeight="50vh">
 
-            <Grid item  lg={4} md={3} xs={2}  sx={{backgroundColor:" white"}}>
-                <div style={{display:"flex"}}>
+           
+        
+            {page &&
+            
+             <Grid container component="main" direction="column" marginTop="65px" paddingLeft="15%" paddingRight="15%"  minHeight="50vh" ref={componentRef}>
+
+                 
+            <Grid item  lg={4} md={3} xs={2}  sx={{backgroundColor:" white"}} >
+                <div style={{display:"flex",justifyContent:"space-between"}}>
                 <img src={img1} className={classes.image}/>
-                <Typography style={{paddingTop:"26px",paddingLeft:"30px",fontWeight:"bold",fontSize:"16px",fontWeight:"bold",marginLeft:"60%",paddingBottom:"25px"}} >INVOICE<br></br><span style={{fontWeight:"500",color:"grey",fontSize:"14px",paddingLeft:"8px"}}>#{obj.o_id}</span></Typography>
+                <div >
+                    <Typography style={{paddingTop:"30px",fontWeight:"bold",fontSize:"16px",paddingRight:"40px"}} >INVOICE</Typography>
+                    <Typography style={{fontWeight:"500",fontSize:"16px",color:"grey",paddingBottom:"25px",paddingRight:"40px"}} >#{obj.o_id}</Typography>
+                </div>
                
                 </div>
                 <Divider  sx={{ width: '92%',marginTop:"27px",height:"2px",marginLeft:"4%",marginBottom:"10px",backgroundColor:"grey"}} />
@@ -156,10 +171,19 @@ var yyyy = today.getFullYear();
                
             </Grid> }
             {page &&<Button   type="submit" variant="contained"
-                    sx={{ width: '20%',marginLeft:"40%",color:"black",marginTop:"30px",backgroundColor:" #eae7dc",borderRadius:"13px"}}
+                    sx={{ width: '17%',marginLeft:"22%",color:"black",marginTop:"50px",backgroundColor:" #eae7dc",fontWeight:"bold"}}
                     onClick={()=>navigate('/customer/pastorder')}>
                     Past Orders
             </Button>}
+            { page && <ReactToPrint
+                trigger={()=><Button   type="submit" variant="contained"
+                                sx={{ width: '17%',color:"black",backgroundColor:" #eae7dc",
+                                    marginLeft:"20%",marginTop:"50px",fontFamily:'Nunito,sans-serif',fontWeight:"bold"}}>
+                                Print E-Receipt 
+                                <PrintIcon></PrintIcon>
+                            </Button>}
+                content={()=> componentRef.current}/>
+            } 
             {page && <Typography align="center" marginTop="45px" paddingTop="5px"
                 paddingBottom="5px" backgroundColor="white" color="black">
                 {bill_stat}
