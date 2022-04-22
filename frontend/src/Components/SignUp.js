@@ -28,7 +28,7 @@ const useStyles = makeStyles({
     },
     SignUp:{
         fontFamily : "Roboto",
-        color:"#B939A4"
+        color:"#e85a4f"
     },
     image:{
         height:"100%"
@@ -215,7 +215,7 @@ const SignUp = () =>{
                             <Button
                                 type="submit"
                                 margin="normal"
-                                sx={{ width: '44ch',marginLeft:"27%",marginTop:"20px"}}
+                                sx={{ width: '44ch',marginLeft:"27%",marginTop:"20px",backgroundColor:"#e85a4f"}}
                                 variant="contained"
                                 onClick={submit}>
                                 Sign Up
@@ -223,7 +223,7 @@ const SignUp = () =>{
                     </Grid>
     
                     <Grid item lg={1}>
-                        <Link href="/" variant="body2">
+                        <Link href="/login" variant="body2" color="#e85a4f">
                             {"Already have an account? Sign in"}
                         </Link>
                     </Grid>
