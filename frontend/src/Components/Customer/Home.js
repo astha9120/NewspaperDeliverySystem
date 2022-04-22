@@ -39,7 +39,7 @@ const Home = ()=>{
     const classes = useStyles();
     const navigate = useNavigate();
     const id = localStorage.getItem("id")
-    const [no,setNo]=useState(3);
+    const [no,setNo]=useState(6);
     const [flag_load,setFlag_load]=useState(false)
     const [newspapers,setNewspapers] = useState([{name:"",n_id:-1,description:"",scrap_price:0,isFlipped:false}])
     const [bool,setBool] = useState(true)
