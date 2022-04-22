@@ -1,12 +1,26 @@
 import React from 'react';
+import './HeroSection.css';
 import '../../App.css'
 import Button from '@mui/material/Button';
-import './HeroSection.css';
 import { useNavigate } from 'react-router-dom';
+import { makeStyles } from '@mui/styles';
 
+const useStyles = makeStyles({
+  button_login:{
+    width: '20ch',
+    marginTop:"20px",
+    backgroundColor:"white",
+    color:"black",
+    cursor:"pointer",
+    fontWeight:"bold",
+    borderRadius:"4px",padding:"10px 20px"
+  }
+})
 
 function HeroSection() {
   const navigate = useNavigate();
+  const classes = useStyles();
+
   return (
     <div className='hero-container'>
       <video src='/videos/video-1.mp4' autoPlay loop muted />
@@ -26,6 +40,7 @@ function HeroSection() {
         <Button
           
           variant="contained"
+          className = {classes.button_login}
              sx={{ width: '20ch',marginTop:"20px",backgroundColor:"white",color:"black",cursor:"pointer",fontWeight:"bold",borderRadius:"4px",padding:"10px 20px"}}
             
           onClick={()=>navigate('/signup')}

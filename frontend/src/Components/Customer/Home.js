@@ -5,7 +5,7 @@ import CardHeader from '@mui/material/CardHeader';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { borders } from '@mui/system';
-import {Button,CardActionArea, CardActions } from '@mui/material';
+import {Button,CardActionArea, CardActions, getInitColorSchemeScript } from '@mui/material';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import ReactCardFlip from 'react-card-flip';
@@ -16,7 +16,6 @@ import { makeStyles } from '@mui/styles';
 import Header from './Header';
 import { useNavigate } from 'react-router-dom';
 
-import "../LandingPage/Modal.css"
 
 
 const useStyles = makeStyles({
@@ -30,6 +29,7 @@ const useStyles = makeStyles({
     h_menu:{
         minWidth:"30px"
     },
+    
 })
 
 
@@ -113,7 +113,8 @@ const Home = ()=>{
                     return(
                         <Grid item xs={12} sm={6} md={4} key={n.n_id}>      
                                 <Card key ={n.n_id}
-                                style={{width:"300px", height:"330px"}}
+                                className={classes.button_c}
+                                style={{width:"300px", height:"330px",display:"inherit"}}
                                 onMouseEnter={handleEnter(n.n_id)}
                                 onMouseLeave={handleLeave(n.n_id)}>                                    
                                     <ReactCardFlip isFlipped={n.isFlipped} flipDirection="horizontal">

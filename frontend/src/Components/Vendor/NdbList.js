@@ -2,6 +2,7 @@ import Header from './Header';
 import * as React from 'react';
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
+import TextField from '@mui/material/TextField';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -16,6 +17,8 @@ import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid'
 import Divider from '@mui/material/Divider';
 import TableSortLabel from '@mui/material/TableSortLabel';
+import SearchIcon from '@mui/icons-material/Search';
+import InputAdornment from '@mui/material/InputAdornment';
 import InputBase from '@material-ui/core/InputBase';
 
 
@@ -25,26 +28,6 @@ const useStyles = makeStyles({
    
   });
 
-// const StyledTableCell = styled(TableCell)(({ theme }) => ({
-//   [`&.${tableCellClasses.head}`]: {
-//     backgroundColor: '#2148C0',
-//     color: theme.palette.common.white,
-//   },
-//   [`&.${tableCellClasses.body}`]: {
-//     fontSize: 14,
-//   },
-// }));
-
-// const StyledTableRow = styled(TableRow)(({ theme }) => ({
-//   '&:nth-of-type(even)': {
-//     backgroundColor: "#CCCFFB"
-//     },
-
-//   // hide last border
-//   '&:last-child td, &:last-child th': {
-//     border: 0,
-//   },
-// }));
 
 
 
@@ -219,11 +202,18 @@ const NdbList = () => {
         <Grid item lg={6} md={4} xs={2} sx={{marginTop:"0px",marginBottom:"40px"}}>
             <Typography variant="h2" align="center" sx={{color:"white",marginBottom:"28px",fontFamily:'Playfair Display,serif'}}>Delivery Person Details</Typography>
             <Divider  sx={{ width: '35ch',marginLeft:"36%",height:"3px",marginBottom:"10px",backgroundColor:"white",marginTop:"30px"}} />
-            <InputBase
+            <TextField
               placeholder="Search your customer"
               inputProps={{ 'aria-label': 'search' }}
               onChange={handleSearch}
-              style={{marginTop:"40px",paddingLeft:"20px",color:"#e85a4f",backgroundColor:"white",borderRadius:"13px",height:"40px"}}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <SearchIcon />
+                  </InputAdornment>
+                ),
+              }}
+              style={{marginTop:"50px",width:"30%"}}
             />
             <Paper sx={{ width: '1200px', overflow: 'hidden',marginTop:"80px"}}>
                             <TableContainer sx={{ maxHeight: 440}}>

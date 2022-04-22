@@ -17,6 +17,9 @@ import { Button } from '@mui/material';
 import Swal from 'sweetalert2';
 import Grid from '@mui/material/Grid';
 import InputBase from '@material-ui/core/InputBase';
+import SearchIcon from '@mui/icons-material/Search';
+import InputAdornment from '@mui/material/InputAdornment';
+
 
 const axios = require("axios");
 
@@ -128,12 +131,20 @@ const Addnews = ()=>{
 
     return(
         <div className={classes.main}>    
-                <Header />   
-                <InputBase
+                <Header /> 
+               
+                <TextField
               placeholder="Search newspapers"
               inputProps={{ 'aria-label': 'search' }}
               onChange={handleSearch}
-              style={{marginTop:"50px",width:"32%",paddingLeft:"20px",marginLeft:"33%",color:"#e85a4f",height:"40px",backgroundColor:"white",borderRadius:"15px"}}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <SearchIcon />
+                  </InputAdornment>
+                ),
+              }}
+              style={{marginTop:"50px",marginLeft:"33%",width:"33%"}}
             />
                 <Grid container component="main" >
                 <Grid item lg={6} md={4} xs={2}>
