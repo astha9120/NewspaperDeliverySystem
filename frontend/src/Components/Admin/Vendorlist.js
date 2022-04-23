@@ -58,7 +58,7 @@ const Vendorlist = () => {
             
             axios.get(`http://localhost:4000/admin/vendorlist`)
             .then(res=>{
-              console.log(res.data)
+             
               if(res.data.length==0)
                 setList(false)
               setVendorlist(res.data)
@@ -122,7 +122,7 @@ const Vendorlist = () => {
             </Typography>
           }
           
-        {list &&  
+        {list &&  id===process.env.REACT_APP_ID &&
         <Grid item lg={6} md={4} xs={2} sx={{marginTop:"0px",marginBottom:"40px"}}>
            <Typography variant="h2" align="center" sx={{color:"#e85a4f",marginBottom:"20px",fontFamily:'Playfair Display,serif'}}>Vendor List</Typography>
                 <Divider  sx={{ width: '20ch',marginTop:"20px",marginLeft:"45%",height:"3px",marginBottom:"15px",backgroundColor:"#e85a4f"}} />          

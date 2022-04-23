@@ -47,7 +47,7 @@ const Support = () => {
             
             axios.get(`http://localhost:4000/admin/support`)
             .then(res=>{
-              console.log(res.data)
+              
               if(res.data.length==0)
                 setList(false)
               setIssue(res.data)
@@ -74,7 +74,7 @@ const Support = () => {
               No Issues Yet
             </Typography>
           }
-          {list &&
+          {list &&  id===process.env.REACT_APP_ID &&
             
         <Grid item lg={6} md={4} xs={2} sx={{marginTop:"0px",marginBottom:"40px"}}>
               <Typography variant="h2" align="center" sx={{color:"#e85a4f",marginBottom:"20px",fontFamily:'Playfair Display,serif'}}>Issue / Suggestion</Typography>

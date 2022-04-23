@@ -12,6 +12,7 @@ import Bill from "./Components/Customer/Bill"
 import BillCollection from "./Components/ndb/BillCollection"
 import CustomerList from "./Components/ndb/CustomerList"
 import NdbList from "./Components/Vendor/NdbList"
+import Login_Admin from "./Components/Admin/Login"
 
 import Footer from './Components/Footer';
 import Home from './Components/Customer/Home'
@@ -34,7 +35,8 @@ function App() {
       <BrowserRouter>
         <Routes>
         <Route path='/' element={<Landing/>} />
-          
+        <Route path='/admin' element={<Login_Admin/>}/>
+
         <Route path='/admin/support' element={<Support_Admin/>}/>
         <Route path='/admin/ndblist' element={<Ndblist_Admin/>}/>
         <Route path='/admin/vendorlist' element={<Vendorlist_Admin/>}/>

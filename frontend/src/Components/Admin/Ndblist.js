@@ -59,7 +59,7 @@ const Ndblist = () => {
       
             axios.get(`http://localhost:4000/admin/ndblist`)
             .then(res=>{
-              console.log(res.data)
+             
               if(res.data.length==0)
                 setList(false)
               setNdblist(res.data)
@@ -154,7 +154,7 @@ const Ndblist = () => {
             </Typography>
           }
           
-        {list &&  
+        {list &&   id===process.env.REACT_APP_ID &&
         <Grid item lg={6} md={4} xs={2} sx={{marginTop:"0px",marginBottom:"40px"}}>
               <Typography variant="h2" align="center" sx={{color:"#e85a4f",marginBottom:"20px",fontFamily:'Playfair Display,serif'}}>Newspaper Delivery Person List</Typography>
                 <Divider  sx={{ width: '50ch',marginTop:"20px",marginLeft:"35%",height:"3px",marginBottom:"15px",backgroundColor:"#e85a4f"}} />          
