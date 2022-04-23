@@ -7,8 +7,9 @@ import FormControl from '@mui/material/FormControl';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
-import InputAdornment from '@mui/material/InputAdornment';
 import Swal from 'sweetalert2';
+import { styled } from '@mui/material/styles';
+
 const axios = require("axios");
 var news_len;
 const getFormattedPrice = (price) => `₹${price.toFixed(2)}`;
@@ -63,7 +64,13 @@ const useStyles = makeStyles({
 
   });
 
-
+  const StyledButton = styled(Button)({
+    '&:hover': {
+        backgroundColor: '#A7423A',
+        boxShadow: '20',
+        width: '44ch'
+      }
+  })
 
 
 const ProfileNext = () =>{
@@ -270,15 +277,15 @@ const ProfileNext = () =>{
       </label>
      </div>
      <br/>
-     <Button
+     <StyledButton
           type="submit"
           margin="normal"
-          sx={{ width: '44ch',marginLeft:"39%",marginTop:"2px",marginBottom:"30px"}}
+          sx={{ width: '44ch',marginLeft:"39%",marginTop:"2px",marginBottom:"30px",backgroundColor: '#e85a4f'}}
           variant="contained"
           onClick={submit}
       >
           Subscribe
-      </Button>
+      </StyledButton>
 
      </div>
     

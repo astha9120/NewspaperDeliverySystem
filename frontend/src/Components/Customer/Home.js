@@ -15,6 +15,9 @@ import { useState,useEffect } from 'react';
 import { makeStyles } from '@mui/styles';
 import Header from './Header';
 import { useNavigate } from 'react-router-dom';
+import Divider from '@mui/material/Divider';
+import { styled } from '@mui/material/styles';
+
 
 
 
@@ -33,6 +36,13 @@ const useStyles = makeStyles({
 })
 
 
+const StyledButton = styled(Button)({
+    '&:hover': {
+        backgroundColor: '#A7423A',
+        boxShadow: '20',
+        width: '39ch'
+      }
+  })
 
 const Home = ()=>{
 
@@ -102,9 +112,11 @@ const Home = ()=>{
 
                 
 
-            <Typography align="center" variant="h3" style={{paddingTop:"50px",paddingBottom:"40px",color:"#e85a4f"}} fontFamily= 'Playfair Display,serif' fontSize="60px" fontWeight="400"  boxSizing="border-box">Newspapers List</Typography> 
+            {bool && <Typography align="center" variant="h3" style={{paddingTop:"50px",paddingBottom:"40px",color:"#e85a4f"}} fontFamily= 'Playfair Display,serif' fontSize="60px" fontWeight="400"  boxSizing="border-box">Newspapers List</Typography> }
             {!bool &&
-                <Typography align="center" variant="h5" style={{paddingTop:"70px"}}>Sorry! This Service Is not available in Your City</Typography>
+                <Typography align="center" variant="h2" style={{paddingTop:"150px",paddingBottom:"20px",color:"#e85a4f",fontFamily:'Playfair Display,serif'}}>
+                    This Service is not available in your city
+                </Typography>
             }
             
             <Grid container spacing={5} className={classes.h_root}>   
@@ -158,12 +170,12 @@ const Home = ()=>{
             </Grid>
     
 
-            <Button  type="submit" variant="contained"
+            {bool && <StyledButton  type="submit" variant="contained"
                 sx={{ width: '39ch',color:"black",backgroundColor:"#e98074",marginLeft:"610px",marginBottom:"20px"}}
                 onClick={()=>loadMore()} disabled={flag_load}
                 className = {classes.h_subscribe}>
                 Load more...
-            </Button>  
+            </StyledButton>}
         </div>
     )
 }

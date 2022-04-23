@@ -6,6 +6,7 @@ import { useState,useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import NotificationsIcon from '@mui/icons-material/Notifications';
+import { styled } from '@mui/material/styles';
 
 import {
   AppBar,
@@ -85,6 +86,13 @@ sub_b:{
 });
 
 
+const StyledButton = styled(Button)({
+  '&:hover': {
+      backgroundColor: '#A7423A',
+      boxShadow: '20',
+    }
+})
+
 
 export default function Header() {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -134,9 +142,9 @@ export default function Header() {
     return <Toolbar><img src={img1} className={classes.image}/>
             <div className={classes.test}>{getMenuButtons()}</div>
             <div style={{marginLeft:"22px"}}>
-                <Button variant="contained" 
+                <StyledButton variant="contained" 
                 onClick={()=>navigate('/customer/profile')}
-                className={classes.sub_b}>Subscribe</Button>
+                className={classes.sub_b}>Subscribe</StyledButton>
             </div>
             <div style={{marginLeft:"20px"}}>
               <Badge badgeContent={n_len} color="primary">

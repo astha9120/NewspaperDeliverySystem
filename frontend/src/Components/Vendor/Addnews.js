@@ -19,6 +19,8 @@ import Grid from '@mui/material/Grid';
 import InputBase from '@material-ui/core/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
 import InputAdornment from '@mui/material/InputAdornment';
+import { styled } from '@mui/material/styles';
+
 
 
 const axios = require("axios");
@@ -33,6 +35,23 @@ const useStyles = makeStyles({
         backgroundColor:"#eae7dc"
     },
 })
+
+const StyledButton = styled(Button)({
+    '&:hover': {
+        backgroundColor: '#A7423A',
+        boxShadow: '20',
+        width: '25ch'
+      }
+  })
+
+const StyledButton2 = styled(Button)({
+    '&:hover': {
+        backgroundColor: '#9C9A93',
+        boxShadow: '20',
+        width: '62ch'
+      }
+  })
+
 const Addnews = ()=>{
 
     const classes = useStyles();
@@ -166,22 +185,22 @@ const Addnews = ()=>{
                         </TextField>
             
                         <div>
-                            <Button
+                            <StyledButton2
                                 sx={{ width: '62ch',marginLeft:"auto",marginRight:"auto",marginBottom:"20px",marginTop:"20px",
                                     backgroundColor:"#d8c3a5",color:"black"}}
                                     variant="contained"
                                     onClick={set_newspaper}>
                                 Click here to add
-                            </Button> 
+                            </StyledButton2> 
                         </div>  
                         <div>
-                            <Button
+                            <StyledButton
                                 sx={{ width: '25ch',marginLeft:"auto",marginRight:"auto",marginBottom:"20px",marginTop:"60px",
                                 backgroundColor:"#e85a4f"}}
                                 variant="contained"
                                 onClick={submit}>
                                 Submit the list
-                            </Button> 
+                            </StyledButton> 
                         </div>
                         
                     </Grid>
