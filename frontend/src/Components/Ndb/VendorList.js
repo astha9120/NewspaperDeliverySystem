@@ -115,9 +115,9 @@ const VendorList = () => {
           
         <Grid item lg={6} md={2} xs={1} sx={{marginTop:"60px"}}>
           {!allocate&&
-             <Typography align="center" variant="h2" style={{paddingTop:"50px",paddingBottom:"20px",color:"#e85a4f",fontFamily:'Playfair Display,serif'}}>
+             <Typography align="center" variant="h2" style={{paddingTop:"50px",paddingBottom:"20px",color:"white",fontFamily:'Playfair Display,serif'}}>
                 No vendor is allocated to you
-             <Divider  sx={{ width: '20ch',marginTop:"30px",marginLeft:"29%",height:"3px",marginBottom:"10px",backgroundColor:"white"}} />
+             <Divider  sx={{ width: '30ch',marginTop:"30px",height:"3px",marginBottom:"10px",backgroundColor:"white"}} />
             </Typography>
           }
           {allocate &&

@@ -16,6 +16,8 @@ import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 import InputAdornment from '@mui/material/InputAdornment';
 import Swal from 'sweetalert2';
+import { styled } from '@mui/material/styles';
+
 const axios = require("axios");
 
 
@@ -35,7 +37,13 @@ const useStyles = makeStyles({
     }
   });
 
-
+  const StyledButton = styled(Button)({
+    '&:hover': {
+        backgroundColor: '#A7423A',
+        boxShadow: '20',
+        width: '44ch'
+      }
+  })
 
 
 const SignUp = () =>{
@@ -152,22 +160,6 @@ const SignUp = () =>{
                                 />
                             </FormControl>
                             
-                            {/* <TextField
-                                id="outlined-select-city"
-                                select
-                                margin="normal"
-                                sx={{ width: '40ch',marginLeft:"27%",marginBottom:"10px"}}
-                                label="Select the city"
-                                value={city}
-                                onChange={(e)=>setCity(e.target.value)}
-                                >
-                                {cities.map((city) => (
-                                    <MenuItem key={city} value={city}>
-                                    {city}
-                                    </MenuItem>
-                                ))}
-                            </TextField> */}
-
                             <TextField
                                 required
                                 sx={{ width: '40ch',
@@ -212,14 +204,14 @@ const SignUp = () =>{
                                     </MenuItem>
                                 ))}
                             </TextField>
-                            <Button
+                            <StyledButton
                                 type="submit"
                                 margin="normal"
                                 sx={{ width: '44ch',marginLeft:"27%",marginTop:"20px",backgroundColor:"#e85a4f"}}
                                 variant="contained"
                                 onClick={submit}>
                                 Sign Up
-                            </Button>
+                            </StyledButton>
                     </Grid>
     
                     <Grid item lg={1}>

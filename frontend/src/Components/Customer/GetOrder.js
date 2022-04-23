@@ -13,6 +13,7 @@ import  img1 from './newsDaily.png'
 import TableRow from '@mui/material/TableRow';
 import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
+import { styled } from '@mui/material/styles';
 
 
 
@@ -37,6 +38,15 @@ const useStyles = makeStyles({
         height:"80px"
     }
 })
+
+const StyledButton = styled(Button)({
+    '&:hover': {
+        backgroundColor: '#9C9A93',
+        boxShadow: '20',
+        width: '20%'
+      }
+  })
+
 
 const GetOrder = (e)=>{
     console.log("order")
@@ -133,12 +143,29 @@ const GetOrder = (e)=>{
                 </Table>
                 <Divider  sx={{ width: '92%',marginTop:"27px",height:"2px",marginLeft:"4%",marginBottom:"10px",backgroundColor:"grey",marginTop:"70px"}} />
          
-                <div style={{paddingTop:"30px",float:"right",paddingRight:"21%",paddingBottom:"30px"}}>
-                <Typography  paddingBottom="15px"  fontSize="18px" fontFamily='Nunito,sans-serif' ><span style={{fontWeight:"bold" ,paddingRight:"80px"}}>Sub Total  </span> ₹{total}</Typography>
-                <Typography paddingBottom="15px"  fontSize="18px" fontFamily='Nunito,sans-serif'><span style={{fontWeight:"bold" ,paddingRight:"64px"}}>Scrap Discount  </span> ₹{scrap}</Typography>
-                <Typography paddingBottom="15px"  fontSize="18px" fontFamily='Nunito,sans-serif'><span style={{fontWeight:"bold" ,paddingRight:"116px" }}>Total </span>₹{total - scrap*obj.scrap_service}</Typography>
-                <Typography fontSize="18px" fontFamily='Nunito,sans-serif'><span style={{fontWeight:"bold" ,paddingRight:"46px"}}>Payment Method</span>COD</Typography>
-                </div>
+                <div style={{display:"flex",justifyContent:"end",marginRight:"210px"}}>
+                    <Table aria-label="simple table" sx={{width:"37%"}}>
+                            <TableBody >
+                                <TableRow >
+                                    <TableCell sx={{textAlign:"left" , fontSize:"14px",fontFamily: 'Nunito,sans-serif',fontWeight:"600",border:"none"}} >Sub Total</TableCell>
+                                    <TableCell sx={{textAlign:"right" , fontSize:"14px",fontFamily:'Nunito,sans-serif',fontWeight:"600",border:"none"}} >₹{total}</TableCell>
+                                </TableRow>
+                                <TableRow >
+                                    <TableCell sx={{textAlign:"left" , fontSize:"14px",fontFamily: 'Nunito,sans-serif',fontWeight:"600",border:"none"}} >Scrap Discount</TableCell>
+                                    <TableCell sx={{textAlign:"right" , fontSize:"14px",fontFamily:'Nunito,sans-serif',fontWeight:"600",border:"none"}} >₹{scrap}</TableCell>
+                                </TableRow>
+                                <TableRow >
+                                    <TableCell sx={{textAlign:"left" , fontSize:"14px",fontFamily: 'Nunito,sans-serif',fontWeight:"600",border:"none"}} >Total</TableCell>
+                                    <TableCell sx={{textAlign:"right" , fontSize:"14px",fontFamily:'Nunito,sans-serif',fontWeight:"600",border:"none"}} >₹{total - scrap*obj.scrap_service}</TableCell>
+                                </TableRow>
+                                <TableRow >
+                                    <TableCell sx={{textAlign:"left" , fontSize:"14px",fontFamily: 'Nunito,sans-serif',fontWeight:"600",border:"none"}} >Payment Method</TableCell>
+                                    <TableCell sx={{textAlign:"right" , fontSize:"14px",fontFamily:'Nunito,sans-serif',fontWeight:"600",border:"none"}} >COD</TableCell>
+                                </TableRow>
+                            
+                            </TableBody>
+                    </Table>
+                    </div>
                 <Divider  sx={{ width: '92%',height:"2px",marginLeft:"4%",backgroundColor:"grey",paddingTop:"20px"}} />
              
                 <Typography sx={{marginTop:"10px"}} fontFamily='Nunito,sans-serif' align="center" color="text.secondary" variant="body2">
@@ -148,11 +175,11 @@ const GetOrder = (e)=>{
             </Grid>
            
         </Grid> 
-       <Button   type="submit" variant="contained"
-                sx={{ width: '20%',marginLeft:"40%",color:"black",marginTop:"30px",backgroundColor:" #eae7dc",borderRadius:"13px"}}
+       <StyledButton   type="submit" variant="contained"
+                sx={{ width: '20%',marginLeft:"40%",color:"black",marginTop:"30px",marginBottom:"30px",backgroundColor:" #eae7dc",borderRadius:"13px"}}
                 onClick = {()=>navigate('/customer/pastorder')}>
                 Back
-        </Button>
+        </StyledButton>
        
     </div>
 )

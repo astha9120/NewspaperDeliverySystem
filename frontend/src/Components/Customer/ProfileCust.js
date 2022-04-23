@@ -9,6 +9,7 @@ import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 import InputAdornment from '@mui/material/InputAdornment';
 import Swal from 'sweetalert2';
+import { styled } from '@mui/material/styles';
 
 import 'mapbox-gl/dist/mapbox-gl.css'
 import 'react-map-gl-geocoder/dist/mapbox-gl-geocoder.css'
@@ -27,7 +28,13 @@ const useStyles = makeStyles({
       }
   });
 
-
+  const StyledButton = styled(Button)({
+    '&:hover': {
+        backgroundColor: '#e85a4f',
+        boxShadow: '20',
+        width: '48ch'
+      }
+  })
 
 
 const ProfileCust = () =>{
@@ -172,7 +179,7 @@ const ProfileCust = () =>{
                                 autoFocus
                             />
             
-                            <Button
+                            <StyledButton
                                 type="submit"
                                 margin="normal"
                                 sx={{ width: '48ch',marginLeft:"15%",marginTop:"20px",marginBottom:"30px"
@@ -180,7 +187,7 @@ const ProfileCust = () =>{
                                 variant="contained"
                                 onClick={submit}>
                                 {area===null ? "Submit" : "Update"}
-                            </Button>
+                            </StyledButton>
                     </Grid>
                </Grid>
             </Grid>

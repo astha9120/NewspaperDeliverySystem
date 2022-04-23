@@ -17,6 +17,7 @@ import TablePagination from '@mui/material/TablePagination';
 import Button from '@mui/material/Button';
 import GetOrder from './GetOrder'
 import { useNavigate } from 'react-router-dom';
+import { styled } from '@mui/material/styles';
 
 
 
@@ -28,6 +29,13 @@ const useStyles = makeStyles({
         paddingBottom:"20px"
    }
 })
+
+const StyledButton = styled(Button)({
+    '&:hover': {
+        backgroundColor: '#A7423A',
+        boxShadow: '20'
+      }
+  })
 
 
 const PastOrders = ()=>{
@@ -171,7 +179,7 @@ const PastOrders = ()=>{
                             <TableCell sx={{textAlign:"center" , fontFamily:'Nunito,sans-serif',fontSize:"16px",backgroundColor:"#eae7dc",color:"black"}} >{e.bill}</TableCell>
                             <TableCell sx={{textAlign:"center" ,fontFamily:'Nunito,sans-serif',fontSize:"16px",backgroundColor:"#eae7dc",color:"black"}} >{e.bill_status==1 ? "Paid" : "Pending"}</TableCell>
                             <TableCell sx={{textAlign:"center" , fontFamily:'Nunito,sans-serif',fontSize:"16px",backgroundColor:"#eae7dc",color:"white"}} >
-                                <Button variant="contained"  sx={{backgroundColor:"#e85a4f", borderRadius:"18px"}} onClick={()=>{navigate(`/customer/order/${e.o_id}`)}}>View Details</Button>
+                                <StyledButton variant="contained"  sx={{backgroundColor:"#e85a4f", borderRadius:"18px"}} onClick={()=>{navigate(`/customer/order/${e.o_id}`)}}>View Details</StyledButton>
                             </TableCell>
                         </TableRow>
                         

@@ -14,6 +14,8 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import { useNavigate } from 'react-router-dom';
 import ReactToPrint from "react-to-print"
+import { styled } from '@mui/material/styles';
+
 
 
 const axios = require("axios")
@@ -36,6 +38,14 @@ const useStyles = makeStyles({
         height:"80px"
     }
 })
+
+const StyledButton = styled(Button)({
+    '&:hover': {
+        backgroundColor: '#9C9A93',
+        boxShadow: '20',
+        width: '17%'
+      }
+  })
 
 const Bill = ()=>{
 
@@ -95,10 +105,14 @@ const Bill = ()=>{
         <div style={{minHeight:"100vh", backgroundColor: "#e98074"}}>
             <Header></Header>
             {!page &&
-                    <Typography align="center" variant="h5" style={{paddingTop:"150px"}}>No order has been placed Yet!!</Typography>
+                    <Typography align="center" variant="h4" style={{paddingTop:"150px",paddingBottom:"30px",color:"white",fontFamily:'Playfair Display,serif'}}>
+                        No Order has been placed Yet!
+                    </Typography>
             }
              {!page &&
-                    <Typography align="center" variant="h5" style={{paddingTop:"20px"}}>Subscribe to get Newspapers Daily at your place!!</Typography>
+                     <Typography align="center" variant="h4" style={{paddingBottom:"20px",color:"white",fontFamily:'Playfair Display,serif'}}>
+                     Subscribe to NewsDaily and get your desired newspaper ASAP.
+                     </Typography>
             }
 
            
@@ -122,7 +136,7 @@ const Bill = ()=>{
                     <div style={{paddingLeft: '40px'}}>
                     <Typography style={{fontWeight:"bold",fontSize:"23px",paddingTop:"25px",paddingBottom:"15px"}} fontFamily= 'Playfair Display'>Bill To</Typography>
                     <Typography style={{fontWeight:"600",paddingBottom:"5px",fontSize:"20px"}} fontFamily= 'Nunito,sans-serif'> {obj.name} </Typography>
-                    <Typography style={{fontSize:"19px"}} color="text.secondary" variant="body"  fontWeight={"bold"}  fontFamily= 'Nunito,sans-serif' >{obj.address}</Typography>
+                    <Typography style={{fontSize:"19px"}} color="text.secondary" variant="body"  fontWeight={"bold"}  fontFamily= 'Nunito,sans-serif' >{`${obj.address} ${obj.area}`}</Typography>
                     </div>
                     <div>
                     <Typography style={{fontWeight:"bold",fontSize:"23px",paddingTop:"25px",paddingBottom:"15px",paddingRight:"40px"}} fontFamily= 'Playfair Display'>Subscription Details</Typography>
@@ -154,13 +168,30 @@ const Bill = ()=>{
                             </TableBody>
                     </Table>
                     <Divider  sx={{ width: '92%',marginTop:"27px",height:"2px",marginLeft:"4%",marginBottom:"10px",backgroundColor:"grey",marginTop:"70px"}} />
-             
-                    <div style={{paddingTop:"30px",float:"right",paddingRight:"21%",paddingBottom:"30px"}}>
-                    <Typography  paddingBottom="15px"  fontSize="18px" fontFamily='Nunito,sans-serif' ><span style={{fontWeight:"bold" ,paddingRight:"80px"}}>Sub Total  </span> ₹{total}</Typography>
-                    <Typography paddingBottom="15px"  fontSize="18px" fontFamily='Nunito,sans-serif'><span style={{fontWeight:"bold" ,paddingRight:"64px"}}>Scrap Discount  </span> ₹{scrap}</Typography>
-                    <Typography paddingBottom="15px"  fontSize="18px" fontFamily='Nunito,sans-serif'><span style={{fontWeight:"bold" ,paddingRight:"116px" }}>Total </span>₹{total - scrap*obj.scrap_service}</Typography>
-                    <Typography fontSize="18px" fontFamily='Nunito,sans-serif'><span style={{fontWeight:"bold" ,paddingRight:"46px"}}>Payment Method</span>COD</Typography>
+                    <div style={{display:"flex",justifyContent:"end",marginRight:"210px"}}>
+                    <Table aria-label="simple table" sx={{width:"37%"}}>
+                            <TableBody >
+                                <TableRow >
+                                    <TableCell sx={{textAlign:"left" , fontSize:"14px",fontFamily: 'Nunito,sans-serif',fontWeight:"600",border:"none"}} >Sub Total</TableCell>
+                                    <TableCell sx={{textAlign:"right" , fontSize:"14px",fontFamily:'Nunito,sans-serif',fontWeight:"600",border:"none"}} >₹{total}</TableCell>
+                                </TableRow>
+                                <TableRow >
+                                    <TableCell sx={{textAlign:"left" , fontSize:"14px",fontFamily: 'Nunito,sans-serif',fontWeight:"600",border:"none"}} >Scrap Discount</TableCell>
+                                    <TableCell sx={{textAlign:"right" , fontSize:"14px",fontFamily:'Nunito,sans-serif',fontWeight:"600",border:"none"}} >₹{scrap}</TableCell>
+                                </TableRow>
+                                <TableRow >
+                                    <TableCell sx={{textAlign:"left" , fontSize:"14px",fontFamily: 'Nunito,sans-serif',fontWeight:"600",border:"none"}} >Total</TableCell>
+                                    <TableCell sx={{textAlign:"right" , fontSize:"14px",fontFamily:'Nunito,sans-serif',fontWeight:"600",border:"none"}} >₹{total - scrap*obj.scrap_service}</TableCell>
+                                </TableRow>
+                                <TableRow >
+                                    <TableCell sx={{textAlign:"left" , fontSize:"14px",fontFamily: 'Nunito,sans-serif',fontWeight:"600",border:"none"}} >Payment Method</TableCell>
+                                    <TableCell sx={{textAlign:"right" , fontSize:"14px",fontFamily:'Nunito,sans-serif',fontWeight:"600",border:"none"}} >COD</TableCell>
+                                </TableRow>
+                            
+                            </TableBody>
+                    </Table>
                     </div>
+        
                     <Divider  sx={{ width: '92%',height:"2px",marginLeft:"4%",backgroundColor:"grey",paddingTop:"20px"}} />
                  
                     <Typography sx={{marginTop:"10px"}} fontFamily='Nunito,sans-serif' align="center" color="text.secondary" variant="body2">
@@ -170,18 +201,18 @@ const Bill = ()=>{
                 </Grid>
                
             </Grid> }
-            {page &&<Button   type="submit" variant="contained"
+            {page &&<StyledButton   type="submit" variant="contained"
                     sx={{ width: '17%',marginLeft:"22%",color:"black",marginTop:"50px",backgroundColor:" #eae7dc",fontWeight:"bold"}}
                     onClick={()=>navigate('/customer/pastorder')}>
                     Past Orders
-            </Button>}
+            </StyledButton>}
             { page && <ReactToPrint
-                trigger={()=><Button   type="submit" variant="contained"
+                trigger={()=><StyledButton  type="submit" variant="contained"
                                 sx={{ width: '17%',color:"black",backgroundColor:" #eae7dc",
                                     marginLeft:"20%",marginTop:"50px",fontFamily:'Nunito,sans-serif',fontWeight:"bold"}}>
                                 Print E-Receipt 
                                 <PrintIcon></PrintIcon>
-                            </Button>}
+                            </StyledButton>}
                 content={()=> componentRef.current}/>
             } 
             {page && <Typography align="center" marginTop="45px" paddingTop="5px"

@@ -16,6 +16,8 @@ import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 import InputAdornment from '@mui/material/InputAdornment';
 import Swal from 'sweetalert2';
+import { styled } from '@mui/material/styles';
+
 const axios = require("axios");
 
 const useStyles = makeStyles({
@@ -31,8 +33,16 @@ const useStyles = makeStyles({
     },
     image:{
         height:"100%"
-    }
+    },
   });
+
+  const StyledButton = styled(Button)({
+    '&:hover': {
+        backgroundColor: '#A7423A',
+        boxShadow: '20',
+        width: '44ch'
+      }
+  })
 
 
 
@@ -172,15 +182,15 @@ const Login = () =>{
                                 ))}
                             </TextField>
 
-                            <Button
+                            <StyledButton
                                 type="submit"
                                 margin="normal"
-                                sx={{ width: '44ch',marginLeft:"27%",marginTop:"20px",backgroundColor:"#e85a4f"}}
+                                sx={{ width: '44ch',marginLeft:"27%",marginTop:"20px",
+                                backgroundColor:"#e85a4f"}}
                                 variant="contained"
-                                
                                 onClick={submit}>
                                 Sign IN
-                            </Button>
+                            </StyledButton>
                     </Grid>
     
                     <Grid item lg={1}>

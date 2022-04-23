@@ -13,6 +13,8 @@ import 'react-map-gl-geocoder/dist/mapbox-gl-geocoder.css'
 import {useRef, useCallback } from 'react'
 import MapGL from 'react-map-gl'
 import Geocoder from 'react-map-gl-geocoder'
+import { styled } from '@mui/material/styles';
+
 
 const axios = require("axios");
 
@@ -23,6 +25,13 @@ const useStyles = makeStyles({
       }, 
   });
 
+  const StyledButton = styled(Button)({
+    '&:hover': {
+        backgroundColor: '#A7423A',
+        boxShadow: '20',
+        width: '48ch'
+      }
+  })
 
 
 
@@ -187,7 +196,7 @@ const ProfileNdb = () =>{
 
                             
 
-                            <Button
+                            <StyledButton
                                 type="submit"
                                 margin="normal"
                                 sx={{ width: '48ch',marginLeft:"15%",marginTop:"20px",marginBottom:"30px"
@@ -195,7 +204,7 @@ const ProfileNdb = () =>{
                                 variant="contained"
                                 onClick={submit}>
                                 {charge===null ? "Submit" : "Update"}
-                            </Button>
+                            </StyledButton>
                     </Grid>  
             
                 </Grid>
