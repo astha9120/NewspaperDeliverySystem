@@ -20,6 +20,8 @@ import TableSortLabel from '@mui/material/TableSortLabel';
 import SearchIcon from '@mui/icons-material/Search';
 import InputAdornment from '@mui/material/InputAdornment';
 import TextField from '@mui/material/TextField';
+import Checkbox from '@mui/material/Checkbox';
+
 
 
 
@@ -48,10 +50,47 @@ const CustomerList = () => {
     const [orderDirection,setOrderDirection]=useState('asc')
     const [valueToOrderBy,setValueToOrderBy] = useState("name")
 
+
+    const [selected, setSelected] = React.useState([]);
+
+    
+    const isSelected = (name) => selected.indexOf(name) !== -1;
+
+  
+    const handleSelectAllClick = (event) => {
+      if (event.target.checked) {
+        const newSelecteds = customerlist.map((n) => n.c_id);
+        setSelected(newSelecteds);
+        return;
+      }
+      setSelected([]);
+    };
+
+    const handleClick = (event, name) => {
+      const selectedIndex = selected.indexOf(name);
+      let newSelected = [];
+  
+      if (selectedIndex === -1) {
+        newSelected = newSelected.concat(selected, name);
+      } else if (selectedIndex === 0) {
+        newSelected = newSelected.concat(selected.slice(1));
+      } else if (selectedIndex === selected.length - 1) {
+        newSelected = newSelected.concat(selected.slice(0, -1));
+      } else if (selectedIndex > 0) {
+        newSelected = newSelected.concat(
+          selected.slice(0, selectedIndex),
+          selected.slice(selectedIndex + 1),
+        );
+      }
+  
+      setSelected(newSelected);
+    };
+
+
+
     const [filter,setFilter] = useState("");
 
     const handleSearch = (e)=>{
-        console.log(e.target.value);
         setFilter(e.target.value);
     }
       
@@ -117,19 +156,17 @@ const CustomerList = () => {
 
             axios.get(`http://localhost:4000/ndb/customerlist/quantity/${id}`)
             .then(res=>{
-              console.log(res.data)
               setQuantity(res.data)
             })
             axios.get(`http://localhost:4000/ndb/customerlist/${id}`)
             .then(res=>{
-              console.log(res.data)
               if(res.data.length==0)
                 setList(false)
               setCustomerlist(res.data)
             })
     },[])
 
-    const submit = ()=>{
+    const submit = async()=>{
           Swal.fire({
             icon: 'success',
             title:'done',
@@ -137,10 +174,11 @@ const CustomerList = () => {
             showConfirmButton: false,
             timer: 1500
         })
-        axios.get(`http://localhost:4000/ndb/customerlist/send/${id}`)
-        .then(res=>{
-          console.log(res.data)
+
+        const result = await axios.post(`http://localhost:4000/ndb/customerlist/send/${id}`,{
+         list : selected
         })
+
     }
 
   return (
@@ -228,6 +266,16 @@ const CustomerList = () => {
             <Table>
                 <TableHead>
                     <TableRow>
+                    <TableCell padding="checkbox" sx={{backgroundColor:"#eae7dc"}}>
+                          <Checkbox
+                            color="primary"
+                            
+                            // indeterminate={numSelected > 0 && numSelected < rowCount}
+                            //checked={customerlist.length > 0 && selected.length === customerlist.length}
+                            onChange={handleSelectAllClick}
+    
+                          />
+                        </TableCell>
                         <TableCell key="name"  sx={{backgroundColor:"#eae7dc",fontFamily:'Playfair Display,serif',color:"black",
                             fontSize:"22px" ,textAlign:"center"}}>
                             <TableSortLabel active={valueToOrderBy==="name"}
@@ -259,11 +307,28 @@ const CustomerList = () => {
                     sortedRowInformation(customerlist,getComparator(orderDirection,valueToOrderBy))
                     .slice(page2 * rowsPerPage2, page2 * rowsPerPage2 + rowsPerPage2)
                     .map((person,index)=>{
+                        const isItemSelected = isSelected(person.c_id);
+                        const labelId = `enhanced-table-checkbox-${index}`;
                         if(person.name.includes(filter)===true || person.address.includes(filter)===true ||
                          person.area.includes(filter)===true) 
                         {
                             return (
-                                <TableRow key={index}>
+                                <TableRow hover
+                                onClick={(event) => handleClick(event, person.c_id)}
+                                role="checkbox"
+                                aria-checked={isItemSelected}
+                                tabIndex={-1}
+                                key={person.c_id}
+                                selected={isItemSelected}>
+                                  <TableCell padding="checkbox">
+                                    <Checkbox
+                                      color="primary"
+                                      checked={isItemSelected}
+                                      inputProps={{
+                                        'aria-labelledby': labelId,
+                                      }}
+                                    />
+                                   </TableCell>
                                 <TableCell  sx={{fontFamily:'Nunito,sans-serif',fontSize:"16px",textAlign:"center"}}>{person.name}</TableCell>
                                 <TableCell  sx={{fontFamily:'Nunito,sans-serif',fontSize:"16px",textAlign:"center"}}>{person.address}</TableCell>
                                 <TableCell  sx={{fontFamily:'Nunito,sans-serif',fontSize:"16px",textAlign:"center"}}>{person.area}</TableCell>
