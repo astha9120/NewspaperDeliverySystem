@@ -4,7 +4,7 @@ import { styled } from '@mui/material/styles';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import Button from '@mui/material/Button';
-import TableCell, { tableCellClasses } from '@mui/material/TableCell';
+import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
@@ -15,36 +15,23 @@ import { makeStyles } from '@mui/styles';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid'
 import Swal from 'sweetalert2';
+import Divider from '@mui/material/Divider';
+import TablePagination from '@mui/material/TablePagination';
+
+
 
 const axios = require("axios");
 
 const useStyles = makeStyles({
-   root:{
-    fontFamily : "Roboto"
-   }
+
   });
 
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
-  [`&.${tableCellClasses.head}`]: {
-    backgroundColor: '#2148C0',
-    color: theme.palette.common.white,
-  },
-  [`&.${tableCellClasses.body}`]: {
-    fontSize: 14,
-  },
-}));
-
-const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  '&:nth-of-type(even)': {
-    backgroundColor: "#CCCFFB"
-    },
-
-  // hide last border
-  '&:last-child td, &:last-child th': {
-    border: 0,
-  },
-}));
-
+  const StyledButton = styled(Button)({
+    '&:hover': {
+        backgroundColor: '#A7423A',
+        boxShadow: '20',
+      }
+  })
 
 
 const Ndblist = () => {
@@ -55,13 +42,21 @@ const Ndblist = () => {
     const [list,setList]= useState(true)
     const navigate = useNavigate();
 
+    const [page, setPage] = useState(0);
+    const [rowsPerPage, setRowsPerPage] = useState(5);
+
+    const handleChangePage = (event, newPage) => {
+        setPage(newPage);
+      };
+    
+      const handleChangeRowsPerPage = (event) => {
+        setRowsPerPage(+event.target.value);
+        setPage(0);
+      };
+
     useEffect(()=>{
 
-            // axios.get(`http://localhost:4000/admin/customerlist/quantity/${id}`)
-            // .then(res=>{
-            //   console.log(res.data)
-            //   setQuantity(res.data)
-            // })
+      
             axios.get(`http://localhost:4000/admin/ndblist`)
             .then(res=>{
               console.log(res.data)
@@ -142,78 +137,88 @@ const Ndblist = () => {
     
 
   return (
-    <div>
+    <div style={{backgroundColor:"#eae7dc"}}>
     <Header/>
     <Grid container component="main"  
           direction="column" 
           justifyContent="flex-start"
           alignItems="center"  
-          className={classes.root}
           spacing={5} minHeight="100vh"
           marginTop="20px" > 
 
           
 
           {!list&&
-            <Typography align="center" variant="h5" style={{paddingTop:"50px",paddingBottom:"20px"}}>
-                No Ndb is listed till now.
+            <Typography align="center" variant="h2" style={{paddingTop:"150px",paddingBottom:"20px",color:"#e85a4f",fontFamily:'Playfair Display,serif'}}>
+                No NDB is listed till now
             </Typography>
           }
           
         {list &&  
         <Grid item lg={6} md={4} xs={2} sx={{marginTop:"0px",marginBottom:"40px"}}>
-            <Typography variant="h4" align="center" sx={{color:"#B939A4",marginBottom:"28px"}}>Newspaper Deliveryperson List:</Typography>
-            <TableContainer component={Paper} sx={{width:1435 , margin:"auto"}}>
-              <Table sx={{ minWidth: 1000 }} aria-label="customized table">
-                <TableHead>
-                  <TableRow>
-                    <StyledTableCell align="center">Name</StyledTableCell>
-                    <StyledTableCell align="center">Address</StyledTableCell>
-                    <StyledTableCell align="center">Phone No</StyledTableCell>
-                    <StyledTableCell align="center">Charge</StyledTableCell>
-                     <StyledTableCell align='center'>Options</StyledTableCell>
-                    {/* <StyledTableCell align="center">Address</StyledTableCell>
-                   
-                    <StyledTableCell align="right">City</StyledTableCell>
-                    <StyledTableCell align="right">State</StyledTableCell> */}
-                    
-                  </TableRow>
-                </TableHead>
-            
-                <TableBody>
-                  {ndblist.map((row) => (
-                    <StyledTableRow key={row.name}>
-                      <StyledTableCell align="center" component="th" scope="row" onClick={update}>
-                        {row.name}
-                      </StyledTableCell>
-                      
-                      <StyledTableCell align="center">{`${row.address}  ${row.area}  ${row.city} ${row.state}`}</StyledTableCell>
-                      <StyledTableCell align="center">{row.phoneno}</StyledTableCell>
-                      <StyledTableCell align="center">{row.charge}</StyledTableCell>
-                      <StyledTableCell align="center">
-                         
-                          <span><Button  sx= {{marginLeft:"20%",marginTop:"5px"}} type="submit" 
-                                variant="outlined" disabled={row.accept} onClick={()=>change(row.ndb_id)}>
-                               Accept
-                            </Button>
-                            <Button  sx= {{marginLeft:"20%",marginTop:"5px"}} type="submit" 
-                                variant="outlined" onClick={()=>del(row.ndb_id)}>
-                               Delete
-                            </Button></span>
-                      </StyledTableCell>
-                      {/* <StyledTableCell align="right">{row.area}</StyledTableCell>
-                      <StyledTableCell align="right">{row.city}</StyledTableCell>
-                      <StyledTableCell align="right">{row.state}</StyledTableCell> */}
-                    </StyledTableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
+              <Typography variant="h2" align="center" sx={{color:"#e85a4f",marginBottom:"20px",fontFamily:'Playfair Display,serif'}}>Newspaper Delivery Person List</Typography>
+                <Divider  sx={{ width: '50ch',marginTop:"20px",marginLeft:"35%",height:"3px",marginBottom:"15px",backgroundColor:"#e85a4f"}} />          
+                <Paper sx={{ width: '1435px', overflow: 'hidden',marginTop:"60px"}}>
+                            <TableContainer sx={{ maxHeight: 600}}>
+                                <Table stickyHeader aria-label="sticky table">
+                                    <TableHead >
+                                        <TableRow >
+                                           <TableCell sx={{backgroundColor:"#e85a4f",fontFamily:'Playfair Display,serif',color:"white",
+                                            fontSize:"25px" ,textAlign:"center"}}>Name</TableCell>
+                                            <TableCell sx={{backgroundColor:"#e85a4f",fontFamily:'Playfair Display,serif',color:"white",
+                                            fontSize:"25px" ,textAlign:"center"}}>Address</TableCell>
+                                            <TableCell sx={{backgroundColor:"#e85a4f",fontFamily:'Playfair Display,serif',color:"white",
+                                            fontSize:"25px" ,textAlign:"center"}}>Phone number</TableCell>
+                                            <TableCell sx={{backgroundColor:"#e85a4f",fontFamily:'Playfair Display,serif',color:"white",
+                                            fontSize:"25px" ,textAlign:"center"}}>Charge</TableCell> 
+                                            <TableCell sx={{backgroundColor:"#e85a4f",fontFamily:'Playfair Display,serif',color:"white",
+                                            fontSize:"25px" ,textAlign:"center"}}>Options</TableCell>
+                                        </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                    {ndblist.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                        .map((row) => {
+                                            
+                                                return (
+                                                    <TableRow hover role="checkbox" tabIndex={-1} key={row.ndb_id}>
+                                                      <TableCell sx={{fontFamily:'Nunito,sans-serif',fontSize:"18px",textAlign:"center"}}>{row.name}</TableCell>
+                                                      <TableCell sx={{fontFamily:'Nunito,sans-serif',fontSize:"18px",textAlign:"center"}}>{`${row.address}  ${row.area} `}</TableCell>
+                                                      <TableCell sx={{fontFamily:'Nunito,sans-serif',fontSize:"18px",textAlign:"center"}}>{row.phoneno}</TableCell>
+                                                      <TableCell sx={{fontFamily:'Nunito,sans-serif',fontSize:"18px",textAlign:"center"}}>{row.charge}</TableCell>
+                                                      <TableCell sx={{fontFamily:'Nunito,sans-serif',fontSize:"18px",textAlign:"center"}}>
+                                                          <StyledButton  sx= {{marginLeft:"20%",marginTop:"5px",backgroundColor:"#e85a4f"}} type="submit" 
+                                                          variant="contained" disabled={row.accept} onClick={()=>change(row.ndb_id)}>
+                                                          Accept
+                                                          </StyledButton>
+                                                          <StyledButton  sx= {{marginLeft:"20%",marginTop:"5px",backgroundColor:"#e85a4f"}} type="submit" 
+                                                          variant="contained" onClick={()=>del(row.ndb_id)}>
+                                                          Delete
+                                                          </StyledButton>
+                                                      </TableCell>
+                                        </TableRow>
+                                        )
+                                            
+                                        })
+                                    }
+                                    </TableBody>
+                                </Table>
+                            </TableContainer>
+                            <TablePagination
+                                rowsPerPageOptions={[5, 10, 20]}
+                                component="div"
+                                count={ndblist.length}
+                                rowsPerPage={rowsPerPage}
+                                page={page}
+                                onPageChange={handleChangePage}
+                                onRowsPerPageChange={handleChangeRowsPerPage}
+                            />
+                        </Paper>
+                 
+                  
       </Grid>
            }
           </Grid>
         
-    {/* </Grid> */}
     </div>
     
   );

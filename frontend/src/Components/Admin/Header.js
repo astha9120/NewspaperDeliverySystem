@@ -14,10 +14,6 @@ import { Link as RouterLink } from "react-router-dom";
 
 const headersData = [
   {
-    label: "Home",
-    href: "/",
-  },
-  {
     label: "Support",
     href: "/admin/support",
   },
@@ -43,8 +39,7 @@ const useStyles = makeStyles({
         textAlign: "center"
     },
   header: {
-    backgroundColor: "transparent",
-    // backgroundColor: "#add8e6",
+    backgroundColor: "white",
     color: "black",
     boxShadow: "1px",
     paddingRight: "42px",

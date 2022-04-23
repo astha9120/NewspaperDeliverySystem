@@ -13,36 +13,14 @@ import { useState  , useEffect} from 'react';
 import { makeStyles } from '@mui/styles';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid'
+import Divider from '@mui/material/Divider';
+import TablePagination from '@mui/material/TablePagination';
 
 const axios = require("axios");
 
 const useStyles = makeStyles({
-   root:{
-    fontFamily : "Roboto"
-   }
+ 
   });
-
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
-  [`&.${tableCellClasses.head}`]: {
-    backgroundColor: '#2148C0',
-    color: theme.palette.common.white,
-  },
-  [`&.${tableCellClasses.body}`]: {
-    fontSize: 14,
-  },
-}));
-
-const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  '&:nth-of-type(even)': {
-    backgroundColor: "#CCCFFB"
-    },
-
-  // hide last border
-  '&:last-child td, &:last-child th': {
-    border: 0,
-  },
-}));
-
 
 
 const Support = () => {
@@ -52,6 +30,18 @@ const Support = () => {
     const id = localStorage.getItem('id')
     const [list,setList]= useState(true)
   
+    const [page, setPage] = useState(0);
+    const [rowsPerPage, setRowsPerPage] = useState(5);
+
+    const handleChangePage = (event, newPage) => {
+        setPage(newPage);
+      };
+    
+      const handleChangeRowsPerPage = (event) => {
+        setRowsPerPage(+event.target.value);
+        setPage(0);
+      };
+
 
     useEffect(()=>{
             
@@ -68,7 +58,7 @@ const Support = () => {
 
 
   return (
-    <div>
+    <div  style={{backgroundColor:"#eae7dc"}}>
     <Header/>
     <Grid container component="main"  
           direction="column" 
@@ -80,45 +70,61 @@ const Support = () => {
           
           
           {!list&&
-            <Typography align="center" variant="h5" style={{paddingTop:"50px",paddingBottom:"20px"}}>
-                No Issues Yet
+            <Typography align="center" variant="h2" style={{paddingTop:"150px",paddingBottom:"20px",color:"#e85a4f",fontFamily:'Playfair Display,serif'}}>
+              No Issues Yet
             </Typography>
           }
           {list &&
             
         <Grid item lg={6} md={4} xs={2} sx={{marginTop:"0px",marginBottom:"40px"}}>
-            <Typography variant="h4" align="center" sx={{color:"#B939A4",marginBottom:"28px"}}>Suggestion / Issues </Typography>
-            <TableContainer component={Paper} sx={{width:1435 , margin:"auto"}}>
-              <Table sx={{ minWidth: 1000 }} aria-label="customized table">
-                <TableHead>
-                  <TableRow>
-                    <StyledTableCell>ID</StyledTableCell>
-                    <StyledTableCell align="center">Name</StyledTableCell>
-                    <StyledTableCell align="right">Suggestion</StyledTableCell>
-                    <StyledTableCell align="right">City</StyledTableCell>
-                    <StyledTableCell align="right">Newspaper</StyledTableCell>
-                    
-                  </TableRow>
-                </TableHead>
-            
-                <TableBody>
-                  {issue.map((row) => (
-                    <StyledTableRow key={row.issue_id}>
-                      <StyledTableCell component="th" scope="row">
-                        {row.issue_id}
-                      </StyledTableCell>
-                      <StyledTableCell align="center">{row.name}</StyledTableCell>
-                      <StyledTableCell align="right">{row.suggestion}</StyledTableCell>
-                      <StyledTableCell align="right">{row.city}</StyledTableCell>
-                      <StyledTableCell align="right">{row.newspaper}</StyledTableCell>
-                    </StyledTableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
+              <Typography variant="h2" align="center" sx={{color:"#e85a4f",marginBottom:"20px",fontFamily:'Playfair Display,serif'}}>Issue / Suggestion</Typography>
+                <Divider  sx={{ width: '50ch',marginTop:"20px",marginLeft:"35%",height:"3px",marginBottom:"15px",backgroundColor:"#e85a4f"}} />          
+                <Paper sx={{ width: '1435px', overflow: 'hidden',marginTop:"60px"}}>
+                            <TableContainer sx={{ maxHeight: 600}}>
+                                <Table stickyHeader aria-label="sticky table">
+                                    <TableHead >
+                                        <TableRow >
+                                           <TableCell sx={{backgroundColor:"#e85a4f",fontFamily:'Playfair Display,serif',color:"white",
+                                            fontSize:"25px" ,textAlign:"center"}}>Issue ID</TableCell>
+                                            <TableCell sx={{backgroundColor:"#e85a4f",fontFamily:'Playfair Display,serif',color:"white",
+                                            fontSize:"25px" ,textAlign:"center"}}>Name</TableCell>
+                                            <TableCell sx={{backgroundColor:"#e85a4f",fontFamily:'Playfair Display,serif',color:"white",
+                                            fontSize:"25px" ,textAlign:"center"}}>Email</TableCell>
+                                            <TableCell sx={{backgroundColor:"#e85a4f",fontFamily:'Playfair Display,serif',color:"white",
+                                            fontSize:"25px" ,textAlign:"center"}}>Suggestion</TableCell> 
+                                        </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                    {issue.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                        .map((row) => {
+                                            
+                                                return (
+                                                    <TableRow hover role="checkbox" tabIndex={-1} key={row.issue_id}>
+                                                        <TableCell sx={{fontFamily:'Nunito,sans-serif',fontSize:"18px",textAlign:"center"}}>{row.issue_id}</TableCell>
+                                                        <TableCell sx={{fontFamily:'Nunito,sans-serif',fontSize:"18px",textAlign:"center"}}>{row.name}</TableCell>
+                                                        <TableCell sx={{fontFamily:'Nunito,sans-serif',fontSize:"18px",textAlign:"center"}}>{row.email}</TableCell>
+                                                        <TableCell sx={{fontFamily:'Nunito,sans-serif',fontSize:"18px",textAlign:"center"}}>{row.suggestion}</TableCell>
+                                                    </TableRow>
+                                        )
+                                            
+                                        })
+                                    }
+                                    </TableBody>
+                                </Table>
+                            </TableContainer>
+                            <TablePagination
+                                rowsPerPageOptions={[5, 10, 20]}
+                                component="div"
+                                count={issue.length}
+                                rowsPerPage={rowsPerPage}
+                                page={page}
+                                onPageChange={handleChangePage}
+                                onRowsPerPageChange={handleChangeRowsPerPage}
+                            />
+                        </Paper>  
       </Grid>
-           }
-          </Grid>
+      }
+    </Grid>
         
     {/* </Grid> */}
     </div>
