@@ -16,6 +16,7 @@ import Divider from '@mui/material/Divider';
 import TablePagination from '@mui/material/TablePagination';
 import TableContainer from '@mui/material/TableContainer';
 import TableSortLabel from '@mui/material/TableSortLabel';
+import { styled } from '@mui/material/styles';
 
 
 const axios = require("axios")
@@ -28,6 +29,14 @@ const useStyles = makeStyles({
         color:"#e85a4f"
     }
 })
+
+const StyledButton = styled(Button)({
+    '&:hover': {
+        backgroundColor: '#A7423A',
+        boxShadow: '20',
+      }
+  })
+
 
 const  BillCollection=()=>{
     const classes = useStyles();
@@ -231,10 +240,10 @@ const  BillCollection=()=>{
                                                 <TableCell sx={{fontFamily:'Nunito,sans-serif',fontSize:"16px",textAlign:"center"}}>{`${row.address} ${row.area}`}</TableCell>
                                                 <TableCell sx={{fontFamily:'Nunito,sans-serif',fontSize:"16px",textAlign:"center"}}>{row.bill}</TableCell>
                                                 <TableCell>
-                                                    <Button  sx= {{marginLeft:"35%",marginTop:"5px",backgroundColor:"#e85a4f",color:"white"}} type="submit" 
+                                                    <StyledButton  sx= {{marginLeft:"35%",marginTop:"5px",backgroundColor:"#e85a4f",color:"white"}} type="submit" 
                                                         variant="contained"  onClick={collect(row.o_id)}>
                                                     Collect
-                                                    </Button>
+                                                    </StyledButton>
                                                 </TableCell>
                                                                                            
                                             </TableRow>

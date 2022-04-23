@@ -23,7 +23,16 @@ import TextField from '@mui/material/TextField';
 
 
 
+
 const axios = require("axios");
+
+const StyledButton = styled(Button)({
+  '&:hover': {
+      backgroundColor: '#e85a4f',
+      boxShadow: '20',
+      width: '44ch'
+    }
+})
 
 
 const CustomerList = () => {
@@ -284,11 +293,11 @@ const CustomerList = () => {
         </Grid>
            }
            {list &&
-            <Button onClick={submit} paddingBottom="20px" 
+            <StyledButton onClick={submit} paddingBottom="20px" 
             variant="contained"
             sx={{ width: '44ch',margin:"auto"
-            ,backgroundColor:"white",color:"#e98074"}}
-            >Send Notification to all</Button>
+            ,backgroundColor:"white",color:"black",marginBottom:"30px"}}
+            >Send Notification to all</StyledButton>
             }
           </Grid>
         

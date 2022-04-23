@@ -8,6 +8,7 @@ import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 import Swal from 'sweetalert2';
+import { styled } from '@mui/material/styles';
 
 import 'mapbox-gl/dist/mapbox-gl.css'
 import 'react-map-gl-geocoder/dist/mapbox-gl-geocoder.css'
@@ -27,6 +28,13 @@ const useStyles = makeStyles({
       }
   });
 
+  const StyledButton = styled(Button)({
+    '&:hover': {
+        backgroundColor: '#A7423A',
+        boxShadow: '20',
+        width: '48ch'
+      }
+  })
 
 
 
@@ -36,8 +44,6 @@ const ProfileVen = () =>{
 
     const classes = useStyles();
     const navigate = useNavigate();
-    //const [state,setState] = useState("")
-    //const [city,setCity] = useState("")
     const [charge,setCharge] = useState("")
     const [area,setArea] = useState("")
     const [address,setAddress] = useState("")
@@ -192,7 +198,7 @@ const ProfileVen = () =>{
                                 autoFocus
                             />
 
-                            <Button
+                            <StyledButton
                                 type="submit"
                                 margin="normal"
                                 sx={{ width: '48ch',marginLeft:"15%",marginTop:"20px",marginBottom:"30px",backgroundColor:"#e85a4f",
@@ -200,7 +206,7 @@ const ProfileVen = () =>{
                                 variant="contained"
                                 onClick={submit}>
                                 {charge===null ? "Submit" : "Update"}
-                            </Button>
+                            </StyledButton>
                     </Grid>
     
                 
