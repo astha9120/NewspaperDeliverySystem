@@ -28,7 +28,7 @@ const headersData = [
   },
   {
     label: "LogOut",
-    href: "/",
+    href: "/admin",
   },
 ];
 
