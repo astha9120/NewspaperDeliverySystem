@@ -1,6 +1,5 @@
 import Header from './Header';
 import * as React from 'react';
-import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
 import TextField from '@mui/material/TextField';
 import Table from '@mui/material/Table';
@@ -10,7 +9,6 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
-import { useNavigate } from 'react-router-dom';
 import { useState  , useEffect} from 'react';
 import { makeStyles } from '@mui/styles';
 import Typography from '@mui/material/Typography';
@@ -19,7 +17,11 @@ import Divider from '@mui/material/Divider';
 import TableSortLabel from '@mui/material/TableSortLabel';
 import SearchIcon from '@mui/icons-material/Search';
 import InputAdornment from '@mui/material/InputAdornment';
-import InputBase from '@material-ui/core/InputBase';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import Box from '@mui/material/Box';
+import Collapse from '@mui/material/Collapse';
+import IconButton from '@mui/material/IconButton';
 
 
 const axios = require("axios");
@@ -29,16 +31,76 @@ const useStyles = makeStyles({
   });
 
 
+  function Row(props) {
+    const { row } = props;
+    console.log("row print")
+    console.log(row)
+    const [open, setOpen] = React.useState(false);
+  
+    return (
+      <React.Fragment>
+        <TableRow hover role="checkbox" tabIndex={-1} key={row}>
+          <TableCell sx={{fontFamily:'Nunito,sans-serif',fontSize:"16px",textAlign:"center"}}>{row.name}</TableCell>
+          <TableCell sx={{fontFamily:'Nunito,sans-serif',fontSize:"16px",textAlign:"center"}}>
+                                                     { row.total_p}
+            </TableCell> 
+          <TableCell>
+            <IconButton
+              aria-label="expand row"
+              size="small"
+              onClick={() => setOpen(!open)}
+            >
+              {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+            </IconButton>
+          </TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+            <Collapse in={open} timeout="auto" unmountOnExit>
+              <Box sx={{ margin: 1 }}>
+                <Typography variant="h6" gutterBottom component="div" fontFamily='Playfair Display,serif'>
+                  Order Details
+                </Typography>
+                <Table size="small" aria-label="purchases">
+                  <TableHead>
+                    <TableRow>
+                    <TableCell sx={{fontFamily:'Playfair Display,serif',color:"black",fontSize:"16px",
+                    textAlign:"center"}}>Newspaper</TableCell>                       
+                    <TableCell sx={{fontFamily:'Playfair Display,serif',color:"black",fontSize:"16px",
+                    textAlign:"center"}}>Quantity</TableCell> 
+                     <TableCell sx={{fontFamily:'Playfair Display,serif',color:"black",fontSize:"16px",
+                    textAlign:"center"}}>Amount($)</TableCell> 
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {row.newspaper.map((row1) => (
+                      <TableRow>
+                          <TableCell sx={{fontFamily:'Nunito,sans-serif',textAlign:"center"}}>{row1.name}
+                          </TableCell>
+                          <TableCell sx={{fontFamily:'Nunito,sans-serif',textAlign:"center"}}>{row1.count}
+                          </TableCell>
+                          <TableCell sx={{fontFamily:'Nunito,sans-serif',textAlign:"center"}}>{row1.price}
+                          </TableCell>
+                       
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </Box>
+            </Collapse>
+          </TableCell>
+        </TableRow>
+      </React.Fragment>
+    );
+  }
+  
 
 
 const NdbList = () => {
 
-    const classes = useStyles();
     const [customerlist,setCustomerlist] = useState([]);
     const id = localStorage.getItem('id')
-    const [list,setList]= useState(true)
-    const [allocate,setAllocate] = useState(true)
-    const [quantity,setQuantity] = useState([{}])
+    const [list,setList]= useState(false)
     const [charge,setCharge] = useState(0)
 
     const [filter,setFilter] = useState("");
@@ -51,18 +113,7 @@ const NdbList = () => {
     const [orderDirection,setOrderDirection]=useState('asc')
     const [valueToOrderBy,setValueToOrderBy] = useState("name")
 
-    const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(5);
-
-    const handleChangePage = (event, newPage) => {
-        setPage(newPage);
-      };
     
-      const handleChangeRowsPerPage = (event) => {
-        setRowsPerPage(+event.target.value);
-        setPage(0);
-      };
-
     const [page2, setPage2] = useState(0);
     const [rowsPerPage2, setRowsPerPage2] = useState(5);
 
@@ -71,7 +122,7 @@ const NdbList = () => {
       };
     
       const handleChangeRowsPerPage2 = (event) => {
-        setRowsPerPage2(+event.target.value);
+        setRowsPerPage2(event.target.value);
         setPage2(0);
       };
 
@@ -113,17 +164,11 @@ const NdbList = () => {
 
     useEffect(()=>{
 
-            axios.get(`http://localhost:4000/vendor/ndblist/quantity/${id}`)
-            .then(res=>{
-              console.log(res.data)
-              setQuantity(res.data)
-            })
-
             axios.get(`http://localhost:4000/vendor/ndblist/${id}`)
             .then(res=>{
               console.log(res.data)
-              if(res.data.length==0)
-                setList(false)
+              if(res.data.length>0)
+                setList(true)
               setCustomerlist(res.data)
             })
 
@@ -145,48 +190,74 @@ const NdbList = () => {
           alignItems="center"  
           spacing={5} minHeight="100vh"
           marginTop="20px" > 
-          
-          {list && 
-          <Grid item lg={6} md={4} xs={2} sx={{marginTop:"0px",marginBottom:"40px"}}>
-              <Typography variant="h2" align="center" sx={{color:"white",marginBottom:"20px",fontFamily:'Playfair Display,serif'}}>Newspaper List</Typography>
-              <Divider  sx={{ width: '20ch',marginTop:"30px",marginLeft:"29%",height:"3px",marginBottom:"10px",backgroundColor:"white"}} />
-              
-              <Paper sx={{ width: '500px', overflow: 'hidden',marginTop:"50px"}}>
-                            <TableContainer sx={{ maxHeight: 440}}>
-                                <Table stickyHeader aria-label="sticky table">
-                                    <TableHead >
-                                        <TableRow >
-                                           <TableCell sx={{backgroundColor:"#eae7dc",fontFamily:'Playfair Display,serif',color:"black",
-                                            fontSize:"22px" ,textAlign:"center"}}>Newspaper</TableCell> 
-                                            <TableCell sx={{backgroundColor:"#eae7dc",fontFamily:'Playfair Display,serif',color:"black",
-                                            fontSize:"22px" ,textAlign:"center"}}>Quantity</TableCell> 
-                                        </TableRow>
-                                    </TableHead>
-                                    <TableBody>
-                                    {quantity
-                                        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                        .map((row) => {
-                                        return (
-                                            <TableRow hover role="checkbox" tabIndex={-1} key={row.n_id}>
-                                                <TableCell sx={{fontFamily:'Nunito,sans-serif',fontSize:"16px",textAlign:"center"}}>{row.name}</TableCell>
-                                                <TableCell sx={{fontFamily:'Nunito,sans-serif',fontSize:"16px",textAlign:"center"}}>{row.count}</TableCell>
+            {list &&
+            
+            <Grid item lg={6} md={4} xs={2} sx={{marginTop:"0px",marginBottom:"40px"}}>
+                <Typography variant="h2" align="center" sx={{color:"white",marginBottom:"28px",fontFamily:'Playfair Display,serif'}}>Delivery Person Details</Typography>
+                <Divider  sx={{ width: '35ch',marginLeft:"36%",height:"3px",marginBottom:"10px",backgroundColor:"white",marginTop:"30px"}} />
+                <TextField
+                  placeholder="Search your customer"
+                  inputProps={{ 'aria-label': 'search' }}
+                  onChange={handleSearch}
+                  variant="filled"
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <SearchIcon />
+                      </InputAdornment>
+                    ),
+                  }}
+                  style={{marginTop:"50px",width:"30%",backgroundColor:"white",borderRadius:"5px"}}
+                />
+                <Paper sx={{ width: '1100px', overflow: 'hidden',marginTop:"80px"}}>
+                                <TableContainer>
+                                    <Table stickyHeader aria-label="sticky table">
+                                        <TableHead >
+                                            <TableRow >
+                                              <TableCell key ="name" sx={{backgroundColor:"#eae7dc",fontFamily:'Playfair Display,serif',color:"black",
+                                                fontSize:"24px" ,textAlign:"center"}}>
+                                                  <TableSortLabel active={valueToOrderBy==="name"}
+                                                    direction = {valueToOrderBy==="name" ? orderDirection : 'asc'} onClick ={createSortHandler("name")}
+                                                  >Name</TableSortLabel>
+                                              </TableCell> 
+                                        
+                                              
+                                              <TableCell key="total_p" sx={{backgroundColor:"#eae7dc",fontFamily:'Playfair Display,serif',color:"black",
+                                                    fontSize:"24px" ,textAlign:"center"}}>
+                                                    <TableSortLabel active={valueToOrderBy==="total_p"}
+                                                    direction = {valueToOrderBy==="total_p" ? orderDirection : 'asc'} onClick ={createSortHandler("total_p")}
+                                                    >Total price ($)
+                                                    </TableSortLabel>
+                                              </TableCell> 
+                                              <TableCell  sx={{backgroundColor:"#eae7dc"}} />
                                             </TableRow>
-                                        )})
-                                    }
-                                    </TableBody>
-                                </Table>
-                            </TableContainer>
-                            <TablePagination
-                                rowsPerPageOptions={[5, 10, 20]}
-                                component="div"
-                                count={quantity.length}
-                                rowsPerPage={rowsPerPage}
-                                page={page}
-                                onPageChange={handleChangePage}
-                                onRowsPerPageChange={handleChangeRowsPerPage}
-                            />
-                        </Paper>
-          </Grid> }
+                                        </TableHead>
+                                        <TableBody>
+                                        {sortedRowInformation(customerlist,getComparator(orderDirection,valueToOrderBy))
+                                            .slice(page2 * rowsPerPage2, page2 * rowsPerPage2 + rowsPerPage2)
+                                            .map((row,index) => {
+                                              if(row.name.toLowerCase().includes(filter.toLowerCase())===true){
+                                                return (
+                                                  <Row key={index} row={row} />
+                                                  )}
+                                            })
+                                        }
+                                        </TableBody>
+                                    </Table>
+                                </TableContainer>
+                                <TablePagination
+                                    rowsPerPageOptions={[5, 10, 20]}
+                                    component="div"
+                                    count={customerlist.length}
+                                    rowsPerPage={rowsPerPage2}
+                                    page={page2}
+                                    onPageChange={handleChangePage2}
+                                    onRowsPerPageChange={handleChangeRowsPerPage2}
+                                />
+                            </Paper>
+                    </Grid>
+               }
+         
 
           {!list&&
             <Typography align="center" variant="h2" style={{paddingTop:"100px",paddingBottom:"20px",color:"white",fontFamily:'Playfair Display,serif'}}>
@@ -197,101 +268,7 @@ const NdbList = () => {
           }
 
   
-          {list &&
-            
-        <Grid item lg={6} md={4} xs={2} sx={{marginTop:"0px",marginBottom:"40px"}}>
-            <Typography variant="h2" align="center" sx={{color:"white",marginBottom:"28px",fontFamily:'Playfair Display,serif'}}>Delivery Person Details</Typography>
-            <Divider  sx={{ width: '35ch',marginLeft:"36%",height:"3px",marginBottom:"10px",backgroundColor:"white",marginTop:"30px"}} />
-            <TextField
-              placeholder="Search your customer"
-              inputProps={{ 'aria-label': 'search' }}
-              onChange={handleSearch}
-              variant="filled"
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <SearchIcon />
-                  </InputAdornment>
-                ),
-              }}
-              style={{marginTop:"50px",width:"30%"}}
-            />
-            <Paper sx={{ width: '1200px', overflow: 'hidden',marginTop:"80px"}}>
-                            <TableContainer sx={{ maxHeight: 440}}>
-                                <Table stickyHeader aria-label="sticky table">
-                                    <TableHead >
-                                        <TableRow >
-                                          <TableCell key ="name" sx={{backgroundColor:"#eae7dc",fontFamily:'Playfair Display,serif',color:"black",
-                                            fontSize:"22px" ,textAlign:"center"}}>
-                                              <TableSortLabel active={valueToOrderBy==="name"}
-                                                direction = {valueToOrderBy==="name" ? orderDirection : 'asc'} onClick ={createSortHandler("name")}
-                                              >Name</TableSortLabel>
-                                          </TableCell> 
-                                          
-                                          <TableCell sx={{backgroundColor:"#eae7dc",fontFamily:'Playfair Display,serif',color:"black",
-                                            fontSize:"22px" ,textAlign:"center"}}>Newspaper</TableCell> 
-                                          
-                                          <TableCell sx={{backgroundColor:"#eae7dc",fontFamily:'Playfair Display,serif',color:"black",
-                                          fontSize:"22px" ,textAlign:"center"}}>Quantity</TableCell> 
-                                          
-                                          <TableCell sx={{backgroundColor:"#eae7dc",fontFamily:'Playfair Display,serif',color:"black",
-                                          fontSize:"22px" ,textAlign:"center"}}>Amount ($)</TableCell> 
-                                          
-                                          <TableCell key="total_p" sx={{backgroundColor:"#eae7dc",fontFamily:'Playfair Display,serif',color:"black",
-                                                fontSize:"22px" ,textAlign:"center"}}>
-                                                <TableSortLabel active={valueToOrderBy==="total_p"}
-                                                direction = {valueToOrderBy==="total_p" ? orderDirection : 'asc'} onClick ={createSortHandler("total_p")}
-                                                >Total price ($)
-                                                </TableSortLabel>
-                                          </TableCell> 
-                                        </TableRow>
-                                    </TableHead>
-                                    <TableBody>
-                                    {sortedRowInformation(customerlist,getComparator(orderDirection,valueToOrderBy))
-                                        .slice(page2 * rowsPerPage2, page2 * rowsPerPage2 + rowsPerPage2)
-                                        .map((row,index) => {
-                                          if(row.name.toLowerCase().includes(filter.toLowerCase())===true){
-                                            return (
-                                              <TableRow hover role="checkbox" tabIndex={-1} key={index}>
-                                                  <TableCell sx={{fontFamily:'Nunito,sans-serif',fontSize:"16px",textAlign:"center"}}>{row.name}</TableCell>
-                                                  <TableCell sx={{fontFamily:'Nunito,sans-serif',fontSize:"16px",textAlign:"center"}}>
-                                                    {row.newspaper.map((row1) => (
-                                                    <Typography paddingBottom="2px" fontFamily='Nunito,sans-serif'>{row1.name} </Typography>
-                                                    ))} 
-                                                  </TableCell>
-                                                  <TableCell sx={{fontFamily:'Nunito,sans-serif',fontSize:"16px",textAlign:"center"}}>
-                                                    {row.newspaper.map((row1) => (
-                                                      <Typography paddingBottom="2px" fontFamily='Nunito,sans-serif'>{row1.count} </Typography>
-                                                    ))} 
-                                                  </TableCell>  
-                                                  <TableCell sx={{fontFamily:'Nunito,sans-serif',fontSize:"16px",textAlign:"center"}}>
-                                                    {row.newspaper.map((row1) => (
-                                                      <Typography paddingBottom="2px" fontFamily='Nunito,sans-serif'>{row1.price} </Typography>
-                                                    ))} 
-                                                  </TableCell> 
-                                                  <TableCell sx={{fontFamily:'Nunito,sans-serif',fontSize:"16px",textAlign:"center"}}>
-                                                     { row.total_p}
-                                                  </TableCell> 
-                                              </TableRow>
-                                          )
-                                          }
-                                        })
-                                    }
-                                    </TableBody>
-                                </Table>
-                            </TableContainer>
-                            <TablePagination
-                                rowsPerPageOptions={[5, 10, 20]}
-                                component="div"
-                                count={customerlist.length}
-                                rowsPerPage={rowsPerPage2}
-                                page={page2}
-                                onPageChange={handleChangePage2}
-                                onRowsPerPageChange={handleChangeRowsPerPage2}
-                            />
-                        </Paper>
-                </Grid>
-           }
+        
           </Grid>
         
     {/* </Grid> */}
