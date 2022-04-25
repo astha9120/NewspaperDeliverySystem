@@ -43,7 +43,7 @@ const VendorList = () => {
     const [newspaper,setNewspaper] = useState([])
     const [vendorlist,setVendorlist] = useState([]);
     const id = localStorage.getItem('id')
-    const [list,setList]= useState(true)
+    const [list,setList]= useState(false)
     const [allocate,setAllocate] = useState(true)
 
     const [filter,setFilter] = useState("");
@@ -82,8 +82,8 @@ const VendorList = () => {
             axios.get(`http://localhost:4000/ndb/vendorlist/${id}`)
             .then(res=>{
               //console.log(res.data)
-              if(res.data.length==0)
-                setList(false)
+              if(res.data.length!=0)
+                setList(true)
               setVendorlist(res.data)
             })
 
@@ -153,7 +153,7 @@ const VendorList = () => {
                                             <TableCell sx={{backgroundColor:"#d8c3a5",fontFamily:'Playfair Display,serif',color:"white",
                                             fontSize:"25px" ,textAlign:"center"}}>quantity</TableCell> 
                                             <TableCell sx={{backgroundColor:"#d8c3a5",fontFamily:'Playfair Display,serif',color:"white",
-                                            fontSize:"25px" ,textAlign:"center"}}>Amount</TableCell> 
+                                            fontSize:"25px" ,textAlign:"center"}}>Amount($)</TableCell> 
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
@@ -219,12 +219,13 @@ const VendorList = () => {
                                              
                                         </TableRow>
                                     </TableHead>
+                                    {list && 
                                     <TableBody>
                                     {vendorlist
                                         .slice(page2 * rowsPerPage2, page2 * rowsPerPage2 + rowsPerPage2)
                                         .map((row) => {
-                                          if(row.name.includes(filter)===true || row.phoneno.includes(filter)===true || 
-                                            row.address.includes(filter)===true || row.area.includes(filter)===true)
+                                          if(row.name.toLowerCase().includes(filter.toLowerCase())===true || row.phoneno.toLowerCase().includes(filter.toLowerCase())===true || 
+                                            row.address.toLowerCase().includes(filter.toLowerCase())===true || row.area.toLowerCase().includes(filter.toLowerCase())===true)
                                             {
                                               return (
                                                 <TableRow hover role="checkbox" tabIndex={-1} key={row.n_id}>
@@ -239,6 +240,7 @@ const VendorList = () => {
                                         })
                                     }
                                     </TableBody>
+                                  }
                                 </Table>
                             </TableContainer>
                             <TablePagination

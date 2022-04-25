@@ -153,8 +153,8 @@ const Bill = ()=>{
                             <TableHead>
                                     <TableRow>
                                         <TableCell  sx={{backgroundColor:"#d3d3d3",textAlign:"left",fontSize:"16px",fontWeight:"bold",fontFamily:"Playfair Display"}} >Newspaper</TableCell>
-                                        <TableCell  sx={{backgroundColor:"#d3d3d3",textAlign:"right",fontSize:"16px",fontWeight:"bold",fontFamily:"Playfair Display"}}>Price (₹)</TableCell>
-                                        <TableCell  sx={{backgroundColor:"#d3d3d3",textAlign:"right",fontSize:"16px",fontWeight:"bold",fontFamily:"Playfair Display"}}>Scrap Price (₹)</TableCell>
+                                        <TableCell  sx={{backgroundColor:"#d3d3d3",textAlign:"right",fontSize:"16px",fontWeight:"bold",fontFamily:"Playfair Display"}}>Price ($)</TableCell>
+                                        <TableCell  sx={{backgroundColor:"#d3d3d3",textAlign:"right",fontSize:"16px",fontWeight:"bold",fontFamily:"Playfair Display"}}>Scrap Price ($)</TableCell>
                                     </TableRow>
                             </TableHead>
                             <TableBody>
@@ -173,15 +173,15 @@ const Bill = ()=>{
                             <TableBody >
                                 <TableRow >
                                     <TableCell sx={{textAlign:"left" , fontSize:"14px",fontFamily: 'Nunito,sans-serif',fontWeight:"600",border:"none"}} >Sub Total</TableCell>
-                                    <TableCell sx={{textAlign:"right" , fontSize:"14px",fontFamily:'Nunito,sans-serif',fontWeight:"600",border:"none"}} >₹{total}</TableCell>
+                                    <TableCell sx={{textAlign:"right" , fontSize:"14px",fontFamily:'Nunito,sans-serif',fontWeight:"600",border:"none"}} >${total}</TableCell>
                                 </TableRow>
                                 <TableRow >
                                     <TableCell sx={{textAlign:"left" , fontSize:"14px",fontFamily: 'Nunito,sans-serif',fontWeight:"600",border:"none"}} >Scrap Discount</TableCell>
-                                    <TableCell sx={{textAlign:"right" , fontSize:"14px",fontFamily:'Nunito,sans-serif',fontWeight:"600",border:"none"}} >₹{scrap}</TableCell>
+                                    <TableCell sx={{textAlign:"right" , fontSize:"14px",fontFamily:'Nunito,sans-serif',fontWeight:"600",border:"none"}} >${scrap}</TableCell>
                                 </TableRow>
                                 <TableRow >
                                     <TableCell sx={{textAlign:"left" , fontSize:"14px",fontFamily: 'Nunito,sans-serif',fontWeight:"600",border:"none"}} >Total</TableCell>
-                                    <TableCell sx={{textAlign:"right" , fontSize:"14px",fontFamily:'Nunito,sans-serif',fontWeight:"600",border:"none"}} >₹{total - scrap*obj.scrap_service}</TableCell>
+                                    <TableCell sx={{textAlign:"right" , fontSize:"14px",fontFamily:'Nunito,sans-serif',fontWeight:"600",border:"none"}} >${total - scrap*obj.scrap_service}</TableCell>
                                 </TableRow>
                                 <TableRow >
                                     <TableCell sx={{textAlign:"left" , fontSize:"14px",fontFamily: 'Nunito,sans-serif',fontWeight:"600",border:"none"}} >Payment Method</TableCell>

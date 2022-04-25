@@ -217,7 +217,7 @@ const Addnews = ()=>{
                                     <TableBody>
                                     {newspaper.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                         .map((row) => {
-                                            if(row.name.includes(filter)===true){
+                                            if(row.name.toLowerCase().includes(filter.toLowerCase())===true){
                                                 return (
                                                     <TableRow hover role="checkbox" tabIndex={-1} key={row.n_id}>
                                                         <TableCell sx={{fontFamily:'Nunito,sans-serif',fontSize:"18px",textAlign:"center"}}>{row.name}</TableCell>
