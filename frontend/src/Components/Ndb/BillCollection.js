@@ -223,7 +223,7 @@ const  BillCollection=()=>{
                                             fontSize:"22px" ,textAlign:"center"}}>
                                                 <TableSortLabel active={valueToOrderBy==="bill"} 
                                                 direction = {valueToOrderBy==="bill" ? orderDirection : 'asc'} onClick ={createSortHandler("bill")}
-                                                >Price
+                                                >Price($)
                                                 </TableSortLabel>
                                             </TableCell>
                                             <TableCell  sx={{backgroundColor:"#e85a4f",fontFamily:'Playfair Display,serif',color:"white",
@@ -288,7 +288,7 @@ const  BillCollection=()=>{
                                             fontSize:"22px" ,textAlign:"center"}}>
                                                 <TableSortLabel active={valueToOrderBy2==="bill"} 
                                                     direction = {valueToOrderBy2==="bill" ? orderDirection2 : 'asc'} onClick ={createSortHandler2("bill")}
-                                                    >Price
+                                                    >Price($)
                                                 </TableSortLabel>
                                             </TableCell>
                                             <TableCell key="collection_date" sx={{backgroundColor:"#e85a4f",fontFamily:'Playfair Display,serif',color:"white",

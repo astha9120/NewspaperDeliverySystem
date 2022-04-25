@@ -151,7 +151,7 @@ const PastOrders = ()=>{
                                     fontSize:"20px" ,textAlign:"center"}}>
                            <TableSortLabel active={valueToOrderBy==="bill"} 
                              direction = {valueToOrderBy==="bill" ? orderDirection : 'asc'} onClick ={createSortHandler("bill")}>
-                                 Price
+                                 Price($)
                             </TableSortLabel>
                         </TableCell>
 
