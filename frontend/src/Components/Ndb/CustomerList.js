@@ -309,8 +309,8 @@ const CustomerList = () => {
                     .map((person,index)=>{
                         const isItemSelected = isSelected(person.c_id);
                         const labelId = `enhanced-table-checkbox-${index}`;
-                        if(person.name.includes(filter)===true || person.address.includes(filter)===true ||
-                         person.area.includes(filter)===true) 
+                        if(person.name.toLowerCase().includes(filter.toLowerCase())===true || person.address.toLowerCase().includes(filter.toLowerCase())===true ||
+                         person.area.toLowerCase().includes(filter.toLowerCase())===true) 
                         {
                             return (
                                 <TableRow hover

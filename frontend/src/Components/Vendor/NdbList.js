@@ -250,7 +250,7 @@ const NdbList = () => {
                                     {sortedRowInformation(customerlist,getComparator(orderDirection,valueToOrderBy))
                                         .slice(page2 * rowsPerPage2, page2 * rowsPerPage2 + rowsPerPage2)
                                         .map((row,index) => {
-                                          if(row.name.includes(filter)===true){
+                                          if(row.name.toLowerCase().includes(filter.toLowerCase())===true){
                                             return (
                                               <TableRow hover role="checkbox" tabIndex={-1} key={index}>
                                                   <TableCell sx={{fontFamily:'Nunito,sans-serif',fontSize:"16px",textAlign:"center"}}>{row.name}</TableCell>
