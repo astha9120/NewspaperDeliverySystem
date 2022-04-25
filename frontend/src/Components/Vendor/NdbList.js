@@ -235,13 +235,13 @@ const NdbList = () => {
                                           fontSize:"22px" ,textAlign:"center"}}>Quantity</TableCell> 
                                           
                                           <TableCell sx={{backgroundColor:"#eae7dc",fontFamily:'Playfair Display,serif',color:"black",
-                                          fontSize:"22px" ,textAlign:"center"}}>Amount (₹)</TableCell> 
+                                          fontSize:"22px" ,textAlign:"center"}}>Amount ($)</TableCell> 
                                           
                                           <TableCell key="total_p" sx={{backgroundColor:"#eae7dc",fontFamily:'Playfair Display,serif',color:"black",
                                                 fontSize:"22px" ,textAlign:"center"}}>
                                                 <TableSortLabel active={valueToOrderBy==="total_p"}
                                                 direction = {valueToOrderBy==="total_p" ? orderDirection : 'asc'} onClick ={createSortHandler("total_p")}
-                                                >Total price (₹)
+                                                >Total price ($)
                                                 </TableSortLabel>
                                           </TableCell> 
                                         </TableRow>

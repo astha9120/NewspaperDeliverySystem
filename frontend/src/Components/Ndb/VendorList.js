@@ -153,7 +153,7 @@ const VendorList = () => {
                                             <TableCell sx={{backgroundColor:"#d8c3a5",fontFamily:'Playfair Display,serif',color:"white",
                                             fontSize:"25px" ,textAlign:"center"}}>quantity</TableCell> 
                                             <TableCell sx={{backgroundColor:"#d8c3a5",fontFamily:'Playfair Display,serif',color:"white",
-                                            fontSize:"25px" ,textAlign:"center"}}>Amount</TableCell> 
+                                            fontSize:"25px" ,textAlign:"center"}}>Amount($)</TableCell> 
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>

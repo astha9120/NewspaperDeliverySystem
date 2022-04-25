@@ -56,7 +56,7 @@ const Home = ()=>{
     // const [isFlipped,setIsFlipped] = useState(false)
    
    
-    const getFormattedPrice = (price) => `₹${price.toFixed(2)}`;
+    const getFormattedPrice = (price) => `$${price.toFixed(2)}`;
     const slice = newspapers.slice(0,no)
     
     

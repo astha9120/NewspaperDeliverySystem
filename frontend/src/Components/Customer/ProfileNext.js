@@ -12,7 +12,7 @@ import { styled } from '@mui/material/styles';
 
 const axios = require("axios");
 var news_len;
-const getFormattedPrice = (price) => `₹${price.toFixed(2)}`;
+const getFormattedPrice = (price) => `$${price.toFixed(2)}`;
     const arr=[];
 
 const useStyles = makeStyles({
