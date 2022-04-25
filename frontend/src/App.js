@@ -24,6 +24,7 @@ import Vendorlist_Admin from './Components/Admin/Vendorlist'
 
 import Landing from './Components/LandingPage/pages/Landing'
 import './App.css';
+import Quantity from './Components/Vendor/Quantity';
 
 
 
@@ -54,6 +55,7 @@ function App() {
           <Route path='/vendor/profile' element={<ProfileVen/>}/>    
           <Route path='/vendor/addnews' element={<Addnews/>}/>
           <Route path='/vendor/ndblist' element={<NdbList/>}/>
+          <Route path='/vendor/quantity' element={<Quantity/>}/>
          
           <Route path='/ndb/profile' element={<ProfileNdb/>}/>
           <Route path='/ndb/vendorlist' element={<VendorList/>}/>

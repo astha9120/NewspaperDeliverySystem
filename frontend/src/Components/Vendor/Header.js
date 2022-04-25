@@ -23,6 +23,10 @@ const headersData = [
     href: "/vendor/ndblist",
   },
   {
+    label: "Quantity List",
+    href: "/vendor/quantity",
+  },
+  {
     label: "Add newspaper",
     href: "/vendor/addnews",
   },
@@ -63,7 +67,7 @@ const useStyles = makeStyles({
   width:'100%'
 },
 test:{
-  marginLeft:"48%"
+  marginLeft:"35%"
 }
 
 
