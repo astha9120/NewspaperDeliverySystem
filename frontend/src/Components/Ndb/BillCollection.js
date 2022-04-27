@@ -198,7 +198,7 @@ const  BillCollection=()=>{
                 <Grid item lg={6} md={4} xs={2} sx={{marginTop:"0px",marginBottom:"40px"}}>
                 <Typography variant="h2" align="center" className={classes.bill} style={{fontFamily:'Playfair Display,serif'}}>Bill Collection</Typography>
                 <Divider  sx={{ width: '20ch',marginTop:"20px",marginLeft:"43%",height:"3px",marginBottom:"15px",backgroundColor:"#e85a4f"}} />
-                    <Paper sx={{ width: '1300px', overflow: 'hidden',marginTop:"50px"}}>
+                    <Paper sx={{ width: '1450px', overflow: 'hidden',marginTop:"50px"}}>
                             <TableContainer sx={{ maxHeight: 440}}>
                                 <Table stickyHeader aria-label="sticky table">
                                     <TableHead >
@@ -240,7 +240,7 @@ const  BillCollection=()=>{
                                                 <TableCell sx={{fontFamily:'Nunito,sans-serif',fontSize:"16px",textAlign:"center"}}>{`${row.address} ${row.area}`}</TableCell>
                                                 <TableCell sx={{fontFamily:'Nunito,sans-serif',fontSize:"16px",textAlign:"center"}}>{row.bill}</TableCell>
                                                 <TableCell>
-                                                    <StyledButton  sx= {{marginLeft:"35%",marginTop:"5px",backgroundColor:"#e85a4f",color:"white"}} type="submit" 
+                                                    <StyledButton  sx= {{marginLeft:"18%",marginTop:"5px",backgroundColor:"#e85a4f",color:"white"}} type="submit" 
                                                         variant="contained"  onClick={collect(row.o_id)}>
                                                     Collect
                                                     </StyledButton>
@@ -266,7 +266,7 @@ const  BillCollection=()=>{
                 <Grid item lg={6} md={4} xs={2} sx={{marginTop:"0px",marginBottom:"40px"}}>
                 <Typography variant="h2" align="center" className={classes.bill} style={{fontFamily:'Playfair Display,serif'}}>Bill Collected</Typography>
                 <Divider  sx={{ width: '20ch',marginTop:"20px",marginLeft:"43%",height:"3px",marginBottom:"15px",backgroundColor:"#e85a4f"}} />
-                    <Paper sx={{ width: '1300px', overflow: 'hidden',marginTop:"50px"}}>
+                    <Paper sx={{ width: '1450px', overflow: 'hidden',marginTop:"50px"}}>
                             <TableContainer sx={{ maxHeight: 440}}>
                                 <Table stickyHeader aria-label="sticky table">
                                     <TableHead >
