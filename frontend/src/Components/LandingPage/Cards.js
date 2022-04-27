@@ -219,10 +219,9 @@ function Cards() {
           </Typography>
            <Typography variant="body2" color="text.secondary">
            Sign-up and Login giving all the necessary information.
-           Browse Newspapers available in your area
-           Click on subscribe and give your address for Delivery.
-           Can view your bill and all your past orders anytime.
-           Website will notify your newspaper delivery everyday.
+           Add newspapers available with you and also fill the profile with all the details.
+           After getting verified, will be able to see the pickup list for the newspapers along with the names,quanity and price of newspapers that you are needed to supply.
+           More newspapers can be added later according to your availability.
           </Typography>
           <Button className="close-modal" onClick={toggleModal3}>
               CLOSE
