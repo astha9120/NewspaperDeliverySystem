@@ -91,7 +91,7 @@ const ProfileNext = () =>{
     const [checkedState, setCheckedState] = useState([]);
 
     const getData = async () => {
-     const response = await axios.get(`http://localhost:4000/customer/profilenext/${id}`)
+     const response = await axios.get(`${process.env.REACT_APP_URL}/customer/profilenext/${id}`)
      console.log(response.data);
    
      {
@@ -183,7 +183,7 @@ const ProfileNext = () =>{
             temp2.push(allnewspaper[i])
           }
           
-          const result = await axios.post(`http://localhost:4000/customer/profilenext/${id}`,{
+          const result = await axios.post(`${process.env.REACT_APP_URL}/customer/profilenext/${id}`,{
               newspaper:temp2,
               id:id,
               scrap:scrap,

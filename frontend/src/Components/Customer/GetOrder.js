@@ -62,13 +62,13 @@ const GetOrder = (e)=>{
     const [scrap,setScrap] = useState(0)
     
     const getCustomer = async()=>{
-        const result = await axios.get(`http://localhost:4000/customer/getorder/p/${c_id}/${id}`)
+        const result = await axios.get(`${process.env.REACT_APP_URL}/customer/getorder/p/${c_id}/${id}`)
         setObj(result.data[0]);
         console.log(result.data[0])
         if(result.data[0].scrap_service==1)
             setBool("Yes")
         
-        const result2 = await axios.get(`http://localhost:4000/customer/getorder/${c_id}/${id}`)
+        const result2 = await axios.get(`${process.env.REACT_APP_URL}/customer/getorder/${c_id}/${id}`)
         //console.log(result2.data)
         setPapers(result2.data)
 

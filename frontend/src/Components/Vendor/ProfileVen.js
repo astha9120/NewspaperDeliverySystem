@@ -71,7 +71,7 @@ const ProfileVen = () =>{
       );
 
     const getData = async () => {
-        const response = await axios.get(`http://localhost:4000/vendor/profile/${id}`)
+        const response = await axios.get(`${process.env.REACT_APP_URL}/vendor/profile/${id}`)
         setCharge(response.data[0].charge)
         setArea(response.data[0].area)
         setAddress(response.data[0].address)
@@ -90,7 +90,7 @@ const ProfileVen = () =>{
         e.preventDefault();
         console.log(area)
 
-        const result = await axios.put(`http://localhost:4000/vendor/profile/${id}`,{
+        const result = await axios.put(`${process.env.REACT_APP_URL}/vendor/profile/${id}`,{
             phoneno:phoneno,
             address:address,
             area:area,

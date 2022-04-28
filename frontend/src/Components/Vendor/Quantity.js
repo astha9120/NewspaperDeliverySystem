@@ -37,7 +37,7 @@ const Quantity = ()=>{
 
       useEffect(()=>{
 
-        axios.get(`http://localhost:4000/vendor/ndblist/quantity/${id}`)
+        axios.get(`${process.env.REACT_APP_URL}/vendor/ndblist/quantity/${id}`)
         .then(res=>{
          // console.log(res.data)
           if(res.data.length>0)

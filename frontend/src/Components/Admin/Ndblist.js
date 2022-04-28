@@ -57,7 +57,7 @@ const Ndblist = () => {
     useEffect(()=>{
 
       
-            axios.get(`http://localhost:4000/admin/ndblist`)
+            axios.get(`${process.env.REACT_APP_URL}/admin/ndblist`)
             .then(res=>{
              
               if(res.data.length==0)
@@ -76,7 +76,7 @@ const Ndblist = () => {
     const change = async(param)=>{
         
         console.log("HERE");
-        const result = await axios.put(`http://localhost:4000/admin/ndblist/${param}`)
+        const result = await axios.put(`${process.env.REACT_APP_URL}/admin/ndblist/${param}`)
         console.log(result.data)
         if(result.data==="yess"){
                 Swal.fire({
@@ -106,7 +106,7 @@ const Ndblist = () => {
     const del = async(param)=>{
         
      
-      const result = await axios.delete(`http://localhost:4000/admin/ndblist/${param}`)
+      const result = await axios.delete(`${process.env.REACT_APP_URL}/admin/ndblist/${param}`)
       console.log(result.data)
       
       if(result.data==="sucess"){

@@ -45,7 +45,7 @@ const Support = () => {
 
     useEffect(()=>{
             
-            axios.get(`http://localhost:4000/admin/support`)
+            axios.get(`${process.env.REACT_APP_URL}/admin/support`)
             .then(res=>{
               
               if(res.data.length==0)

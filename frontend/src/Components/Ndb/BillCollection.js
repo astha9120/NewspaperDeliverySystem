@@ -123,7 +123,7 @@ const  BillCollection=()=>{
     }
 
     const getBills=async()=>{
-        const result = await axios.get(`http://localhost:4000/ndb/billcollection/${id}`)
+        const result = await axios.get(`${process.env.REACT_APP_URL}/ndb/billcollection/${id}`)
         console.log("yet to be collected")
         if(result.data.length!=0){
             setBill(result.data)
@@ -153,7 +153,7 @@ const  BillCollection=()=>{
                     'success'
                     )
 
-                axios.put(`http://localhost:4000/ndb/billcollection/${o_id}`)
+                axios.put(`${process.env.REACT_APP_URL}/ndb/billcollection/${o_id}`)
                 .then(res=>{
                     console.log("collect button click")
                     console.log(res.data)
@@ -171,7 +171,7 @@ const  BillCollection=()=>{
         date.setMonth(month-1)
         date = date.toJSON().slice(0,10).replace(/-/g,'-')
 
-        const result = await axios.get(`http://localhost:4000/ndb/billcollection/${id}/${date}`)
+        const result = await axios.get(`${process.env.REACT_APP_URL}/ndb/billcollection/${id}/${date}`)
         console.log("collected bill")
         console.log(result.data.length)
         if(result.data.length!=0){

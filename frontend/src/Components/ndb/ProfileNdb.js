@@ -69,7 +69,7 @@ const ProfileNdb = () =>{
       );
 
     const getData = async () => {
-        const response = await axios.get(`http://localhost:4000/ndb/profile/${id}`)
+        const response = await axios.get(`${process.env.REACT_APP_URL}/ndb/profile/${id}`)
         setCharge(response.data[0].charge)
         setArea(response.data[0].area)
         setAddress(response.data[0].address)
@@ -87,7 +87,7 @@ const ProfileNdb = () =>{
     const submit = async(e)=>{
         e.preventDefault();
 
-        const result = await axios.put(`http://localhost:4000/ndb/profile/${id}`,{
+        const result = await axios.put(`${process.env.REACT_APP_URL}/ndb/profile/${id}`,{
             phoneno:phoneno,
             address:address,
             area:area,
