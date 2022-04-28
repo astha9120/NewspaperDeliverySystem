@@ -11,16 +11,19 @@ import InputAdornment from '@mui/material/InputAdornment';
 import Swal from 'sweetalert2';
 import { styled } from '@mui/material/styles';
 
-import 'mapbox-gl/dist/mapbox-gl.css'
+
 import 'react-map-gl-geocoder/dist/mapbox-gl-geocoder.css'
 import {useRef, useCallback } from 'react'
-
-import MapGL from 'react-map-gl'
-import Geocoder from 'react-map-gl-geocoder'
+// import MapGL from 'react-map-gl'
+// import Geocoder from 'react-map-gl-geocoder'
+import mapboxgl from '!mapbox-gl';// eslint-disable-line import/no-webpack-loader-syntax
+import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
+import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
+import 'mapbox-gl/dist/mapbox-gl.css'
 
 const axios = require("axios");
 
-
+mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_TOKEN
 const useStyles = makeStyles({
     cust_root: {
         // backgroundColor:'#ddd'
@@ -41,7 +44,7 @@ const useStyles = makeStyles({
 const ProfileCust = () =>{
 
     
-
+   
     const classes = useStyles();
     const navigate = useNavigate();
     const [area,setArea] = useState("")
@@ -53,9 +56,62 @@ const ProfileCust = () =>{
 
 
     const id = localStorage.getItem('id');
-    console.log("id "+id)
+    
+
+    
+    const mapContainer = useRef(null);
+    const navigationControl = useRef(null);
+    const map = useRef(null);
+    const [lng, setLng] = useState(-73.935242);
+    const [lat, setLat] = useState(40.730610);
+    const [zoom, setZoom] = useState(11.03);
+
+    
+
+    useEffect(() => {
+        if (map.current) return; // initialize map only once
+        map.current = new mapboxgl.Map({
+          container: mapContainer.current,
+          style: 'mapbox://styles/mapbox/streets-v11',
+          center: [lng, lat],
+          zoom: zoom
+        });
+        navigationControl.current = new mapboxgl.NavigationControl();
+        map.current.addControl(navigationControl.current);
+      }, []);
+    
+      useEffect(() => {
+        if (!map.current) return; // wait for map to initialize
+        map.current.on('move', () => {
+          setLng(map.current.getCenter().lng.toFixed(4));
+          setLat(map.current.getCenter().lat.toFixed(4));
+          setZoom(map.current.getZoom().toFixed(2));
+
+        });
+        map.current.addControl(
+            new MapboxGeocoder({
+            accessToken: mapboxgl.accessToken,
+            mapboxgl: mapboxgl
+            })
+            );
+           
+            
+      },[]);
+      useEffect(() => {
+        map.current.on('result', (event) => {
+            map.getSource('single-point').setArea(event.result.geometry);
+            console.log(`event${event.result}`);
+  
+          });
+    });
+
+      
+    
+  
 
     const mapBoxToken= process.env.REACT_APP_MAPBOX_TOKEN;
+
+
 
       const [viewport, setViewport] = useState({
         latitude: 40.7128,
@@ -88,37 +144,37 @@ const ProfileCust = () =>{
     const submit = async(e)=>{
 
         e.preventDefault();
-        
-        const result = await axios.put(`http://localhost:4000/customer/profile/${id}`,{
-            phoneno:phoneno,
-            address:address,
-            area:area,
-            name:name,
-            latitude:viewport.latitude,
-            longitude:viewport.longitude,
-        })
-        console.log(result.data)
-        if(result.data==="not available"){
-            Swal.fire({
-                icon: 'error',
-                title:'Sorry',
-                text: 'Service not available',
-                showConfirmButton: false,
-                timer:   1500
-          })
-          navigate(`/customer/profile`);
-        }
-        else{
+     
+    //     const result = await axios.put(`http://localhost:4000/customer/profile/${id}`,{
+    //         phoneno:phoneno,
+    //         address:address,
+    //         area:area,
+    //         name:name,
+    //         latitude:lat,
+    //         longitude:lng,
+    //     })
+    //     console.log(result.data)
+    //     if(result.data==="not available"){
+    //         Swal.fire({
+    //             icon: 'error',
+    //             title:'Sorry',
+    //             text: 'Service not available',
+    //             showConfirmButton: false,
+    //             timer:   1500
+    //       })
+    //       navigate(`/customer/profile`);
+    //     }
+    //     else{
          
-          Swal.fire({
-            icon: 'success',
-            title:'done',
-            text: 'Successfully Posted',
-            showConfirmButton: false,
-            timer: 1500
-      })
-        navigate(`/customer/profile/proNext`);
-        }
+    //       Swal.fire({
+    //         icon: 'success',
+    //         title:'done',
+    //         text: 'Successfully Posted',
+    //         showConfirmButton: false,
+    //         timer: 1500
+    //   })
+        // navigate(`/customer/profile/proNext`);
+        // }
     }
 
 
@@ -193,25 +249,26 @@ const ProfileCust = () =>{
                </Grid>
             </Grid>
             <Grid item lg={6} md={4} xs={2}>
-                <div style={{marginTop:"50px"}} ref={geocoderContainerRef}/>
-                    <MapGL
+                {/* <div style={{marginTop:"50px"}} ref={geocoderContainerRef}/> */}
+                <div ref={mapContainer} style={{height:"100%"}} onResult = {(r)=>setArea(r.result.place_name) }/>
+                    {/* <MapGL
                         ref={mapRef}
                         {...viewport}
                         width="90%"
                         height="500px"
                         onViewportChange={handleViewportChange}
                         mapboxApiAccessToken={mapBoxToken}
-                    >
-                        <Geocoder
+                    > */}
+                        {/* <Geocoder
                             required
-                            mapRef={mapRef}
-                            containerRef={geocoderContainerRef}
+                            mapRef={map}
+                            containerRef={mapContainer}
                             onViewportChange={handleViewportChange}
                             mapboxApiAccessToken={mapBoxToken}
                             position="top-left"
                             onResult = {(r)=>setArea(r.result.place_name)}
-                        />
-                    </MapGL>
+                        /> */}
+                    {/* </MapGL> */}
             </Grid>
         </Grid>
         </div>
