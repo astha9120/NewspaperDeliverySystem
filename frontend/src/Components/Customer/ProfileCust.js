@@ -14,6 +14,7 @@ import { styled } from '@mui/material/styles';
 import 'mapbox-gl/dist/mapbox-gl.css'
 import 'react-map-gl-geocoder/dist/mapbox-gl-geocoder.css'
 import {useRef, useCallback } from 'react'
+
 import MapGL from 'react-map-gl'
 import Geocoder from 'react-map-gl-geocoder'
 

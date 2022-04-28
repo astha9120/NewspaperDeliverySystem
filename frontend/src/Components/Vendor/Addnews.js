@@ -1,4 +1,5 @@
 import Header from './Header'
+import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
 import { makeStyles } from '@mui/styles';
 import { useState , useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -87,10 +88,10 @@ const Addnews = ()=>{
 
 
     useEffect(() => {
-        axios.get('http://localhost:4000/vendor/addnews')
+        axios.get(`${process.env.REACT_APP_URL}/vendor/addnews`)
             .then(res => setAllnews(res.data))
         
-        axios.get(`http://localhost:4000/vendor/addnews/${id}`)
+        axios.get(`${process.env.REACT_APP_URL}/vendor/addnews/${id}`)
         .then(
                 res => 
                 {
@@ -120,7 +121,7 @@ const Addnews = ()=>{
     const submit = async(e)=>{
             e.preventDefault();
             if(newspaper.length!=0){
-                const result = await axios.post('http://localhost:4000/vendor/addnews',
+                const result = await axios.post(`${process.env.REACT_APP_URL}/vendor/addnews`,
                 {
                     newspaper:new_np,
                     id:id
@@ -129,7 +130,7 @@ const Addnews = ()=>{
                 console.log(result)
             }
             else{
-                const result = await axios.post('http://localhost:4000/vendor/addnews',
+                const result = await axios.post(`${process.env.REACT_APP_URL}/vendor/addnews`,
                 {
                     newspaper:newspaper,
                     id:id

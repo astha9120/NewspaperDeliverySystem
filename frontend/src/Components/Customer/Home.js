@@ -70,7 +70,7 @@ const Home = ()=>{
     }
 
     const getData = async()=>{
-        const result = await  axios.get(`http://localhost:4000/customer/home/${id}`)
+        const result = await  axios.get(`${process.env.REACT_APP_URL}/customer/home/${id}`)
         console.log(result.data)
         if(result.data.length==0)
             setBool(false)

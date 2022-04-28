@@ -164,7 +164,7 @@ const NdbList = () => {
 
     useEffect(()=>{
 
-            axios.get(`http://localhost:4000/vendor/ndblist/${id}`)
+            axios.get(`${process.env.REACT_APP_URL}/vendor/ndblist/${id}`)
             .then(res=>{
               console.log(res.data)
               if(res.data.length>0)
@@ -172,7 +172,7 @@ const NdbList = () => {
               setCustomerlist(res.data)
             })
 
-            axios.get(`http://localhost:4000/vendor/ndblist/charge/${id}`)
+            axios.get(`${process.env.REACT_APP_URL}/vendor/ndblist/charge/${id}`)
             .then(res=> {
               console.log(res.data)
               setCharge(res.data[0].charge)

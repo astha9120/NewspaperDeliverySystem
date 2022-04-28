@@ -68,7 +68,7 @@ const Bill = ()=>{
 
     
     const getCustomer = async()=>{
-        const result = await axios.get(`http://localhost:4000/customer/bill/${id}`)
+        const result = await axios.get(`${process.env.REACT_APP_URL}/customer/bill/${id}`)
         setObj(result.data[0]);
         if(result.data.length>0){
             setPage(true)
@@ -78,7 +78,7 @@ const Bill = ()=>{
             if(result.data[0].scrap_service==1)
                 setBool("Yes")
             
-            const result2 = await axios.get(`http://localhost:4000/customer/bill/${id}/${result.data[0].o_id}`)
+            const result2 = await axios.get(`${process.env.REACT_APP_URL}/customer/bill/${id}/${result.data[0].o_id}`)
             //console.log(result2.data)
             setPapers(result2.data)
 

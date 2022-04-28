@@ -142,7 +142,7 @@ const CustomerList = () => {
   }
 
     useEffect(()=>{
-            axios.get(`http://localhost:4000/ndb/customerlist/${id}`)
+            axios.get(`${process.env.REACT_APP_URL}/ndb/customerlist/${id}`)
             .then(res=>{
               if(res.data.length==0)
                 setList(false)
@@ -159,7 +159,7 @@ const CustomerList = () => {
             timer: 1500
         })
 
-        const result = await axios.post(`http://localhost:4000/ndb/customerlist/send/${id}`,{
+        const result = await axios.post(`${process.env.REACT_APP_URL}/ndb/customerlist/send/${id}`,{
          list : selected
         })
 

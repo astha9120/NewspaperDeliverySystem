@@ -79,7 +79,7 @@ const VendorList = () => {
       };
 
     useEffect(()=>{
-            axios.get(`http://localhost:4000/ndb/vendorlist/${id}`)
+            axios.get(`${process.env.REACT_APP_URL}/ndb/vendorlist/${id}`)
             .then(res=>{
               //console.log(res.data)
               if(res.data.length!=0)
@@ -88,11 +88,11 @@ const VendorList = () => {
             })
 
 
-            axios.get(`http://localhost:4000/ndb/vendorlist/quantity/${id}`)
+            axios.get(`${process.env.REACT_APP_URL}/ndb/vendorlist/quantity/${id}`)
             .then(res=>{
               setNewspaper(res.data)
             })
-            axios.get(`http://localhost:4000/ndb/vendorlist/allocate/${id}`)
+            axios.get(`${process.env.REACT_APP_URL}/ndb/vendorlist/allocate/${id}`)
             .then(res=>{
               if(res.data.length==0)
                 setAllocate(false)

@@ -74,7 +74,7 @@ const SignUp = () =>{
 
     const submit = async(e)=>{
         e.preventDefault();
-        const result = await axios.post(`http://localhost:4000/signup`,{
+        const result = await axios.post(`${process.env.REACT_APP_URL}/signup`,{
             email:email,
             password:password,
             state:state,
