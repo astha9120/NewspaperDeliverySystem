@@ -94,46 +94,22 @@ const ProfileCust = () =>{
             mapboxgl: mapboxgl
             })
             );
+          
            
-            
       },[]);
-      useEffect(() => {
-        map.current.on('result', (event) => {
-            map.getSource('single-point').setArea(event.result.geometry);
-            console.log(`event${event.result}`);
-  
-          });
-    });
-
-      
     
-  
-
-    const mapBoxToken= process.env.REACT_APP_MAPBOX_TOKEN;
-
-
-
-      const [viewport, setViewport] = useState({
-        latitude: 40.7128,
-        longitude: -74.0060,
-        zoom: 8,
-      });
-
-
-      const geocoderContainerRef = useRef();
-      const mapRef = useRef();
-      const handleViewportChange = useCallback(
-        (newViewport) => setViewport(newViewport),
-        []
-      );
+      
 
 
     const getData = async () => {
         const response = await axios.get(`http://localhost:4000/customer/profile/${id}`)
+        console.log(response);
         setArea(response.data[0].area)
         setAddress(response.data[0].address)
         setPhoneno(response.data[0].phoneno)
         setName(response.data[0].name)
+        setLat(response.data[0].latitude)
+        setLng(response.data[0].longitude)
         
     }
     
@@ -141,40 +117,44 @@ const ProfileCust = () =>{
         getData();
     }, []);
 
+  
+  
     const submit = async(e)=>{
 
         e.preventDefault();
-     
-    //     const result = await axios.put(`http://localhost:4000/customer/profile/${id}`,{
-    //         phoneno:phoneno,
-    //         address:address,
-    //         area:area,
-    //         name:name,
-    //         latitude:lat,
-    //         longitude:lng,
-    //     })
-    //     console.log(result.data)
-    //     if(result.data==="not available"){
-    //         Swal.fire({
-    //             icon: 'error',
-    //             title:'Sorry',
-    //             text: 'Service not available',
-    //             showConfirmButton: false,
-    //             timer:   1500
-    //       })
-    //       navigate(`/customer/profile`);
-    //     }
-    //     else{
          
-    //       Swal.fire({
-    //         icon: 'success',
-    //         title:'done',
-    //         text: 'Successfully Posted',
-    //         showConfirmButton: false,
-    //         timer: 1500
-    //   })
-        // navigate(`/customer/profile/proNext`);
-        // }
+        
+        
+        const result = await axios.put(`http://localhost:4000/customer/profile/${id}`,{
+            phoneno:phoneno,
+            address:address,
+            area:map.current._controls[3].lastSelected != null ? JSON.parse(map.current._controls[3].lastSelected).place_name:area,
+            name:name,
+            latitude:lat,
+            longitude:lng,
+        })
+        console.log(result.data)
+        if(result.data==="not available"){
+            Swal.fire({
+                icon: 'error',
+                title:'Sorry',
+                text: 'Service not available',
+                showConfirmButton: false,
+                timer:   1500
+          })
+          navigate(`/customer/profile`);
+        }
+        else{
+         
+          Swal.fire({
+            icon: 'success',
+            title:'done',
+            text: 'Successfully Posted',
+            showConfirmButton: false,
+            timer: 1500
+      })
+        navigate(`/customer/profile/proNext`);
+        }
     }
 
 
@@ -251,24 +231,7 @@ const ProfileCust = () =>{
             <Grid item lg={6} md={4} xs={2}>
                 {/* <div style={{marginTop:"50px"}} ref={geocoderContainerRef}/> */}
                 <div ref={mapContainer} style={{height:"100%"}} onResult = {(r)=>setArea(r.result.place_name) }/>
-                    {/* <MapGL
-                        ref={mapRef}
-                        {...viewport}
-                        width="90%"
-                        height="500px"
-                        onViewportChange={handleViewportChange}
-                        mapboxApiAccessToken={mapBoxToken}
-                    > */}
-                        {/* <Geocoder
-                            required
-                            mapRef={map}
-                            containerRef={mapContainer}
-                            onViewportChange={handleViewportChange}
-                            mapboxApiAccessToken={mapBoxToken}
-                            position="top-left"
-                            onResult = {(r)=>setArea(r.result.place_name)}
-                        /> */}
-                    {/* </MapGL> */}
+                    
             </Grid>
         </Grid>
         </div>
