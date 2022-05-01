@@ -14,6 +14,7 @@ import {useRef, useCallback } from 'react'
 import MapGL from 'react-map-gl'
 import Geocoder from 'react-map-gl-geocoder'
 import { styled } from '@mui/material/styles';
+import mapboxgl from 'mapbox-gl';// eslint-disable-line import/no-webpack-loader-syntax
 
 
 const axios = require("axios");

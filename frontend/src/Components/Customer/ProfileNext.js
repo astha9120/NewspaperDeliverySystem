@@ -17,8 +17,11 @@ const getFormattedPrice = (price) => `$${price.toFixed(2)}`;
 
 const useStyles = makeStyles({
     h3: {
-      paddingTop:"15px",
-        textAlign: "center"
+      paddingTop:"30px",
+        textAlign: "center",
+        fontFamily:"Playfair Display",
+        fontSize:"55px",
+        paddingBottom:"64px"
       },
 
       newspaperlist: {
@@ -46,18 +49,25 @@ const useStyles = makeStyles({
 
       label:{
         verticalAlign: "text-bottom",
-        marginLeft: "0.2rem"
+        marginLeft: "0.2rem",
+        fontFamily: 'Nunito,sans-serif',
+        fontWeight: "550",
+        fontSize: "18px",
+        paddingBottom:"30px"
       },
 
       rightsection:{
-        marginBottom:"100px"
+        marginBottom:"50px"
       },
       radiobuttons:{
-        width: "16%",
-        margin: "0 auto",
+        width: "40%",
+        marginLeft: "41%",
         listStyle: "none",
         padding: "0",
-        marginBottom:"127px"
+        marginBottom:"80px",
+        fontFamily: 'Nunito,sans-serif',
+        fontWeight: "550",
+        fontSize: "20px",
       }
      
    
@@ -240,7 +250,10 @@ const ProfileNext = () =>{
                   <label htmlFor={`custom-checkbox-${index}`} className={classes.label}>{name}</label>
                 </div>
                 
-                <div className="right-section">{getFormattedPrice(cum_price)}</div>
+                <div className="right-section" style={{ fontFamily: 'Nunito,sans-serif',
+        fontWeight: "550",
+        fontSize: "18px",
+        paddingBottom:"20px"}}>{getFormattedPrice(cum_price)}</div>
               </div>
             </li>
           );
@@ -248,34 +261,52 @@ const ProfileNext = () =>{
         <div className={classes.lastchild}></div>
         <li>
           <div className={classes.newspaperlistitem}>
-            <div className={classes.leftsection}>Total:</div>
-            <div className={classes.rightsection}>       
+            <div className={classes.leftsection} style={{ fontFamily: 'Nunito,sans-serif',
+        fontWeight: "550",
+        fontSize: "18px",
+        paddingBottom:"8px"}}>Sub-Total:</div>
+            <div className={classes.rightsection} style={{ fontFamily: 'Nunito,sans-serif',
+        fontWeight: "550",
+        fontSize: "18px",
+        paddingBottom:"8px"}}>       
             {getFormattedPrice(total)}</div>
             
-            <div className={classes.leftsection}>Scrap:</div>
-            <div className={classes.rightsection}>       
+            <div className={classes.leftsection} style={{ fontFamily: 'Nunito,sans-serif',
+        fontWeight: "550",
+        fontSize: "18px",
+        paddingBottom:"8px"}}>Scrap:</div>
+            <div className={classes.rightsection} style={{ fontFamily: 'Nunito,sans-serif',
+        fontWeight: "550",
+        fontSize: "18px",
+        paddingBottom:"8px"}}>       
               {getFormattedPrice(scrap_p*scrap)}
             </div>
 
             
-            <div className={classes.leftsection}>Amount to be paid:</div>
-            <div className={classes.rightsection}>       
-              {getFormattedPrice(total - scrap_p*scrap)}</div>
+           
             </div>
         </li>
       </ul>
+
+
       <div className={classes.radiobuttons} onChange={onChangeValue}>
         <strong>Scrapping Service:</strong>
       
-      <label >
-        <input type="radio" value="yes" name="scrap" checked={null}  />
+      <label style={{paddingLeft:"16px"}} >
+        <input type="radio" value="yes" name="scrap" checked={null} />
         Yes
       </label>
-      <label >
+      <label style={{paddingLeft:"16px"}}>
         <input type="radio" value="no" name="scrap" checked={null}  />
        No
       </label>
      </div>
+
+
+      <div  style={{ fontFamily: 'Playfair Display',fontWeight: "550",fontSize: "24px",paddingBottom:"20px",marginLeft:"43%"}}>Amount to be paid:</div>
+            <div  style={{ fontFamily: 'Nunito,sans-serif',fontWeight: "550",fontSize: "18px",paddingBottom:"20px",marginLeft:"48%"}}>{getFormattedPrice(total - scrap_p*scrap)}</div>
+
+     
      <br/>
      <StyledButton
           type="submit"
