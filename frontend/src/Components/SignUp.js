@@ -149,7 +149,7 @@ const SignUp = () =>{
                                         <IconButton 
                                             aria-label="toggle password visibility"
                                             onClick={()=>setShowPassword((prev=>!prev))}
-                                            onMouseDown={(e)=>{e.prevenDefault()}}
+                                            onMouseDown={(e)=>{e.preventDefault()}}
                                             edge="end"
                                             >
                                             {showPassword ? <VisibilityOff /> : <Visibility />}
