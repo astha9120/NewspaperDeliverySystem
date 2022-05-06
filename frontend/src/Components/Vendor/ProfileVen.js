@@ -65,7 +65,7 @@ const ProfileVen = () =>{
     const [lat, setLat] = useState(40.730610);
     const [zoom, setZoom] = useState(11.03);
 
-    
+    //code
 
     useEffect(() => {
         if (map.current) return; // initialize map only once
