@@ -70,12 +70,17 @@ const Home = ()=>{
     }
 
     const getData = async()=>{
-        const result = await  axios.get(`${process.env.REACT_APP_URL}/customer/home/${id}`)
-        console.log(result.data)
-        if(result.data.length==0)
-            setBool(false)
-        setNewspapers(result.data)
-       // console.log(newspapers)
+        try {
+            const result = await  axios.get(`${process.env.REACT_APP_URL}/customer/home/${id}`) 
+            console.log(result.data)
+            if(result.data.length==0)
+                setBool(false)
+            setNewspapers(result.data)
+        } catch (error) {
+            navigate('/error')
+        }
+        
+       
     }
 
     const handleEnter = id => e=>{

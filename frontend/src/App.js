@@ -22,6 +22,8 @@ import Support_Admin from './Components/Admin/Support';
 import Ndblist_Admin from './Components/Admin/Ndblist';
 import Vendorlist_Admin from './Components/Admin/Vendorlist'
 
+import Error from './Components/Error'
+
 import Landing from './Components/LandingPage/pages/Landing'
 import './App.css';
 import Quantity from './Components/Vendor/Quantity';
@@ -37,6 +39,7 @@ function App() {
         <Routes>
         <Route path='/' element={<Landing/>} />
         <Route path='/admin' element={<Login_Admin/>}/>
+        <Route path='/error' element={<Error/>}/>
 
         <Route path='/admin/support' element={<Support_Admin/>}/>
         <Route path='/admin/ndblist' element={<Ndblist_Admin/>}/>
