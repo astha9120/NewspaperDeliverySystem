@@ -215,10 +215,12 @@ const Bill = ()=>{
                             </StyledButton>}
                 content={()=> componentRef.current}/>
             } 
-            {page && <Typography align="center" marginTop="45px" paddingTop="5px"
+            {page && <Typography align="center" marginTop="100px" paddingTop="5px"
                 paddingBottom="5px" backgroundColor="white" color="black">
                 {bill_stat}
             </Typography>}
+
+            <div style={{paddingBottom:"50px"}}></div>
         </div>
     )
 }
