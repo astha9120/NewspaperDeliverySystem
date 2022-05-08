@@ -20,6 +20,7 @@ import InputAdornment from '@mui/material/InputAdornment';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import Box from '@mui/material/Box';
+import { useNavigate } from 'react-router-dom';
 import Collapse from '@mui/material/Collapse';
 import IconButton from '@mui/material/IconButton';
 
@@ -98,6 +99,7 @@ const useStyles = makeStyles({
 
 const NdbList = () => {
 
+    const navigate = useNavigate();
     const [customerlist,setCustomerlist] = useState([]);
     const id = localStorage.getItem('id')
     const [list,setList]= useState(false)
@@ -170,13 +172,13 @@ const NdbList = () => {
               if(res.data.length>0)
                 setList(true)
               setCustomerlist(res.data)
-            })
+            }).error(err=>navigate('/error'))
 
             axios.get(`${process.env.REACT_APP_URL}/vendor/ndblist/charge/${id}`)
             .then(res=> {
               console.log(res.data)
               setCharge(res.data[0].charge)
-            })
+            }).error(err=>navigate('/error'))
         
     },[])
 
