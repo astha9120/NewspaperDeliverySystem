@@ -14,11 +14,14 @@ import { makeStyles } from '@mui/styles';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid'
 import Divider from '@mui/material/Divider';
+import { useNavigate } from 'react-router-dom';
 
 const axios = require("axios");
 
 
 const Quantity = ()=>{
+
+    const navigate = useNavigate();
     const [quantity,setQuantity] = useState([{}])
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -43,7 +46,7 @@ const Quantity = ()=>{
           if(res.data.length>0)
             setList(true)
           setQuantity(res.data)
-        })
+        }).error(err=>navigate('/error'))
     },[])
 
     return(

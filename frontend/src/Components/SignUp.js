@@ -74,34 +74,39 @@ const SignUp = () =>{
 
     const submit = async(e)=>{
         e.preventDefault();
-        const result = await axios.post(`${process.env.REACT_APP_URL}/signup`,{
-            email:email,
-            password:password,
-            state:state,
-            city:city,
-            user:user
-        })
-        if(result.data==="created"){
-            Swal.fire({
-                icon: 'success',
-                title:'done',
-                text: 'Successfully Signup',
-                showConfirmButton: false,
-                timer: 1500
-          })
-          navigate('/login');
+        try {
+            const result = await axios.post(`${process.env.REACT_APP_URL}/signup`,{
+                email:email,
+                password:password,
+                state:state,
+                city:city,
+                user:user
+            })
+            if(result.data==="created"){
+                Swal.fire({
+                    icon: 'success',
+                    title:'done',
+                    text: 'Successfully Signup',
+                    showConfirmButton: false,
+                    timer: 1500
+              })
+              navigate('/login');
+            }
+            else{
+                Swal.fire({
+                    position: 'top-center',
+                    icon: 'error',
+                    title:'done',
+                    text: 'Something went wrong',
+                    showConfirmButton: false,
+                    timer: 1500
+              })
+              navigate('/signup');
+            }
+        } catch (error) {
+            navigate('/error')
         }
-        else{
-            Swal.fire({
-                position: 'top-center',
-                icon: 'error',
-                title:'done',
-                text: 'Something went wrong',
-                showConfirmButton: false,
-                timer: 1500
-          })
-          navigate('/signup');
-        }
+        
     }
     return(
 

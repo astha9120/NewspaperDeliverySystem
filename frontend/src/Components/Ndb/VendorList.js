@@ -39,6 +39,8 @@ const useStyles = makeStyles({
 const VendorList = () => {
 
     const classes = useStyles();
+    const navigate = useNavigate();
+
     const [obj,setObj]=useState({name:"",phoneno:"",address:"",area:""})
     const [newspaper,setNewspaper] = useState([])
     const [vendorlist,setVendorlist] = useState([]);
@@ -85,20 +87,21 @@ const VendorList = () => {
               if(res.data.length!=0)
                 setList(true)
               setVendorlist(res.data)
-            })
+            }).error(err=>navigate('/error'))
 
 
             axios.get(`${process.env.REACT_APP_URL}/ndb/vendorlist/quantity/${id}`)
             .then(res=>{
               setNewspaper(res.data)
-            })
+            }).error(err=>navigate('/error'))
+
             axios.get(`${process.env.REACT_APP_URL}/ndb/vendorlist/allocate/${id}`)
             .then(res=>{
               if(res.data.length==0)
                 setAllocate(false)
               //console.log(res.data[0])
               setObj(res.data[0])
-            })
+            }).error(err=>navigate('/error'))
     },[])
 
 

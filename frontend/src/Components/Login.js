@@ -77,38 +77,43 @@ const Login = () =>{
     const submit = async(e)=>{
         e.preventDefault();
         // 
-        const result = await axios.post(`${process.env.REACT_APP_URL}/signin`,{
-            email:email,
-            password:password,
-            user:user
-        })
-        console.log(result.data)
-        if(result.data==="error"){
-            Swal.fire({
-                icon: 'error',
-                title:'done',
-                text: 'Something went wrong',
-                showConfirmButton: false,
-                timer: 1500
+        try {
+            const result = await axios.post(`${process.env.REACT_APP_URL}/signin`,{
+                email:email,
+                password:password,
+                user:user
             })
-            navigate('/login');
+            console.log(result.data)
+            if(result.data==="error"){
+                Swal.fire({
+                    icon: 'error',
+                    title:'done',
+                    text: 'Something went wrong',
+                    showConfirmButton: false,
+                    timer: 1500
+                })
+                navigate('/login');
+            }
+            else{
+                Swal.fire({
+                    icon: 'success',
+                    title:'done',
+                    text: 'Successfully Login',
+                    showConfirmButton: false,
+                    timer: 1500
+              })
+                localStorage.setItem('id',parseInt(result.data));
+                if(user==="vendor")
+                    navigate('/vendor/addnews')
+                else if(user==="customer")
+                    navigate('/customer/home')
+                else if(user==="ndb")
+                    navigate('/ndb/customerlist');
+            }
+        } catch (error) {
+           navigate('/error') 
         }
-        else{
-            Swal.fire({
-                icon: 'success',
-                title:'done',
-                text: 'Successfully Login',
-                showConfirmButton: false,
-                timer: 1500
-          })
-            localStorage.setItem('id',parseInt(result.data));
-            if(user==="vendor")
-                navigate('/vendor/addnews')
-            else if(user==="customer")
-                navigate('/customer/home')
-            else if(user==="ndb")
-                navigate('/ndb/customerlist');
-        }
+        
     }
     return(
 
