@@ -123,14 +123,19 @@ const  BillCollection=()=>{
     }
 
     const getBills=async()=>{
-        const result = await axios.get(`${process.env.REACT_APP_URL}/ndb/billcollection/${id}`)
-        console.log("yet to be collected")
-        if(result.data.length!=0){
-            setBill(result.data)
-            setBool_bill_p(true)
-            console.log(bill)
-
+        try {
+            const result = await axios.get(`${process.env.REACT_APP_URL}/ndb/billcollection/${id}`)
+            console.log("yet to be collected")
+            if(result.data.length!=0){
+                setBill(result.data)
+                setBool_bill_p(true)
+                console.log(bill)
+    
+            }
+        } catch (error) {
+            navigate('/error')
         }
+       
 
     }
 
@@ -157,7 +162,7 @@ const  BillCollection=()=>{
                 .then(res=>{
                     console.log("collect button click")
                     console.log(res.data)
-                })
+                }).error(err=> navigate('/error'))
             }   
         })
       
@@ -171,16 +176,21 @@ const  BillCollection=()=>{
         date.setMonth(month-1)
         date = date.toJSON().slice(0,10).replace(/-/g,'-')
 
-        const result = await axios.get(`${process.env.REACT_APP_URL}/ndb/billcollection/${id}/${date}`)
-        console.log("collected bill")
-        console.log(result.data.length)
-        if(result.data.length!=0){
-            setBillCollected(result.data)
-            setBool_bill(true)
-            console.log("hello there")
-            console.log(billCollected)
+        try {
+            const result = await axios.get(`${process.env.REACT_APP_URL}/ndb/billcollection/${id}/${date}`)
+            console.log("collected bill")
+            console.log(result.data.length)
+            if(result.data.length!=0){
+                setBillCollected(result.data)
+                setBool_bill(true)
+                console.log("hello there")
+                console.log(billCollected)
+            }
+              
+        } catch (error) {
+            navigate('/error')
         }
-            
+        
 
     }
 

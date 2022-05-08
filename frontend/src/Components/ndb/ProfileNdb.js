@@ -101,16 +101,21 @@ const ProfileNdb = () =>{
 
 
     const getData = async () => {
-        const response = await axios.get(`${process.env.REACT_APP_URL}/ndb/profile/${id}`);
-        setCharge(response.data[0].charge)
-        setArea(response.data[0].area)
-        setAddress(response.data[0].address)
-        setPhoneno(response.data[0].phoneno)
-        setName(response.data[0].name)
-        setLat(response.data[0].latitude)
-        setLng(response.data[0].longitude)
-        if(response.data[0].accept==1)
-        setProfile_stat("Your profile is verified")
+        try {
+            const response = await axios.get(`${process.env.REACT_APP_URL}/ndb/profile/${id}`);
+            setCharge(response.data[0].charge)
+            setArea(response.data[0].area)
+            setAddress(response.data[0].address)
+            setPhoneno(response.data[0].phoneno)
+            setName(response.data[0].name)
+            setLat(response.data[0].latitude)
+            setLng(response.data[0].longitude)
+            if(response.data[0].accept==1)
+            setProfile_stat("Your profile is verified")
+        } catch (error) {
+            navigate('/error')
+        }
+        
     }
     
     useEffect(() => {
@@ -123,38 +128,42 @@ const ProfileNdb = () =>{
 
         e.preventDefault();
          
-        
-        
-        const result = await axios.put(`${process.env.REACT_APP_URL}/ndb/profile/${id}`,{
-            phoneno:phoneno,
-            address:address,
-            area:map.current._controls[3].lastSelected != null ? JSON.parse(map.current._controls[3].lastSelected).place_name:area,
-            name:name,
-            latitude:lat,
-            longitude:lng,
-            charge:charge,
-        })
-        console.log(result.data)
-        if(result.data==="yes"){
-            Swal.fire({
-                icon: 'success',
-                title:'done',
-                text: 'Successfully Posted',
-                showConfirmButton: false,
-                timer: 1500
-          })
-            navigate(`/ndb/profile`);
+        try {
+            const result = await axios.put(`${process.env.REACT_APP_URL}/ndb/profile/${id}`,{
+                phoneno:phoneno,
+                address:address,
+                area:map.current._controls[3].lastSelected != null ? JSON.parse(map.current._controls[3].lastSelected).place_name:area,
+                name:name,
+                latitude:lat,
+                longitude:lng,
+                charge:charge,
+            })
+            console.log(result.data)
+            if(result.data==="yes"){
+                Swal.fire({
+                    icon: 'success',
+                    title:'done',
+                    text: 'Successfully Posted',
+                    showConfirmButton: false,
+                    timer: 1500
+              })
+                navigate(`/ndb/profile`);
+            }
+            else{
+                Swal.fire({
+                    icon: 'error',
+                    title:'done',
+                    text: 'Something went wrong',
+                    showConfirmButton: false,
+                    timer:   1500
+              })
+              navigate(`/ndb/profile`);
+            }
+        } catch (error) {
+            navigate('/error')
         }
-        else{
-            Swal.fire({
-                icon: 'error',
-                title:'done',
-                text: 'Something went wrong',
-                showConfirmButton: false,
-                timer:   1500
-          })
-          navigate(`/ndb/profile`);
-        }
+        
+      
     }
 
 

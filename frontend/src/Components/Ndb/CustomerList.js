@@ -15,6 +15,7 @@ import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid'
 import Button from '@mui/material/Button';
 import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router-dom';
 import InputBase from '@material-ui/core/InputBase';
 import TableSortLabel from '@mui/material/TableSortLabel';
 import SearchIcon from '@mui/icons-material/Search';
@@ -38,6 +39,8 @@ const StyledButton = styled(Button)({
 
 
 const CustomerList = () => {
+
+    const navigate = useNavigate();
 
     const [customerlist,setCustomerlist] = useState([]);
     const id = localStorage.getItem('id')
@@ -147,7 +150,7 @@ const CustomerList = () => {
               if(res.data.length==0)
                 setList(false)
               setCustomerlist(res.data)
-            })
+            }).error(err=>navigate('/error'))
     },[])
 
     const submit = async()=>{
@@ -159,9 +162,15 @@ const CustomerList = () => {
             timer: 1500
         })
 
-        const result = await axios.post(`${process.env.REACT_APP_URL}/ndb/customerlist/send/${id}`,{
-         list : selected
-        })
+        try {
+          const result = await axios.post(`${process.env.REACT_APP_URL}/ndb/customerlist/send/${id}`,{
+            list : selected
+           })
+        } catch (error) {
+          navigate('/error')
+        }
+        
+
 
     }
 

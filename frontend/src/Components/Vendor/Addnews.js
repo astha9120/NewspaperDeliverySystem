@@ -90,6 +90,7 @@ const Addnews = ()=>{
     useEffect(() => {
         axios.get(`${process.env.REACT_APP_URL}/vendor/addnews`)
             .then(res => setAllnews(res.data))
+            .error(err=>navigate('/error'))
         
         axios.get(`${process.env.REACT_APP_URL}/vendor/addnews/${id}`)
         .then(
@@ -99,7 +100,7 @@ const Addnews = ()=>{
                         setNewspaper(res.data)
                     }
                 }
-            )
+            ).error(err=>navigate('/error'))
     }, [])
     
     const set_newspaper =async ()=>{
@@ -121,20 +122,30 @@ const Addnews = ()=>{
     const submit = async(e)=>{
             e.preventDefault();
             if(newspaper.length!=0){
-                const result = await axios.post(`${process.env.REACT_APP_URL}/vendor/addnews`,
-                {
-                    newspaper:new_np,
-                    id:id
-                }) 
-                console.log("result")
-                console.log(result)
+                try {
+                    const result = await axios.post(`${process.env.REACT_APP_URL}/vendor/addnews`,
+                    {
+                        newspaper:new_np,
+                        id:id
+                    }) 
+                    console.log("result")
+                    console.log(result)  
+                } catch (error) {
+                    navigate('/error')
+                }
+                
             }
             else{
-                const result = await axios.post(`${process.env.REACT_APP_URL}/vendor/addnews`,
-                {
-                    newspaper:newspaper,
-                    id:id
-                }) 
+                try {
+                    const result = await axios.post(`${process.env.REACT_APP_URL}/vendor/addnews`,
+                    {
+                        newspaper:newspaper,
+                        id:id
+                    })  
+                } catch (error) {
+                    navigate('/error')
+                }
+               
             }
            
 
