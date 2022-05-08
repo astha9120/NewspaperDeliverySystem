@@ -15,6 +15,7 @@ import TableRow from '@mui/material/TableRow';
 import { useNavigate } from 'react-router-dom';
 import ReactToPrint from "react-to-print"
 import { styled } from '@mui/material/styles';
+import Swal from 'sweetalert2';
 
 
 
@@ -57,6 +58,8 @@ const Bill = ()=>{
     const [bool,setBool] = useState("No")
     const [total,setTotal] = useState(0)
     const [scrap,setScrap] = useState(0)
+    const [subs,setSubs]=useState(1)
+    const [oid,setOid] = useState()
     const [bill_stat,setBill_stat] = useState("Your bill has not been collected yet")
     const [page,setPage] = useState(false)
     const componentRef = useRef();
@@ -66,6 +69,7 @@ const Bill = ()=>{
     var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
     var yyyy = today.getFullYear();
 
+    let o_id;
     
     const getCustomer = async()=>{
         const result = await axios.get(`${process.env.REACT_APP_URL}/customer/bill/${id}`)
@@ -78,6 +82,8 @@ const Bill = ()=>{
             if(result.data[0].scrap_service==1)
                 setBool("Yes")
             
+                setSubs(result.data[0].subscribe);
+                setOid(result.data[0].o_id);
             const result2 = await axios.get(`${process.env.REACT_APP_URL}/customer/bill/${id}/${result.data[0].o_id}`)
             //console.log(result2.data)
             setPapers(result2.data)
@@ -92,6 +98,36 @@ const Bill = ()=>{
                 setScrap(q)
         }
         
+    }
+
+    const postResub = async(e)=>{
+        e.preventDefault();
+        console.log(id);
+        console.log(oid);
+        const result = await axios.post(`${process.env.REACT_APP_URL}/customer/bill/${id}/${oid}`,{
+            o_id:o_id
+        })
+        console.log(result.data)
+        if(result.data==="error"){
+            Swal.fire({
+                icon: 'error',
+                title:'done',
+                text: 'Something went wrong',
+                showConfirmButton: false,
+                timer: 1500
+            })
+            window.location.reload(false);
+        }
+        else{
+            Swal.fire({
+                icon: 'success',
+                title:'done',
+                text: 'Successfully Login',
+                showConfirmButton: false,
+                timer: 1500
+          })
+          window.location.reload(true);
+        }
     }
 
     useEffect(()=>{
@@ -202,14 +238,19 @@ const Bill = ()=>{
                
             </Grid> }
             {page &&<StyledButton   type="submit" variant="contained"
-                    sx={{ width: '17%',marginLeft:"22%",color:"black",marginTop:"50px",backgroundColor:" #eae7dc",fontWeight:"bold"}}
+                    sx={{ width: '17%',marginLeft:"12%",color:"black",marginTop:"50px",backgroundColor:" #eae7dc",fontWeight:"bold"}}
                     onClick={()=>navigate('/customer/pastorder')}>
                     Past Orders
             </StyledButton>}
-            { page && <ReactToPrint
+            {page &&<StyledButton   type="submit" variant="contained"
+                    sx={{ width: '17%',marginLeft:"12%",color:"black",marginTop:"50px",backgroundColor:" #eae7dc",fontWeight:"bold"}}
+                    onClick={postResub}
+                    disabled={subs}>
+                    Resubscribe
+            </StyledButton>}
+             { page && <ReactToPrint
                 trigger={()=><StyledButton  type="submit" variant="contained"
-                                sx={{ width: '17%',color:"black",backgroundColor:" #eae7dc",
-                                    marginLeft:"20%",marginTop:"50px",fontFamily:'Nunito,sans-serif',fontWeight:"bold"}}>
+                sx={{ width: '17%',marginLeft:"12%",color:"black",marginTop:"50px",backgroundColor:" #eae7dc",fontWeight:"bold"}}>
                                 Print E-Receipt 
                                 <PrintIcon></PrintIcon>
                             </StyledButton>}

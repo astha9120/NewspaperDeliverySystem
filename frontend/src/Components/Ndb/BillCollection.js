@@ -213,6 +213,13 @@ const  BillCollection=()=>{
                                 <Table stickyHeader aria-label="sticky table">
                                     <TableHead >
                                         <TableRow >
+                                        <TableCell key="date" sx={{backgroundColor:"#e85a4f",fontFamily:'Playfair Display,serif',color:"white",
+                                            fontSize:"22px" ,textAlign:"center"}}>
+                                                <TableSortLabel active={valueToOrderBy==="date"} 
+                                                    direction = {valueToOrderBy==="date" ? orderDirection : 'asc'} onClick ={createSortHandler("date")}
+                                                    >Date
+                                                </TableSortLabel>
+                                            </TableCell>  
                                            <TableCell key="name" sx={{fontFamily: 'Playfair Display,serif',backgroundColor:"#e85a4f",color:"white",
                                             fontSize:"22px" ,textAlign:"center"}}>
                                                 <TableSortLabel active={valueToOrderBy==="name"}
@@ -246,6 +253,7 @@ const  BillCollection=()=>{
                                         .map((row,index) => {
                                         return (
                                             <TableRow hover role="checkbox" tabIndex={-1} key={index}>
+                                             <TableCell sx={{fontFamily:'Nunito,sans-serif',fontSize:"16px",textAlign:"center"}}>{row.date.substring(0,10)}</TableCell> 
                                                 <TableCell sx={{fontFamily:'Nunito,sans-serif',fontSize:"16px",textAlign:"center"}}>{row.name}</TableCell>
                                                 <TableCell sx={{fontFamily:'Nunito,sans-serif',fontSize:"16px",textAlign:"center"}}>{`${row.address} ${row.area}`}</TableCell>
                                                 <TableCell sx={{fontFamily:'Nunito,sans-serif',fontSize:"16px",textAlign:"center"}}>{row.bill}</TableCell>
@@ -281,6 +289,13 @@ const  BillCollection=()=>{
                                 <Table stickyHeader aria-label="sticky table">
                                     <TableHead >
                                         <TableRow >
+                                        <TableCell key="collection_date" sx={{backgroundColor:"#e85a4f",fontFamily:'Playfair Display,serif',color:"white",
+                                            fontSize:"22px" ,textAlign:"center"}}>
+                                                <TableSortLabel active={valueToOrderBy2==="collection_date"} 
+                                                    direction = {valueToOrderBy2==="collection_date" ? orderDirection2 : 'asc'} onClick ={createSortHandler2("collection_date")}
+                                                    >Date
+                                                </TableSortLabel>
+                                            </TableCell> 
                                            <TableCell key="name" sx={{fontFamily: 'Playfair Display,serif',backgroundColor:"#e85a4f",color:"white",
                                             fontSize:"22px" ,textAlign:"center"}}>
                                                  <TableSortLabel active={valueToOrderBy2==="name"}
@@ -301,13 +316,7 @@ const  BillCollection=()=>{
                                                     >Price($)
                                                 </TableSortLabel>
                                             </TableCell>
-                                            <TableCell key="collection_date" sx={{backgroundColor:"#e85a4f",fontFamily:'Playfair Display,serif',color:"white",
-                                            fontSize:"22px" ,textAlign:"center"}}>
-                                                <TableSortLabel active={valueToOrderBy2==="collection_date"} 
-                                                    direction = {valueToOrderBy2==="collection_date" ? orderDirection2 : 'asc'} onClick ={createSortHandler2("collection_date")}
-                                                    >Date
-                                                </TableSortLabel>
-                                            </TableCell> 
+                                         
                                         </TableRow>
                                     </TableHead>
                                     {bool_bill && 
@@ -317,10 +326,11 @@ const  BillCollection=()=>{
                                         .map((row,index) => {
                                         return (
                                             <TableRow hover role="checkbox" tabIndex={-1} key={index}>
+                                                   <TableCell sx={{fontFamily:'Nunito,sans-serif',fontSize:"16px",textAlign:"center"}}>{row.collection_date.substring(0,10)}</TableCell>   
                                                 <TableCell sx={{fontFamily:'Nunito,sans-serif',fontSize:"16px",textAlign:"center"}}>{row.name}</TableCell>
                                                 <TableCell sx={{fontFamily:'Nunito,sans-serif',fontSize:"16px",textAlign:"center"}}>{`${row.address} ${row.area}`}</TableCell>
                                                 <TableCell sx={{fontFamily:'Nunito,sans-serif',fontSize:"16px",textAlign:"center"}}>{row.bill}</TableCell>
-                                                <TableCell sx={{fontFamily:'Nunito,sans-serif',fontSize:"16px",textAlign:"center"}}>{row.collection_date.substring(0,10)}</TableCell>           
+                                                     
                                                                                            
                                             </TableRow>
                                         )})
