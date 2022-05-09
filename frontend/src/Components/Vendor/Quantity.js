@@ -100,6 +100,13 @@ const Quantity = ()=>{
                           />
                       </Paper>
         </Grid> }
+        {!list&&
+            <Typography align="center" variant="h2" style={{paddingTop:"100px",paddingBottom:"20px",color:"white",fontFamily:'Playfair Display,serif'}}>
+                No Orders for you 
+                <Divider  sx={{ width: '20ch',marginTop:"30px",height:"3px",marginBottom:"10px",backgroundColor:"white"}} />
+            </Typography>
+            
+          }
         </Grid>
         </div>
     )

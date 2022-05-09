@@ -160,14 +160,14 @@ const Vendorlist = () => {
                                                       <TableCell sx={{fontFamily:'Nunito,sans-serif',fontSize:"18px",textAlign:"center"}}>{row.phoneno}</TableCell>
                                                       <TableCell sx={{fontFamily:'Nunito,sans-serif',fontSize:"18px",textAlign:"center"}}>{row.charge}</TableCell>
                                                       <TableCell sx={{fontFamily:'Nunito,sans-serif',fontSize:"18px",textAlign:"center"}}>
-                                                          <StyledButton  sx= {{marginLeft:"20%",marginTop:"5px",backgroundColor:"#e85a4f"}} type="submit" 
+                                                          <StyledButton  sx= {{backgroundColor:"#e85a4f"}} type="submit" 
                                                           variant="contained" disabled={row.accept} onClick={()=>change(row.v_id)}>
                                                           Accept
                                                           </StyledButton>
-                                                          <StyledButton  sx= {{marginLeft:"20%",marginTop:"5px",backgroundColor:"#e85a4f"}} type="submit" 
+                                                          {/* <StyledButton  sx= {{marginLeft:"20%",marginTop:"5px",backgroundColor:"#e85a4f"}} type="submit" 
                                                           variant="contained">
                                                           Delete
-                                                          </StyledButton>
+                                                          </StyledButton> */}
                                                       </TableCell>
                                         </TableRow>
                                                 )
