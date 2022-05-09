@@ -38,6 +38,10 @@ const headersData = [
     href: "/customer/pastorder",
   },
   {
+    label: "Delivery Person",
+    href: "/customer/getndb",
+  },
+  {
     label: "LogOut",
     href: "/",
   },
@@ -55,7 +59,7 @@ const useStyles = makeStyles({
     color: "black",
     boxShadow: "1px",
     paddingRight: "42px",
-    paddingLeft: "32px",
+    paddingLeft: "10px",
   },
   image: {
       height:"35px",
@@ -66,7 +70,7 @@ const useStyles = makeStyles({
     fontFamily:'Playfair Display,serif',
     fontWeight: 600,
     size: "18px",
-    marginLeft: "20px",
+    marginLeft: "10px",
  },
  toolbar: {
   display: "flex",
@@ -74,7 +78,7 @@ const useStyles = makeStyles({
   width:'100%'
 },
 test:{
-  marginLeft:"40%"
+  marginLeft:"37.5%"
 },
 sub_b:{
   marginLeft:"10px",

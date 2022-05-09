@@ -1,16 +1,17 @@
 import {BrowserRouter , Route , Link , NavLink , Routes} from 'react-router-dom';
-import VendorList from './Components/Ndb/VendorList';
+import VendorList from './Components/ndb/VendorList';
 import AboutUs from "./Components/Customer/AboutUs";
 import SignUp from "./Components/SignUp";
 import Login from "./Components/Login";
 import ProfileVen from "./Components/Vendor/ProfileVen"
 import Addnews from "./Components/Vendor/Addnews";
 import ProfileCust from "./Components/Customer/ProfileCust";
+import Getndb from "./Components/Customer/Getndb"
 import ProfileNext from './Components/Customer/ProfileNext';
-import ProfileNdb from './Components/Ndb/ProfileNdb';
+import ProfileNdb from './Components/ndb/ProfileNdb';
 import Bill from "./Components/Customer/Bill"
-import BillCollection from "./Components/Ndb/BillCollection"
-import CustomerList from "./Components/Ndb/CustomerList"
+import BillCollection from "./Components/ndb/BillCollection"
+import CustomerList from "./Components/ndb/CustomerList"
 import NdbList from "./Components/Vendor/NdbList"
 import Login_Admin from "./Components/Admin/Login"
 
@@ -52,6 +53,7 @@ function App() {
           <Route path='/customer/aboutus' element={<AboutUs/>}/>
           <Route path='/customer/profile' element={<ProfileCust/>}/>
           <Route path='/customer/bill' element={<Bill/>}/>
+          <Route path='/customer/getndb' element={<Getndb/>}/>
           <Route path="/customer/pastorder" element={<PastOrders/>}/>
           <Route path="/customer/order/:id" element={<GetOrder/>}/>
           
