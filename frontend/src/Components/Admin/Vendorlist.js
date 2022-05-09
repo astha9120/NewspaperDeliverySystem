@@ -62,7 +62,7 @@ const Vendorlist = () => {
               if(res.data.length==0)
                 setList(false)
               setVendorlist(res.data)
-            })
+            }).catch(err=>navigate('/error'))
 
         
     },[])
@@ -75,6 +75,7 @@ const Vendorlist = () => {
     const change = async(param)=>{
         
         console.log("HERE");
+        try{
         const result = await axios.put(`${process.env.REACT_APP_URL}/admin/vendorlist/${param}`)
         console.log(result.data)
         if(result.data==="yess"){
@@ -100,6 +101,11 @@ const Vendorlist = () => {
       })
       navigate(`/admin/vendorlist`);
     }
+  }
+
+  catch (error) {
+    navigate('/error')
+}
     }
 
     
