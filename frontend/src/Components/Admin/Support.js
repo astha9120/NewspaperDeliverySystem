@@ -51,11 +51,11 @@ const Support = () => {
               if(res.data.length==0)
                 setList(false)
               setIssue(res.data)
-            })
+            }).catch(err=>navigate('/error'))
             axios.get(`${process.env.REACT_APP_URL}/admin/support/un`)
             .then(res=>{
                 console.log(res.data)
-            })        
+            }).catch(err=>navigate('/error'))        
     },[])
 
 

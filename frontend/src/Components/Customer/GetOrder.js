@@ -62,6 +62,7 @@ const GetOrder = (e)=>{
     const [scrap,setScrap] = useState(0)
     
     const getCustomer = async()=>{
+        try{
         const result = await axios.get(`${process.env.REACT_APP_URL}/customer/getorder/p/${c_id}/${id}`)
         setObj(result.data[0]);
         console.log(result.data[0])
@@ -80,6 +81,9 @@ const GetOrder = (e)=>{
         setTotal(p)
         if(result.data[0].scrap_service==1)
             setScrap(q)
+    }catch (error) {
+        navigate('/error')
+}
     }
 
     useEffect(()=>{
