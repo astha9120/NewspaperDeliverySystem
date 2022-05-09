@@ -163,9 +163,12 @@ const CustomerList = () => {
         })
 
         try {
+          console.log(selected);
           const result = await axios.post(`${process.env.REACT_APP_URL}/ndb/customerlist/send/${id}`,{
+            
             list : selected
            })
+           console.log(result)
         } catch (error) {
           navigate('/error')
         }
