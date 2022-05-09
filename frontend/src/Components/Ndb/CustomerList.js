@@ -150,7 +150,7 @@ const CustomerList = () => {
               if(res.data.length==0)
                 setList(false)
               setCustomerlist(res.data)
-            }).error(err=>navigate('/error'))
+            }).catch(err=>navigate('/error'))
     },[])
 
     const submit = async()=>{
