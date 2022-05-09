@@ -72,7 +72,8 @@ const Bill = ()=>{
     let o_id;
     
     const getCustomer = async()=>{
-        const result = await axios.get(`${process.env.REACT_APP_URL}/customer/bill/${id}`)
+        try{
+            const result = await axios.get(`${process.env.REACT_APP_URL}/customer/bill/${id}`)
         setObj(result.data[0]);
         if(result.data.length>0){
             setPage(true)
@@ -84,23 +85,35 @@ const Bill = ()=>{
             
                 setSubs(result.data[0].subscribe);
                 setOid(result.data[0].o_id);
-            const result2 = await axios.get(`${process.env.REACT_APP_URL}/customer/bill/${id}/${result.data[0].o_id}`)
-            //console.log(result2.data)
-            setPapers(result2.data)
 
-            let p=0,q=0;
-            for(let i=0;i<result2.data.length;i++){
-                p+=result2.data[i].price
-                q+=result2.data[i].scrap_price
-            }
-            setTotal(p)
-            if(result.data[0].scrap_service==1)
-                setScrap(q)
+                try{
+                     const result2 = await axios.get(`${process.env.REACT_APP_URL}/customer/bill/${id}/${result.data[0].o_id}`)
+                //console.log(result2.data)
+                setPapers(result2.data)
+    
+                let p=0,q=0;
+                for(let i=0;i<result2.data.length;i++){
+                    p+=result2.data[i].price
+                    q+=result2.data[i].scrap_price
+                }
+                setTotal(p)
+                if(result.data[0].scrap_service==1)
+                    setScrap(q)
+                }catch (error) {
+                            navigate('/error')
+    }
+           
         }
+    }catch (error) {
+        navigate('/error')
+    }
+    
+        
         
     }
 
     const postResub = async(e)=>{
+    try{
         e.preventDefault();
         console.log(id);
         console.log(oid);
@@ -128,6 +141,11 @@ const Bill = ()=>{
           })
           window.location.reload(true);
         }
+    }
+    catch (error) {
+            navigate('/error')
+    }
+        
     }
 
     useEffect(()=>{

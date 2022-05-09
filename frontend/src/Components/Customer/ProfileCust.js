@@ -100,8 +100,9 @@ const ProfileCust = () =>{
     
       
 
-
+      
     const getData = async () => {
+        try{
         const response = await axios.get(`http://localhost:4000/customer/profile/${id}`)
         console.log(response);
         setArea(response.data[0].area)
@@ -111,7 +112,11 @@ const ProfileCust = () =>{
         setLat(response.data[0].latitude)
         setLng(response.data[0].longitude)
         
+    }catch (error) {
+        navigate('/error')
     }
+}
+
     
     useEffect(() => {
         getData();
@@ -124,7 +129,7 @@ const ProfileCust = () =>{
         e.preventDefault();
          
         
-        
+        try{
         const result = await axios.put(`http://localhost:4000/customer/profile/${id}`,{
             phoneno:phoneno,
             address:address,
@@ -155,6 +160,9 @@ const ProfileCust = () =>{
       })
         navigate(`/customer/profile/proNext`);
         }
+    }catch (error) {
+        navigate('/error')
+    }
     }
 
 

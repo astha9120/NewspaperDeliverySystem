@@ -98,9 +98,13 @@ const PastOrders = ()=>{
 
 
     const getOrders = async()=>{
+        try{
         const result = await axios.get(`${process.env.REACT_APP_URL}/customer/pastorder/${id}`)
         console.log(result.data)
         setOrders(result.data)
+        }catch (error) {
+            navigate('/error')
+    }
     }
     
     useEffect(()=>{

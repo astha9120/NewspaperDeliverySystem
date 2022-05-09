@@ -101,6 +101,7 @@ const ProfileNext = () =>{
     const [checkedState, setCheckedState] = useState([]);
 
     const getData = async () => {
+      try{
      const response = await axios.get(`${process.env.REACT_APP_URL}/customer/profilenext/${id}`)
      console.log(response.data);
    
@@ -116,7 +117,9 @@ const ProfileNext = () =>{
       setCheckedState(temp)
      }
        
-      
+    }catch (error) {
+      navigate('/error')
+  }
           
     }
     useEffect(() => {
@@ -193,6 +196,7 @@ const ProfileNext = () =>{
             temp2.push(allnewspaper[i])
           }
           
+          try{
           const result = await axios.post(`${process.env.REACT_APP_URL}/customer/profilenext/${id}`,{
               newspaper:temp2,
               id:id,
@@ -224,6 +228,10 @@ const ProfileNext = () =>{
             })
             navigate(`/customer/profile/pronext`);
           }
+        }
+        catch (error) {
+          navigate('/error')
+      }
       }
   
   

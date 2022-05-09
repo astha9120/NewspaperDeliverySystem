@@ -63,7 +63,7 @@ const Ndblist = () => {
               if(res.data.length==0)
                 setList(false)
               setNdblist(res.data)
-            })
+            }).catch(err=>navigate('/error'))
 
         
     },[])
@@ -76,7 +76,7 @@ const Ndblist = () => {
     const change = async(param)=>{
         
         console.log("HERE");
-        const result = await axios.put(`${process.env.REACT_APP_URL}/admin/ndblist/${param}`)
+        try{const result = await axios.put(`${process.env.REACT_APP_URL}/admin/ndblist/${param}`)
         console.log(result.data)
         if(result.data==="yess"){
                 Swal.fire({
@@ -100,38 +100,47 @@ const Ndblist = () => {
             timer:   1500
       })
       navigate(`/admin/ndblist`);
-    }
+    }}catch (error) {
+      navigate('/error')
+  }
+
+        
     }
 
     const del = async(param)=>{
         
+     try{  
+       const result = await axios.delete(`${process.env.REACT_APP_URL}/admin/ndblist/${param}`)
+     console.log(result.data)
      
-      const result = await axios.delete(`${process.env.REACT_APP_URL}/admin/ndblist/${param}`)
-      console.log(result.data)
-      
-      if(result.data==="sucess"){
-              Swal.fire({
-                icon: 'success',
-                title:'done',
-                text: 'Successfully Deleted',
-                showConfirmButton: false,
-                timer: 1500
-          })
-          window.location.reload(true)
-            
-            
-      }
-      
-     else{ 
-         Swal.fire({
-          icon: 'error',
-          title:'Sorry',
-          text: 'Error',
-          showConfirmButton: false,
-          timer:   1500
-    })
-    navigate(`/admin/ndblist`);
-  }
+     if(result.data==="sucess"){
+             Swal.fire({
+               icon: 'success',
+               title:'done',
+               text: 'Successfully Deleted',
+               showConfirmButton: false,
+               timer: 1500
+         })
+         window.location.reload(true)
+           
+           
+     }
+     
+    else{ 
+        Swal.fire({
+         icon: 'error',
+         title:'Sorry',
+         text: 'Error',
+         showConfirmButton: false,
+         timer:   1500
+   })
+   navigate(`/admin/ndblist`);
+ }}
+
+ catch (error) {
+  navigate('/error')
+}
+    
   }
 
     
