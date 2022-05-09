@@ -29,6 +29,7 @@ const Support = () => {
     const [issue,setIssue] = useState([]);
     const id = localStorage.getItem('id')
     const [list,setList]= useState(true)
+    const navigate = useNavigate();
   
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
