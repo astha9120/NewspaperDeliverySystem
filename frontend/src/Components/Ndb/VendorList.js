@@ -144,8 +144,8 @@ const VendorList = () => {
                           Vendor's information
                         </Typography>
                         <Divider  sx={{ width: '20ch',marginTop:"30px",marginLeft:"29%",height:"3px",marginBottom:"10px",backgroundColor:"white"}} />
-                        <Typography fontSize="20px"  marginTop="60px" color="black" align="left"  sx={{fontFamily: 'Nunito,sans-serif'}}>
-                          Name : {obj.name}
+                        <Typography fontSize="20px"  marginTop="60px" color="black" align="center"  sx={{fontFamily: 'Nunito,sans-serif'}}>
+                          <strong>Name </strong>: {obj.name}
                         </Typography>
                         <Typography fontSize="20px" align="left" color="black" marginTop="10px" sx={{fontFamily: 'Nunito,sans-serif'}}>
                           Total Amount : {fi_price}
@@ -153,8 +153,8 @@ const VendorList = () => {
                         <Typography fontSize="20px" align="left" color="black" marginTop="10px" sx={{fontFamily: 'Nunito,sans-serif'}}>
                           Phone number : {obj.phoneno}
                         </Typography>
-                        <Typography  fontSize="20px" align="left" color="black" marginTop="10px" sx={{fontFamily: 'Nunito,sans-serif'}}>
-                          Address : {obj.address} {obj.area}
+                        <Typography  fontSize="20px" align="center" color="black" marginTop="10px" sx={{fontFamily: 'Nunito,sans-serif'}}>
+                          <strong>Address</strong> : {obj.address} {obj.area}
                         </Typography>
                       </CardContent>
                     </Card>
