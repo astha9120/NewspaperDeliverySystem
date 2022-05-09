@@ -19,7 +19,7 @@ function Support() {
     
     const submit = async(e)=>{
         e.preventDefault()
-        axios.post(`http://localhost:4000/customer/support`,{
+        axios.post(`${process.env.REACT_APP_URL}/customer/support`,{
             name:name,
             email:email,
             issue:msg            
