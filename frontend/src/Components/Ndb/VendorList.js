@@ -147,11 +147,11 @@ const VendorList = () => {
                         <Typography fontSize="20px"  marginTop="60px" color="black" align="center"  sx={{fontFamily: 'Nunito,sans-serif'}}>
                           <strong>Name </strong>: {obj.name}
                         </Typography>
-                        <Typography fontSize="20px" align="left" color="black" marginTop="10px" sx={{fontFamily: 'Nunito,sans-serif'}}>
-                          Total Amount : {fi_price}
+                        <Typography fontSize="20px" align="center" color="black" marginTop="10px" sx={{fontFamily: 'Nunito,sans-serif'}}>
+                          <strong>Total Amount</strong> : {fi_price}
                         </Typography>
-                        <Typography fontSize="20px" align="left" color="black" marginTop="10px" sx={{fontFamily: 'Nunito,sans-serif'}}>
-                          Phone number : {obj.phoneno}
+                        <Typography fontSize="20px" align="center" color="black" marginTop="10px" sx={{fontFamily: 'Nunito,sans-serif'}}>
+                          <strong>Phone number</strong> : {obj.phoneno}
                         </Typography>
                         <Typography  fontSize="20px" align="center" color="black" marginTop="10px" sx={{fontFamily: 'Nunito,sans-serif'}}>
                           <strong>Address</strong> : {obj.address} {obj.area}
