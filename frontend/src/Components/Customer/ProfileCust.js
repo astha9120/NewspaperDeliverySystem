@@ -102,8 +102,8 @@ const ProfileCust = () =>{
 
       
     const getData = async () => {
-        try{
-        const response = await axios.get(`http://localhost:4000/customer/profile/${id}`)
+     try{
+        const response = await axios.get(`${process.env.REACT_APP_URL}/customer/profile/${id}`)
         console.log(response);
         setArea(response.data[0].area)
         setAddress(response.data[0].address)
@@ -130,7 +130,7 @@ const ProfileCust = () =>{
          
         
         try{
-        const result = await axios.put(`http://localhost:4000/customer/profile/${id}`,{
+        const result = await axios.put(`${process.env.REACT_APP_URL}/customer/profile/${id}`,{
             phoneno:phoneno,
             address:address,
             area:map.current._controls[3].lastSelected != null ? JSON.parse(map.current._controls[3].lastSelected).place_name:area,

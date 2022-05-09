@@ -87,8 +87,8 @@ const Login = () =>{
             if(result.data==="error"){
                 Swal.fire({
                     icon: 'error',
-                    title:'done',
-                    text: 'Something went wrong',
+                    title:'Incorrect Credentials',
+                    text: 'Username or password might be wrong',
                     showConfirmButton: false,
                     timer: 1500
                 })
