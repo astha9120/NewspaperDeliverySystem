@@ -90,7 +90,7 @@ const Addnews = ()=>{
     useEffect(() => {
         axios.get(`${process.env.REACT_APP_URL}/vendor/addnews`)
             .then(res => setAllnews(res.data))
-            .error(err=>navigate('/error'))
+            .catch(err=>navigate('/error'))
         
         axios.get(`${process.env.REACT_APP_URL}/vendor/addnews/${id}`)
         .then(
@@ -100,7 +100,7 @@ const Addnews = ()=>{
                         setNewspaper(res.data)
                     }
                 }
-            ).error(err=>navigate('/error'))
+            ).catch(err=>navigate('/error'))
     }, [])
     
     const set_newspaper =async ()=>{

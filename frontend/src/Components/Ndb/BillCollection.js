@@ -162,7 +162,7 @@ const  BillCollection=()=>{
                 .then(res=>{
                     console.log("collect button click")
                     console.log(res.data)
-                }).error(err=> navigate('/error'))
+                }).catch(err=> navigate('/error'))
             }   
         })
       

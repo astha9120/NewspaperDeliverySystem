@@ -172,13 +172,13 @@ const NdbList = () => {
               if(res.data.length>0)
                 setList(true)
               setCustomerlist(res.data)
-            }).error(err=>navigate('/error'))
+            }).catch(err=>navigate('/error'))
 
             axios.get(`${process.env.REACT_APP_URL}/vendor/ndblist/charge/${id}`)
             .then(res=> {
               console.log(res.data)
               setCharge(res.data[0].charge)
-            }).error(err=>navigate('/error'))
+            }).catch(err=>navigate('/error'))
         
     },[])
 

@@ -46,7 +46,7 @@ const Quantity = ()=>{
           if(res.data.length>0)
             setList(true)
           setQuantity(res.data)
-        }).error(err=>navigate('/error'))
+        }).catch(err=>navigate('/error'))
     },[])
 
     return(
