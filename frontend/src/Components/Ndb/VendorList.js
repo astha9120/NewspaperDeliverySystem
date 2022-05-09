@@ -41,7 +41,8 @@ const VendorList = () => {
     const classes = useStyles();
     const navigate = useNavigate();
 
-    const [obj,setObj]=useState({name:"",phoneno:"",address:"",area:""})
+    const [obj,setObj]=useState({name:"",phoneno:"",address:"",area:"",price:""})
+    const [fi_price,setFi_price] = useState(0.0);
     const [newspaper,setNewspaper] = useState([])
     const [vendorlist,setVendorlist] = useState([]);
     const id = localStorage.getItem('id')
@@ -83,7 +84,8 @@ const VendorList = () => {
     useEffect(()=>{
             axios.get(`${process.env.REACT_APP_URL}/ndb/vendorlist/${id}`)
             .then(res=>{
-              //console.log(res.data)
+              console.log("vendors")
+              console.log(res.data)
               if(res.data.length!=0)
                 setList(true)
               setVendorlist(res.data)
@@ -92,11 +94,20 @@ const VendorList = () => {
 
             axios.get(`${process.env.REACT_APP_URL}/ndb/vendorlist/quantity/${id}`)
             .then(res=>{
-              setNewspaper(res.data)
+              console.log('quan')
+              console.log(res.data)
+              if(res.data.length>0){
+                console.log(res.data[res.data.length-1].total)
+                setFi_price(res.data[res.data.length-1].total)
+                setNewspaper(res.data.slice(0,res.data.length-1))
+              }
+              
             }).catch(err=>navigate('/error'))
 
             axios.get(`${process.env.REACT_APP_URL}/ndb/vendorlist/allocate/${id}`)
             .then(res=>{
+              console.log("allocate")
+              console.log(res.data)
               if(res.data.length==0)
                 setAllocate(false)
               //console.log(res.data[0])
@@ -135,6 +146,9 @@ const VendorList = () => {
                         <Divider  sx={{ width: '20ch',marginTop:"30px",marginLeft:"29%",height:"3px",marginBottom:"10px",backgroundColor:"white"}} />
                         <Typography fontSize="20px"  marginTop="60px" color="black" align="left"  sx={{fontFamily: 'Nunito,sans-serif'}}>
                           Name : {obj.name}
+                        </Typography>
+                        <Typography fontSize="20px" align="left" color="black" marginTop="10px" sx={{fontFamily: 'Nunito,sans-serif'}}>
+                          Total Amount : {fi_price}
                         </Typography>
                         <Typography fontSize="20px" align="left" color="black" marginTop="10px" sx={{fontFamily: 'Nunito,sans-serif'}}>
                           Phone number : {obj.phoneno}

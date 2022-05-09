@@ -119,7 +119,7 @@ export default function Header() {
 
   const getNoti = () =>{
     console.log("Inside Noti")
-        axios.get(`http://localhost:4000/customer/home/daily/${id}`)
+        axios.get(`${process.env.REACT_APP_URL}/customer/home/daily/${id}`)
         .then(res=>{
             console.log("Notifications")
             setNoti(res.data)
@@ -129,7 +129,7 @@ export default function Header() {
 }
   const MarkRead = ()=>{
     console.log("inside mark read")
-    axios.post(`http://localhost:4000/customer/home/daily/${id}`)
+    axios.post(`${process.env.REACT_APP_URL}/customer/home/daily/${id}`)
     .then(res=>{
         console.log(res)
         setNoti([])
